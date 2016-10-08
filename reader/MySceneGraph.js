@@ -88,10 +88,81 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 /*
  * Callback to be executed on any read error
  */
+
+MySceneGraph.prototype.parseLoadOk=function (rootElement) {
+	
+	var rootElement = this.reader.xmlDoc.documentElement;
+	
+	this.parseGlobalsExample(rootElement);
+	this.parseScene(rootElement);
+	this.parseIllumination(rootElement);
+
+	this.loadedOk=true;
+	
+	console.log("XML Loaded");
+	
+}
  
 MySceneGraph.prototype.onXMLError=function (message) {
 	console.error("XML Loading Error: "+message);	
 	this.loadedOk=false;
 };
 
+MySceneGraph.prototype.parseScene= function(rootElement) {
 
+}
+
+MySceneGraph.prototype.parseIllumination = function(rootElement)
+{
+	var elems =  rootElement.getElementsByTagName('illumination');
+	if (elems == null) {
+		onXMLError("illumination element is missing.");
+	}
+	if (elems.length != 1) {
+		onXMLError("either zero or more than one 'illumination' element found.");
+	}
+	
+	var ambient = elems[0].getElementsByTagName('ambient');
+	if (ambient == null) {
+		onXMLError("ambient element is missing.");
+	}
+	if (ambient.length != 1) {
+		onXMLError("either zero or more than one 'ambient' element found.");
+	}
+	
+	var background = elems[0].getElementsByTagName('background');
+	if (background == null) {
+		onXMLError("background element is missing.");
+	}
+
+	if (background.length != 1) {
+		onXMLError("either zero or more than one 'background' element found.");
+	}
+	
+	elems = elems[0];
+	
+	this.doubleSided = this.reader.getBoolean(elems, 'doublesided');
+	this.local = this.reader.getBoolean(elems, 'local');
+	
+	console.log('Illumination read from file: doubleSided = ' + this.doubleSided + ", local = " + this.local);
+	
+	ambient = ambient[0];
+	this.ambientR = this.reader.getFloat(ambient, 'r');
+	this.ambientG = this.reader.getFloat(ambient, 'g');
+	this.ambientB = this.reader.getFloat(ambient, 'b');
+	this.ambientA = this.reader.getFloat(ambient, 'a');
+	
+	console.log('Illumination read from file: Ambient R = ' + this.ambientR + ", Ambient G = " + this.ambientG + ", Ambient B = " + this.ambientB + ", Ambient A = ", this.ambientA);
+
+	background = background[0];
+	this.backgroundR = this.reader.getFloat(background, 'r');
+	this.backgroundG = this.reader.getFloat(background, 'g');
+	this.backgroundB = this.reader.getFloat(background, 'b');
+	this.backgroundA = this.reader.getFloat(background, 'a');
+	
+	console.log('Illumination read from file: Background R = ' + this.backgroundR + ", Background G = " + this.backgroundG + ", Background B = " + this.backgroundB + ", Background A = ", this.backgroundA);	
+}
+
+MySceneGraph.prototype.parseIllumination = function(rootElement){
+	
+}
