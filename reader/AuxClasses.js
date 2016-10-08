@@ -4,6 +4,8 @@ function SceneAtr(root, axis_length){
 }
 
 function Illumination(doublesided,local){
+  this.doublesided = doublesided;
+  this.local = local;
   this.ambient; // [r,g,b,a]
   this.background; // [r,g,b,a]
 }
