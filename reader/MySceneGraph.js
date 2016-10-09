@@ -64,7 +64,6 @@ MySceneGraph.prototype.onXMLError=function (message) {
 
 MySceneGraph.prototype.parseScene= function(rootElement) {
 	var elems =  rootElement.getElementsByTagName('scene');
-	var scene = elems[0];
 
 	if (!elems) {
       return "scene missing!";
@@ -74,13 +73,26 @@ MySceneGraph.prototype.parseScene= function(rootElement) {
 		return "different size of scene element"
 	}
 
+	var scene = elems[0];
+
 	this.sceneAtr = new SceneAtr(
 		this.reader.getString(scene,'root',true),
-		this.reader.getString(scene,'axis_length',true),
+		this.reader.getString(scene,'axis_length',true)
 	);
 }
 
-MySceneGraph.prototype.views= function(rootElement) {
+MySceneGraph.prototype.parseViews= function(rootElement) {
+	this.views = [];
+
+	elems = rootElement.getElementsByTagName('views')
+
+	if (!elems) {
+      return "views missing!";
+  }
+
+	var views = elems[0];
+	this.views = new Views(this.reader.getString(scene,'default',true));
+
 
 }
 

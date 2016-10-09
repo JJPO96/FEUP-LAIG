@@ -10,7 +10,11 @@ function Illumination(doublesided,local){
   this.background; // [r,g,b,a]
 }
 
-function View(id,near,far,angle){
+function Views(dflt){
+  this.default = dflt;
+}
+
+function Perspective(id,near,far,angle){
   this.id = id;
   this.near = near;
   this.far = far;
