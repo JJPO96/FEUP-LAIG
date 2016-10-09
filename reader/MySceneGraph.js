@@ -95,26 +95,37 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 
 	elems = elems[0];
 
-	this.doubleSided = this.reader.getBoolean(elems, 'doublesided');
-	this.local = this.reader.getBoolean(elems, 'local');
+	this.illumination = new Illumination(this.reader.getBoolean(elems, 'doublesided'),
+																			 this.reader.getBoolean(elems, 'local'));
 
-	console.log('Illumination read from file: doubleSided = ' + this.doubleSided + ", local = " + this.local);
+	console.log('Illumination read from file: doubleSided = ' + this.illumination.doubleSided
+																							+ ", local = " + this.illumination.local);
 
 	ambient = ambient[0];
-	this.ambientR = this.reader.getFloat(ambient, 'r');
-	this.ambientG = this.reader.getFloat(ambient, 'g');
-	this.ambientB = this.reader.getFloat(ambient, 'b');
-	this.ambientA = this.reader.getFloat(ambient, 'a');
+	var amb = [this.reader.getFloat(ambient, 'r'),
+						 this.reader.getFloat(ambient, 'g'),
+						 this.reader.getFloat(ambient, 'b'),
+						 this.reader.getFloat(ambient, 'a')];
 
-	console.log('Illumination read from file: Ambient R = ' + this.ambientR + ", Ambient G = " + this.ambientG + ", Ambient B = " + this.ambientB + ", Ambient A = ", this.ambientA);
+	this.illumination.ambient = amb;
+
+	console.log('Illumination read from file: Ambient R = ' + this.illumination.ambient[0]
+																			 + ", Ambient G = " + this.illumination.ambient[1]
+																			 + ", Ambient B = " + this.illumination.ambient[2]
+																			 + ", Ambient A = " + this.illumination.ambient[3]);
 
 	background = background[0];
-	this.backgroundR = this.reader.getFloat(background, 'r');
-	this.backgroundG = this.reader.getFloat(background, 'g');
-	this.backgroundB = this.reader.getFloat(background, 'b');
-	this.backgroundA = this.reader.getFloat(background, 'a');
+	var bg = [this.reader.getFloat(background, 'r'),
+						this.reader.getFloat(background, 'g'),
+						this.reader.getFloat(background, 'b'),
+						this.reader.getFloat(background, 'a')];
 
-	console.log('Illumination read from file: Background R = ' + this.backgroundR + ", Background G = " + this.backgroundG + ", Background B = " + this.backgroundB + ", Background A = ", this.backgroundA);
+	this.illumination.background bg;
+
+	console.log('Illumination read from file: Background R = ' + this.illumination.background[0]
+																			 + ", Background G = " + this.illumination.background[1]
+	                              			 + ", Background B = " + this.illumination.background[2]
+																			 + ", Background A = ", this.illumination.background[3]);
 }
 
 MySceneGraph.prototype.parseIllumination = function(rootElement){
