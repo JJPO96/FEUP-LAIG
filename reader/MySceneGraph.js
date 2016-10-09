@@ -63,6 +63,24 @@ MySceneGraph.prototype.onXMLError=function (message) {
 };
 
 MySceneGraph.prototype.parseScene= function(rootElement) {
+	var elems =  rootElement.getElementsByTagName('scene');
+	var scene = elems[0];
+
+	if (!elems) {
+      return "scene missing!";
+  }
+
+	if (elems.length != 1) {
+		return "different size of scene element"
+	}
+
+	this.sceneAtr = new SceneAtr(
+		this.reader.getString(scene,'root',true),
+		this.reader.getString(scene,'axis_length',true),
+	);
+}
+
+MySceneGraph.prototype.views= function(rootElement) {
 
 }
 
@@ -120,14 +138,10 @@ MySceneGraph.prototype.parseIllumination = function(rootElement)
 						this.reader.getFloat(background, 'b'),
 						this.reader.getFloat(background, 'a')];
 
-	this.illumination.background bg;
+	this.illumination.background = bg;
 
 	console.log('Illumination read from file: Background R = ' + this.illumination.background[0]
 																			 + ", Background G = " + this.illumination.background[1]
 	                              			 + ", Background B = " + this.illumination.background[2]
 																			 + ", Background A = ", this.illumination.background[3]);
-}
-
-MySceneGraph.prototype.parseIllumination = function(rootElement){
-
 }
