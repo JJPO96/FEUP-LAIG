@@ -213,3 +213,31 @@ MySceneGraph.prototype.parseSpotLight = function(spot){
 
 	return ret;
 }
+
+MySceneGraph.prototype.parseTextures = function(rootElement){
+	
+	var textures = rootElement.getElementsByTagName('textures');
+
+	if (textures == null  || textures.length==0) {
+		onXMLError("textures element is missing.");
+	}
+	
+	this.textureList=[];
+	
+	var numText = textures[0].children.length;
+	
+	if(numText <= 0)
+		onXMLError("texture elements are missing");
+	
+	for (var i = 0; i < numText; i++)
+	{
+		var e = textures[0].children[i];
+		// process each element and store its information
+		this.textureList[e.id] = e.attributes.getNamedItem("id").value;
+		this.textureList[e.file] = e.attributes.getNamedItem("file").value;
+		this.textureList[e.s] = e.attributes.getNamedItem("length_s").value;
+		this.textureList[e.t] = e.attributes.getNamedItem("length_t").value;
+		
+		console.log("Texture read from file: ID = " + this.textureList[e.id] + ", File = " + this.textureList[e.file] + ",S Length = " + this.textureList[e.s] + ",T Length = " + this.textureList[e.t]);
+	};
+}
