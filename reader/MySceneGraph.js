@@ -26,7 +26,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement;
 
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseViews(rootElement);
+	var error = this.parseLoadOk(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -47,9 +47,10 @@ MySceneGraph.prototype.parseLoadOk=function (rootElement) {
 
 	var rootElement = this.reader.xmlDoc.documentElement;
 
-	this.parseGlobalsExample(rootElement);
 	this.parseScene(rootElement);
+	this.parseViews(rootElement);
 	this.parseIllumination(rootElement);
+	this.parseLights(rootElement);
 
 	this.loadedOk=true;
 
@@ -94,8 +95,6 @@ MySceneGraph.prototype.parseViews= function(rootElement) {
 
 	var arrViews = views.getElementsByTagName('perspective');
 
-	console.log("wasd");
-
 	for (var i = 0; i < arrViews.length; i++) {
 		this.views.perspectives.push(this.parsePerspective(arrViews[i]));
 	}
@@ -113,8 +112,6 @@ MySceneGraph.prototype.parsePerspective = function(perspective){
 	ret.to.push(this.reader.getFloat(to,"x"));
 	ret.to.push(this.reader.getFloat(to,"y"));
 	ret.to.push(this.reader.getFloat(to,"z"));
-
-	console.log(ret.to);
 
 	return ret;
 }
@@ -178,4 +175,41 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 																			 + ", Background G = " + this.illumination.background[1]
 	                              			 + ", Background B = " + this.illumination.background[2]
 																			 + ", Background A = ", this.illumination.background[3]);
+}
+
+MySceneGraph.prototype.parseLights = function(rootElement){
+	this.omniLights = [];
+	this.spotLights = [];
+
+	elems = rootElement.getElementsByTagName('lights')
+
+	if (!elems) {
+      return "lights missing!";
+  }
+
+	var lights = elems[0];
+
+	var arrOmni = lights.getElementsByTagName('omni');
+	var arrSpot = lights.getElementsByTagName('spot');
+
+	for (var i = 0; i < arrOmni.length; i++) {
+		this.omniLights.push(this.parseOmniLight(arrOmni[i]));
+	}
+
+	for (var i = 0; i < arrSpot.length; i++) {
+		this.spotLights.push(this.parseSpotLight(arrSpot[i]));
+	}
+
+}
+
+MySceneGraph.prototype.parseOmniLight = function(omni){
+	var ret = new omniLight();
+
+	return ret;
+}
+
+MySceneGraph.prototype.parseSpotLight = function(spot){
+	var ret = new parseSpotLight();
+
+	return ret;
 }
