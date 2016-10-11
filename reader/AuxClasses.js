@@ -1,6 +1,7 @@
 function SceneAtr(root, axis_length){
   this.root = root;
   this.axis_length = axis_length;
+  this.perspectives = [];
 }
 
 function Illumination(doublesided,local){
@@ -12,6 +13,7 @@ function Illumination(doublesided,local){
 
 function Views(dflt){
   this.default = dflt;
+  this.perspectives = []; // array that will contain the perspetive(s) available
 }
 
 function Perspective(id,near,far,angle){

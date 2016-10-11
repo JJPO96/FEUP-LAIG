@@ -14,7 +14,7 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-	this.reader.open('scenes/'+filename, this);
+	this.reader.open('scenes/EspecDSX.xml', this);
 }
 
 /*
@@ -26,7 +26,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement;
 
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseGlobalsExample(rootElement);
+	var error = this.parseViews(rootElement);
 
 	if (error != null) {
 		this.onXMLError(error);
@@ -82,8 +82,6 @@ MySceneGraph.prototype.parseScene= function(rootElement) {
 }
 
 MySceneGraph.prototype.parseViews= function(rootElement) {
-	this.views = [];
-
 	elems = rootElement.getElementsByTagName('views')
 
 	if (!elems) {
@@ -91,9 +89,22 @@ MySceneGraph.prototype.parseViews= function(rootElement) {
   }
 
 	var views = elems[0];
-	this.views = new Views(this.reader.getString(scene,'default',true));
 
+	this.views = new Views(this.reader.getString(views,'default',true));
 
+	var arrViews = views.getElementsByTagName('perspective');
+
+	console.log("wasd");
+
+	for (var i = 0; i < arrViews.length; i++) {
+		this.views.perspectives.push(this.parsePerspective(arrViews[i]));
+	}
+}
+
+MySceneGraph.prototype.parsePerspective = function(perspective){
+	console.log(perspective);
+	var ret = new Perspective('a','a','a','a');
+	return ret;
 }
 
 MySceneGraph.prototype.parseIllumination = function(rootElement)
