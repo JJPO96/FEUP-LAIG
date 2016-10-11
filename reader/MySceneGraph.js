@@ -14,7 +14,7 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-	this.reader.open('scenes/EspecDSX.xml', this);
+	this.reader.open('scenes/dsxscene.xml', this);
 }
 
 /*
@@ -102,13 +102,24 @@ MySceneGraph.prototype.parseViews= function(rootElement) {
 }
 
 MySceneGraph.prototype.parsePerspective = function(perspective){
-	console.log(perspective);
-	var ret = new Perspective('a','a','a','a');
+	var ret = new Perspective(this.reader.getString(perspective,"id",true),
+														this.reader.getFloat(perspective,"near"),
+														this.reader.getFloat(perspective,"far"),
+														this.reader.getFloat(perspective,"angle"));
+
+	var fr = perspective.getElementsByTagName("from")[0];
+	var to = perspective.getElementsByTagName("to")[0];
+
+	ret.to.push(this.reader.getFloat(to,"x"));
+	ret.to.push(this.reader.getFloat(to,"y"));
+	ret.to.push(this.reader.getFloat(to,"z"));
+
+	console.log(ret.to);
+
 	return ret;
 }
 
-MySceneGraph.prototype.parseIllumination = function(rootElement)
-{
+MySceneGraph.prototype.parseIllumination = function(rootElement){
 	var elems =  rootElement.getElementsByTagName('illumination');
 	if (elems == null) {
 		onXMLError("illumination element is missing.");

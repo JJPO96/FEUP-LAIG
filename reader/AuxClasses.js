@@ -1,7 +1,6 @@
 function SceneAtr(root, axis_length){
   this.root = root;
   this.axis_length = axis_length;
-  this.perspectives = [];
 }
 
 function Illumination(doublesided,local){
@@ -21,8 +20,8 @@ function Perspective(id,near,far,angle){
   this.near = near;
   this.far = far;
   this.angle = angle;
-  this.from; // [x,y,z]
-  this.to; // [x,y,z]
+  this.from = []; // [x,y,z]
+  this.to = []; // [x,y,z]
 }
 
 function Texture(id,file,length_s,length_t){
