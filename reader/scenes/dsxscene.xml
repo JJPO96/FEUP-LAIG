@@ -19,7 +19,6 @@
     <!-- como o comprimento dos tres eixos (cilindros) -->
     <scene root="scene" axis_length="60" />
 
-
     <views default="1" >
 
         <!-- declaracao obrigatoria de pelo menos uma vista; -->
@@ -31,6 +30,7 @@
             <from x="0" y="0" z="0" />
             <to x="20" y="20" z="20" />
         </perspective>
+
         <perspective id="2" near="5" far="12" angle="30">
             <from x="1" y="2" z="3" />
             <to x="2" y="2" z="5" />
@@ -38,14 +38,12 @@
 
     </views>
 
-
     <illumination doublesided="1" local="1" >
 
         <ambient r="220" g="220" b="220" a="220" />
         <background r="105" g="105" b="105" a="105" />
 
     </illumination>
-
 
     <lights>
 

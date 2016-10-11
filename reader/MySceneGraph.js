@@ -203,32 +203,93 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 }
 
 MySceneGraph.prototype.parseOmniLight = function(omni){
-	var ret = new omniLight();
+	var ret = new omniLight(this.reader.getString(omni,"id",true),
+													this.reader.getBoolean(omni,"enabled"));
+
+  var location = omni.getElementsByTagName("location")[0];
+	ret.location.push(this.reader.getFloat(location,"x"));
+	ret.location.push(this.reader.getFloat(location,"y"));
+	ret.location.push(this.reader.getFloat(location,"z"));
+	ret.location.push(this.reader.getFloat(location,"w"));
+
+	var ambient = omni.getElementsByTagName("ambient")[0];
+	ret.ambient.push(this.reader.getFloat(ambient,"r"));
+	ret.ambient.push(this.reader.getFloat(ambient,"g"));
+	ret.ambient.push(this.reader.getFloat(ambient,"b"));
+	ret.ambient.push(this.reader.getFloat(ambient,"a"));
+
+	var diffuse = omni.getElementsByTagName("diffuse")[0];
+	ret.diffuse.push(this.reader.getFloat(diffuse,"r"));
+	ret.diffuse.push(this.reader.getFloat(diffuse,"g"));
+	ret.diffuse.push(this.reader.getFloat(diffuse,"b"));
+	ret.diffuse.push(this.reader.getFloat(diffuse,"a"));
+
+	var specular = omni.getElementsByTagName("specular")[0];
+	ret.specular.push(this.reader.getFloat(specular,"r"));
+	ret.specular.push(this.reader.getFloat(specular,"g"));
+	ret.specular.push(this.reader.getFloat(specular,"b"));
+	ret.specular.push(this.reader.getFloat(specular,"a"));
 
 	return ret;
 }
 
 MySceneGraph.prototype.parseSpotLight = function(spot){
-	var ret = new parseSpotLight();
 
-	return ret;
+		var ret = new spotLight(this.reader.getString(spot,"id",true),
+														this.reader.getBoolean(spot,"enabled"),
+														this.reader.getFloat(spot,"angle"),
+														this.reader.getFloat(spot,"exponent"));
+
+
+  	var target = spot.getElementsByTagName("target")[0];
+		ret.target.push(this.reader.getFloat(target,"x"));
+		ret.target.push(this.reader.getFloat(target,"y"));
+		ret.target.push(this.reader.getFloat(target,"z"));
+		console.log(ret.target);
+
+	  var location = spot.getElementsByTagName("location")[0];
+		ret.location.push(this.reader.getFloat(location,"x"));
+		ret.location.push(this.reader.getFloat(location,"y"));
+		ret.location.push(this.reader.getFloat(location,"z"));
+		console.log(ret.location);
+
+		var ambient = spot.getElementsByTagName("ambient")[0];
+		ret.ambient.push(this.reader.getFloat(ambient,"r"));
+		ret.ambient.push(this.reader.getFloat(ambient,"g"));
+		ret.ambient.push(this.reader.getFloat(ambient,"b"));
+		ret.ambient.push(this.reader.getFloat(ambient,"a"));
+		console.log(ret.ambient);
+
+		var diffuse = spot.getElementsByTagName("diffuse")[0];
+		ret.diffuse.push(this.reader.getFloat(diffuse,"r"));
+		ret.diffuse.push(this.reader.getFloat(diffuse,"g"));
+		ret.diffuse.push(this.reader.getFloat(diffuse,"b"));
+		ret.diffuse.push(this.reader.getFloat(diffuse,"a"));
+		console.log(ret.diffuse);
+
+		var specular = spot.getElementsByTagName("specular")[0];
+		ret.specular.push(this.reader.getFloat(specular,"r"));
+		ret.specular.push(this.reader.getFloat(specular,"g"));
+		ret.specular.push(this.reader.getFloat(specular,"b"));
+		ret.specular.push(this.reader.getFloat(specular,"a"));
+		console.log(ret.specular);
 }
 
 MySceneGraph.prototype.parseTextures = function(rootElement){
-	
+
 	var textures = rootElement.getElementsByTagName('textures');
 
 	if (textures == null  || textures.length==0) {
 		onXMLError("textures element is missing.");
 	}
-	
+
 	this.textureList=[];
-	
+
 	var numText = textures[0].children.length;
-	
+
 	if(numText <= 0)
 		onXMLError("texture elements are missing");
-	
+
 	for (var i = 0; i < numText; i++)
 	{
 		var e = textures[0].children[i];
@@ -237,7 +298,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		this.textureList[e.file] = e.attributes.getNamedItem("file").value;
 		this.textureList[e.s] = e.attributes.getNamedItem("length_s").value;
 		this.textureList[e.t] = e.attributes.getNamedItem("length_t").value;
-		
+
 		console.log("Texture read from file: ID = " + this.textureList[e.id] + ", File = " + this.textureList[e.file] + ",S Length = " + this.textureList[e.s] + ",T Length = " + this.textureList[e.t]);
 	};
 }
