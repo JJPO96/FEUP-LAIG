@@ -12,10 +12,10 @@
 
 function Transformation(id){
   this.id = id;
-  this.matrix = [[0,0,0,0],
-                 [0,0,0,0],
-                 [0,0,0,0],
-                 [0,0,0,0]];
+  this.matrix = [[1,0,0,0],
+                 [0,1,0,0],
+                 [0,0,1,0],
+                 [0,0,0,1]];
   this.getID = function() {
     return id;
   };

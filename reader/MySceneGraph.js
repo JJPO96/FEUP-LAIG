@@ -359,7 +359,6 @@ MySceneGraph.prototype.parseMaterial= function(material) {
 
 MySceneGraph.prototype.parseTransformations= function(rootElement) {
 	elems = rootElement.getElementsByTagName('transformations')
-
 	if (!elems) {
       return "transformations missing!";
   }
@@ -380,12 +379,19 @@ MySceneGraph.prototype.parseTransformation= function(transformation) {
 
 	console.log("ID: " + ret.getID() + "\n");
 
-	for (var i = 0; i < children.length; i++) {
-		this.parseTransChild(children[i]);
+	for (var i = children.length-1; i >= 0; i--) {
+		console.log(ret.matrix[0]);
+		console.log(ret.matrix[1]);
+		console.log(ret.matrix[2]);
+		console.log(ret.matrix[3]);
+		ret.matrix = MultipleMatrix(ret.matrix,this.parseTransChild(children[i]));
 	}
+		console.log(ret.matrix[0]);
+		console.log(ret.matrix[1]);
+		console.log(ret.matrix[2]);
+		console.log(ret.matrix[3]);
 
-
-	MultipleMatrix(0,0);
+	;
 	return ret;
 }
 
@@ -399,6 +405,7 @@ MySceneGraph.prototype.parseTransChild= function(child){
 						[0,1,0,ty],
 						[0,0,1,tz],
 						[0,0,0,1]];
+
 	}else if(child.nodeName == "rotate"){
 		var rAxis = this.reader.getFloat(child,"axis");
 		var rAngle = this.reader.getFloat(child,"angle");
@@ -409,11 +416,13 @@ MySceneGraph.prototype.parseTransChild= function(child){
 							[0,Math.cos(rAngle),-Math.sin(rAngle),0],
 							[0,Math.sin(rAngle),Math.cos(rAngle),0],
 							[0,0,0,1]];
+
 		}else if (rAxis = "y") {
 			return [[Math.cos(rAngle),0,-Math.sin(rAngle),0],
 							[0,1,0,0],
 							[Math.sin(rAngle),0,Math.cos(rAngle),0],
 							[0,0,0,1]];
+
 		}else if (rAxis = "z") {
 			return [[Math.cos(rAngle),-Math.sin(rAngle),0,0],
 							[Math.sin(rAngle),Math.cos(rAngle),0,0],
