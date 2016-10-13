@@ -51,6 +51,7 @@ MySceneGraph.prototype.parseLoadOk=function (rootElement) {
 	this.parseIllumination(rootElement);
 	this.parseLights(rootElement);
 	this.parseMaterials(rootElement);
+	this.parseTransformations(rootElement);
 
 	this.loadedOk=true;
 
@@ -354,4 +355,79 @@ MySceneGraph.prototype.parseMaterial= function(material) {
 	;
 
 	return ret;
+}
+
+MySceneGraph.prototype.parseTransformations= function(rootElement) {
+	elems = rootElement.getElementsByTagName('transformations')
+
+	if (!elems) {
+      return "transformations missing!";
+  }
+
+	var transformations = elems[0];
+
+	this.transformations = [];
+	var arrTransformations = transformations.getElementsByTagName('transformation');
+
+	for (var i = 0; i < arrTransformations.length; i++) {
+		this.transformations.push(this.parseTransformation(arrTransformations[i]));
+	}
+}
+
+MySceneGraph.prototype.parseTransformation= function(transformation) {
+	var ret = new Transformation(this.reader.getString(transformation,"id",true));
+	var children = transformation.children;
+
+	console.log("ID: " + ret.getID() + "\n");
+
+	for (var i = 0; i < children.length; i++) {
+		this.parseTransChild(children[i]);
+	}
+
+
+	MultipleMatrix(0,0);
+	return ret;
+}
+
+MySceneGraph.prototype.parseTransChild= function(child){
+	if(child.nodeName == "translate"){
+		var tx = this.reader.getFloat(child,"x");
+		var ty = this.reader.getFloat(child,"y");
+		var tz = this.reader.getFloat(child,"z");
+
+		return [[1,0,0,tx],
+						[0,1,0,ty],
+						[0,0,1,tz],
+						[0,0,0,1]];
+	}else if(child.nodeName == "rotate"){
+		var rAxis = this.reader.getFloat(child,"axis");
+		var rAngle = this.reader.getFloat(child,"angle");
+		rAngle *= (Math.PI/180);
+
+		if (rAxis = "x") {
+			return [[1,0,0,0],
+							[0,Math.cos(rAngle),-Math.sin(rAngle),0],
+							[0,Math.sin(rAngle),Math.cos(rAngle),0],
+							[0,0,0,1]];
+		}else if (rAxis = "y") {
+			return [[Math.cos(rAngle),0,-Math.sin(rAngle),0],
+							[0,1,0,0],
+							[Math.sin(rAngle),0,Math.cos(rAngle),0],
+							[0,0,0,1]];
+		}else if (rAxis = "z") {
+			return [[Math.cos(rAngle),-Math.sin(rAngle),0,0],
+							[Math.sin(rAngle),Math.cos(rAngle),0,0],
+							[0,0,1,0],
+							[0,0,0,1]];
+		}
+	}else if(child.nodeName == "scale"){
+		var sx = this.reader.getFloat(child,"x");
+		var sy = this.reader.getFloat(child,"y");
+		var sz = this.reader.getFloat(child,"z");
+
+		return [[sx,0,0,0],
+						[0,sy,0,0],
+						[0,0,sz,0],
+						[0,0,0,1]];
+	}
 }
