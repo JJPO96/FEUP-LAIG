@@ -66,7 +66,6 @@
         </spot>
     </lights>
 
-
     <textures>
 
         <!-- Deve existir um ou mais blocos "texture" -->
@@ -85,7 +84,6 @@
 
     </textures>
 
-
     <materials>
 
         <!-- Deve existir um ou mais blocos "material" -->
@@ -99,7 +97,6 @@
         </material>
 
     </materials>
-
 
     <transformations>
 

@@ -33,9 +33,9 @@ function Texture(id,file,length_s,length_t){
 
 function Material(id){
   this.id = id;
-  this.emission; // [r,g,b,a]
-  this.ambient; // [r,g,b,a]
-  this.diffuse; // [r,g,b,a]
-  this.specular; // [r,g,b,a]
+  this.emission = []; // [r,g,b,a]
+  this.ambient = []; // [r,g,b,a]
+  this.diffuse = []; // [r,g,b,a]
+  this.specular = []; // [r,g,b,a]
   this.shininess;
 }
