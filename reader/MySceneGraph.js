@@ -20,8 +20,7 @@ function MySceneGraph(filename, scene) {
 /*
  * Callback to be executed after successful reading
  */
-MySceneGraph.prototype.onXMLReady=function()
-{
+MySceneGraph.prototype.onXMLReady=function(){
 	console.log("XML Loading finished.");
 	var rootElement = this.reader.xmlDoc.documentElement;
 
@@ -51,6 +50,7 @@ MySceneGraph.prototype.parseLoadOk=function (rootElement) {
 	this.parseViews(rootElement);
 	this.parseIllumination(rootElement);
 	this.parseLights(rootElement);
+	this.parseMaterials(rootElement);
 
 	this.loadedOk=true;
 
@@ -108,6 +108,10 @@ MySceneGraph.prototype.parsePerspective = function(perspective){
 
 	var fr = perspective.getElementsByTagName("from")[0];
 	var to = perspective.getElementsByTagName("to")[0];
+
+	ret.from.push(this.reader.getFloat(fr,"x"));
+	ret.from.push(this.reader.getFloat(fr,"y"));
+	ret.from.push(this.reader.getFloat(fr,"z"));
 
 	ret.to.push(this.reader.getFloat(to,"x"));
 	ret.to.push(this.reader.getFloat(to,"y"));
@@ -245,34 +249,29 @@ MySceneGraph.prototype.parseSpotLight = function(spot){
 		ret.target.push(this.reader.getFloat(target,"x"));
 		ret.target.push(this.reader.getFloat(target,"y"));
 		ret.target.push(this.reader.getFloat(target,"z"));
-		console.log(ret.target);
 
 	  var location = spot.getElementsByTagName("location")[0];
 		ret.location.push(this.reader.getFloat(location,"x"));
 		ret.location.push(this.reader.getFloat(location,"y"));
 		ret.location.push(this.reader.getFloat(location,"z"));
-		console.log(ret.location);
 
 		var ambient = spot.getElementsByTagName("ambient")[0];
 		ret.ambient.push(this.reader.getFloat(ambient,"r"));
 		ret.ambient.push(this.reader.getFloat(ambient,"g"));
 		ret.ambient.push(this.reader.getFloat(ambient,"b"));
 		ret.ambient.push(this.reader.getFloat(ambient,"a"));
-		console.log(ret.ambient);
 
 		var diffuse = spot.getElementsByTagName("diffuse")[0];
 		ret.diffuse.push(this.reader.getFloat(diffuse,"r"));
 		ret.diffuse.push(this.reader.getFloat(diffuse,"g"));
 		ret.diffuse.push(this.reader.getFloat(diffuse,"b"));
 		ret.diffuse.push(this.reader.getFloat(diffuse,"a"));
-		console.log(ret.diffuse);
 
 		var specular = spot.getElementsByTagName("specular")[0];
 		ret.specular.push(this.reader.getFloat(specular,"r"));
 		ret.specular.push(this.reader.getFloat(specular,"g"));
 		ret.specular.push(this.reader.getFloat(specular,"b"));
 		ret.specular.push(this.reader.getFloat(specular,"a"));
-		console.log(ret.specular);
 }
 
 MySceneGraph.prototype.parseTextures = function(rootElement){
@@ -301,4 +300,58 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 
 		console.log("Texture read from file: ID = " + this.textureList[e.id] + ", File = " + this.textureList[e.file] + ",S Length = " + this.textureList[e.s] + ",T Length = " + this.textureList[e.t]);
 	};
+}
+
+MySceneGraph.prototype.parseMaterials= function(rootElement) {
+	elems = rootElement.getElementsByTagName('materials')
+
+	if (!elems) {
+      return "materials missing!";
+  }
+
+	var materials = elems[0];
+
+	this.materials = [];
+	var arrMaterials = materials.getElementsByTagName('material');
+
+	for (var i = 0; i < arrMaterials.length; i++) {
+		this.materials.push(this.parseMaterial(arrMaterials[i]));
+	}
+
+
+}
+
+MySceneGraph.prototype.parseMaterial= function(material) {
+	var ret = new Material(this.reader.getString(material,"id",true));
+
+	var emission = material.getElementsByTagName("emission")[0];
+	var ambient = material.getElementsByTagName("ambient")[0];
+	var diffuse = material.getElementsByTagName("diffuse")[0];
+	var specular = material.getElementsByTagName("specular")[0];
+	var shininess = material.getElementsByTagName("shininess")[0];
+
+	ret.emission.push(this.reader.getFloat(emission,"r"));
+	ret.emission.push(this.reader.getFloat(emission,"g"));
+	ret.emission.push(this.reader.getFloat(emission,"b"));
+	ret.emission.push(this.reader.getFloat(emission,"a"));
+
+	ret.ambient.push(this.reader.getFloat(ambient,"r"));
+	ret.ambient.push(this.reader.getFloat(ambient,"g"));
+	ret.ambient.push(this.reader.getFloat(ambient,"b"));
+	ret.ambient.push(this.reader.getFloat(ambient,"a"));
+
+	ret.diffuse.push(this.reader.getFloat(diffuse,"r"));
+	ret.diffuse.push(this.reader.getFloat(diffuse,"g"));
+	ret.diffuse.push(this.reader.getFloat(diffuse,"b"));
+	ret.diffuse.push(this.reader.getFloat(diffuse,"a"));
+
+	ret.specular.push(this.reader.getFloat(specular,"r"));
+	ret.specular.push(this.reader.getFloat(specular,"g"));
+	ret.specular.push(this.reader.getFloat(specular,"b"));
+	ret.specular.push(this.reader.getFloat(specular,"a"));
+
+	ret.shininess = this.reader.getFloat(shininess,"value")
+	;
+
+	return ret;
 }
