@@ -440,3 +440,82 @@ MySceneGraph.prototype.parseTransChild= function(child){
 						[0,0,0,1]];
 	}
 }
+
+MySceneGraph.prototype.parseComponents= function(rootElement) {
+
+	//Components
+	var components = rootElement.getElementsByTagName('components');
+
+	if (components = null || components.length==0) {
+		onXMLError("components element is missing.");
+	}
+
+	var componentslength = components[0].children.length;
+
+	var component = components[0].children[0];
+	var componentID = this.reader.getString(component, 'id');
+
+	//Transformations ID
+	var transformation = component.getElementsByTagName('transformation');
+
+	if (transformation = null || transformation.length==0) {
+		onXMLError("transformationref element is missing.");
+	}
+
+	var transformationref = transformation.getElementsByTagName('transformationref');
+
+	if (transformationref != null || transformationref.length!= 0)
+		{
+			var referencesID = this.reader.getString(transformationref[0], 'id');
+			console.log("Transformationref ID: " + referencesID);
+		}
+
+	else
+	{
+		var transformationlist = this.parseTransformations(rootElement);
+	}
+
+	//Materials ID
+	var material = component.getElementsByTagName('materials');
+
+	if (material.length == 0)
+		onXMLError("material element is missing.");
+
+	var materiallength = material[0].children.length;
+	var materialID = new Array();
+
+	for (var i=0; i<materiallength;i++)
+		{
+			materialID[i]=this.reader.getString(material[0].children[i], 'id');
+			console.log("Material ID " + i + ":" + materialID[i]);
+		}
+
+	//Textures ID
+	var texture = component.getElementsByTagName('texture');
+
+	if (texture = null || texture.length == 0)
+		onXMLError("texture element is missing.");
+
+	textureID = this.reader.getString(texture, 'id');
+	console.log("Textured id:" + textureID);
+
+	//Children ID
+	var children = component.getElementsByTagName('children');
+
+	var componentrefid = children.getElementsByTagName('componentref');
+	var primitiverefid = children.getElementsByTagName('primitiveref');
+
+	if (componentrefid = null || componentrefid.length == 0 || primitiverefid.length == 0)
+		onXMLError("Children must have component and primitive reference");
+
+	var componentref = new Array();
+	var primitiveref = new Array();
+
+	for (var i=0; i<componentrefid.length; i++)
+		componentref[i] = this.reader.getString(componentrefid[i], 'id');
+	for (var i=0; i<primitiverefid.length; i++){
+		primitiveref[i] = this.reader.getString(primitiverefid[i], 'id');
+		console.log("Primitiveref: " + primitiveref[i]);
+	}
+
+}
