@@ -52,6 +52,8 @@ MySceneGraph.prototype.parseLoadOk=function (rootElement) {
 	this.parseLights(rootElement);
 	this.parseMaterials(rootElement);
 	this.parseTransformations(rootElement);
+	this.parsePrimitives(rootElement);
+	//this.parseComponents(rootElement);
 
 	this.loadedOk=true;
 
@@ -440,6 +442,10 @@ MySceneGraph.prototype.parseTransChild= function(child){
 						[0,0,0,1]];
 	}
 }
+
+MySceneGraph.prototype.parsePrimitives = function (rootElement) {
+
+};
 
 MySceneGraph.prototype.parseComponents= function(rootElement) {
 
