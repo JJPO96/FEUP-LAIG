@@ -65,43 +65,43 @@
 
         <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
-        <omni id="ss" enabled="tt" >
-            <location x="ff" y="ff" z="ff" w="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
+        <omni id="ol1" enabled="1" >
+            <location x="20" y="0" z="0" w="0.5" />
+            <ambient r="1" g="0" b="0" a="0.5" />
+            <diffuse r="1" g="0" b="0" a="0.5" />
+            <specular r="1" g="0" b="0" a="0.5" />
         </omni>
 
-        <omni id="ss" enabled="tt" >
-            <location x="ff" y="ff" z="ff" w="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
+        <omni id="ol2" enabled="1" >
+            <location x="0" y="20" z="0" w="0.5" />
+            <ambient r="0" g="1" b="0" a="0.5" />
+            <diffuse r="0" g="1" b="0" a="0.5" />
+            <specular r="0" g="1" b="0" a="0.5" />
         </omni>
 
-        <spot id="ss" enabled="tt" angle="ff" exponent="ff">
+        <spot id="sl1" enabled="1" angle="ff" exponent="ff">
             <!-- atencao, "target" e' diferente de "direction" -->
-            <target x="ff" y="ff" z="ff" />
-            <location x="ff" y="ff" z="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
+            <target x="0" y="0" z="0" />
+            <location x="5" y="5" z="5" />
+            <ambient r="0" g="1" b="1" a="1" />
+            <diffuse r="0" g="1" b="1" a="1" />
+            <specular r="0" g="1" b="1" a="1" />
         </spot>
 
-        <omni id="ss" enabled="tt" >
-            <location x="ff" y="ff" z="ff" w="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
+        <omni id="ol3" enabled="0" >
+            <location x="0" y="0" z="20" w="0.5" />
+            <ambient r="0" g="0" b="1" a="0.5" />
+            <diffuse r="0" g="0" b="1" a="0.5" />
+            <specular r="0" g="0" b="1" a="0.5" />
         </omni>
 
-        <spot id="ss" enabled="tt" angle="ff" exponent="ff">
+        <spot id="sl2" enabled="0" angle="ff" exponent="ff">
             <!-- atencao, "target" e' diferente de "direction" -->
-            <target x="ff" y="ff" z="ff" />
-            <location x="ff" y="ff" z="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
+            <target x="0" y="0" z="0" />
+            <location x="-5" y="-5" z="-5" />
+            <ambient r="1" g="0" b="1" a="1" />
+            <diffuse r="1" g="0" b="1" a="1" />
+            <specular r="1" g="0" b="1" a="1" />
         </spot>
 
     </lights>
@@ -121,7 +121,9 @@
         <!-- objetos respetivos podem a violar esta regra.         -->
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, ciclindro...) -->
-        <texture id="ss" file="ss" length_s="ff" length_t="ff" />
+        <texture id="ftFieldTxt" file="ftField.jpg" length_s="8" length_t="5" />
+        <texture id="goalPostTxt" file="goalPost.jpg" length_s="5" length_t="3" />
+        <texture id="standTxt" file="stand.jpg" length_s="4" length_t="3" />
 
     </textures>
 
