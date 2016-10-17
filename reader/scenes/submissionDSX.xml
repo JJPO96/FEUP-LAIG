@@ -9,321 +9,553 @@
 <!-- ff: float value -->
 <!-- ss: string value -->
 <!-- cc: character "x" or "y" or "z" -->
-<!-- tt: "0" or "1" with Boolean significance -->
-
+<!-- tt: "0" or "1"  ith Boolean significance -->
 
 <dsx>
 
+    <!-- deve definir-se um objeto para raiz do grafo , assim -->
+    <!-- como o comprimento dos tres eixos (cilindros) -->
+    <scene root="root" axis_length="5"/>
 
-  <!-- deve definir-se um objeto para raiz do grafo , assim -->
-  <!-- como o comprimento dos tres eixos (cilindros) -->
-  <!-- TODO escolher root -->
-  <scene root="root" axis_length="6" />
+    <views default="p1">
 
+        <!-- declaracao obrigatoria de pelo menos uma vista; -->
+        <!-- se varias vistas declaradas, o default e' a -->
+        <!-- primeira vista; de cada vez que se pressione a tecla v/V, -->
+        <!-- a vista muda para a proxima da lista; da -->
+        <!-- ultima vista da lista volta 'a primeira -->
+        <perspective id="p1" near="10" far="500" angle="45">
+            <from x="0" y="20" z="60"/>
+            <to x="0" y="0" z="0"/>
+        </perspective>
 
-  <views default="eixoX" >
+        <perspective id="p1" near="10" far="500" angle="45">
+            <from x="30" y="20" z="0"/>
+            <to x="0" y="0" z="0"/>
+        </perspective>
 
-    <!-- declaracao obrigatoria de pelo menos uma vista; -->
-    <!-- se varias vistas declaradas, o default e' a -->
-    <!-- primeira vista; de cada vez que se pressione a tecla v/V, -->
-    <!-- a vista muda para a proxima da lista; da -->
-    <!-- ultima vista da lista volta 'a primeira -->
-    <perspective id="eixoX" near="0.2" far="400" angle="10">
-      <from x="6" y="0" z="4" />
-      <to x="0" y="0" z="0" />
-    </perspective>
+        <perspective id="p3" near="0.1" far="500" angle="45">
+            <from x="30" y="20" z="60"/>
+            <to x="0" y="0" z="0"/>
+        </perspective>
 
-    <perspective id="eixoY" near="0.2" far="400" angle="10">
-      <from x="0" y="6" z="4" />
-      <to x="0" y="0" z="0" />
-    </perspective>
+    </views>
 
+    <illumination doublesided="1" local="1">
 
-    <perspective id="eixoZ" near="0.2" far="400" angle="10">
-      <from x="0" y="0" z="4" />
-      <to x="0" y="0" z="0" />
-    </perspective>
+        <ambient r="0.5" g="0.5" b="0.5" a="1"/>
+        <background r="0.2" g="0.2" b="0.8" a="0.5"/>
 
-    <perspective id="eixoXYZ" near="0.2" far="400" angle="10">
-      <from x="10" y="10" z="10" />
-      <to x="0" y="0" z="0" />
-    </perspective>
+    </illumination>
 
+    <lights>
 
-  </views>
+        <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <omni id="ol1" enabled="1">
+            <location x="20" y="0" z="0" w="0.5"/>
+            <ambient r="1" g="0" b="0" a="0.5"/>
+            <diffuse r="1" g="0" b="0" a="0.5"/>
+            <specular r="1" g="0" b="0" a="0.5"/>
+        </omni>
 
+        <omni id="ol2" enabled="1">
+            <location x="0" y="20" z="0" w="0.5"/>
+            <ambient r="0" g="1" b="0" a="0.5"/>
+            <diffuse r="0" g="1" b="0" a="0.5"/>
+            <specular r="0" g="1" b="0" a="0.5"/>
+        </omni>
 
-  <illumination doublesided="1" local="1" >
+        <spot id="sl1" enabled="1" angle="10" exponent="10">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0" y="0" z="0"/>
+            <location x="5" y="5" z="5"/>
+            <ambient r="0" g="1" b="1" a="1"/>
+            <diffuse r="0" g="1" b="1" a="1"/>
+            <specular r="0" g="1" b="1" a="1"/>
+        </spot>
 
-    <ambient r="0.5" g="0.5" b="0.5" a="1" />
-    <background r="0.2" g="0.2" b="0.8" a="0.5" />
+        <omni id="ol3" enabled="0">
+            <location x="0" y="0" z="20" w="0.5"/>
+            <ambient r="0" g="0" b="1" a="0.5"/>
+            <diffuse r="0" g="0" b="1" a="0.5"/>
+            <specular r="0" g="0" b="1" a="0.5"/>
+        </omni>
 
-  </illumination>
+        <spot id="sl2" enabled="0" angle="30" exponent="10">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0" y="0" z="0"/>
+            <location x="-5" y="-5" z="-5"/>
+            <ambient r="1" g="0" b="1" a="1"/>
+            <diffuse r="1" g="0" b="1" a="1"/>
+            <specular r="1" g="0" b="1" a="1"/>
+        </spot>
 
+    </lights>
 
-  <lights>
+    <textures>
 
-    <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
-    <!-- Os identificadores "id" nao podem ser repetidos -->
-    <omni id="ol1" enabled="1" >
-      <location x="20" y="0" z="0" w="0.5" />
-      <ambient r="1" g="0" b="0" a="0.5" />
-      <diffuse r="1" g="0" b="0" a="0.5" />
-      <specular r="1" g="0" b="0" a="0.5" />
-    </omni>
+        <!-- Deve existir um ou mais blocos "texture" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <!-- length_s e length_t sao fatores de escala de textura:-->
+        <!-- Exemplo length_s=3.0: uma ocorrencia da textura, em -->
+        <!-- comprimento, deve cobrir um comprimento igual -->
+        <!-- a 3 unidades;  -->
+        <!-- Exemplo length_t=0.4, uma ocorrencia da textura, em -->
+        <!-- largura, deve cobrir uma largura igual a 0.4 unidades.  -->
+        <!-- Transf. Geometr. do tipo escalamento sobre os -->
+        <!-- objetos respetivos podem a violar esta regra.         -->
+        <!-- Nao necessario aplicar fatores de escala em  -->
+        <!-- quadricas (esfera, cilindro...) -->
+        <texture id="fieldTex" file="textures\\field.jpg" length_s="1" length_t="1"/>
+        <texture id="goalPostTex" file="textures\\goalPost.jpg" length_s="1" length_t="1"/>
+        <texture id="lightPostTex" file="textures\\lightPost.jpg" length_s="1" length_t="1"/>
+        <texture id="standTex" file="textures\\stand.jpg" length_s="1" length_t="1"/>
+        <texture id="ballTex" file="textures\\ball.jpg" length_s="1" length_t="1"/>
 
-    <omni id="ol2" enabled="1" >
-      <location x="0" y="20" z="0" w="0.5" />
-      <ambient r="0" g="1" b="0" a="0.5" />
-      <diffuse r="0" g="1" b="0" a="0.5" />
-      <specular r="0" g="1" b="0" a="0.5" />
-    </omni>
+    </textures>
 
-    <spot id="sl1" enabled="1" angle="ff" exponent="ff">
-      <!-- atencao, "target" e' diferente de "direction" -->
-      <target x="0" y="0" z="0" />
-      <location x="5" y="5" z="5" />
-      <ambient r="0" g="1" b="1" a="1" />
-      <diffuse r="0" g="1" b="1" a="1" />
-      <specular r="0" g="1" b="1" a="1" />
-    </spot>
+    <materials>
 
-    <omni id="ol3" enabled="0" >
-      <location x="0" y="0" z="20" w="0.5" />
-      <ambient r="0" g="0" b="1" a="0.5" />
-      <diffuse r="0" g="0" b="1" a="0.5" />
-      <specular r="0" g="0" b="1" a="0.5" />
-    </omni>
+        <material id="m1">
+            <emission r="0.2" g="0.2" b="0.2" a="0.2"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.3"/>
+            <diffuse r="0" g="0" b="0" a="0"/>
+            <specular r="1.0" g="0" b="0" a="0"/>
+            <shininess value="0.8"/>
+        </material>
 
-    <spot id="sl2" enabled="0" angle="ff" exponent="ff">
-      <!-- atencao, "target" e' diferente de "direction" -->
-      <target x="0" y="0" z="0" />
-      <location x="-5" y="-5" z="-5" />
-      <ambient r="1" g="0" b="1" a="1" />
-      <diffuse r="1" g="0" b="1" a="1" />
-      <specular r="1" g="0" b="1" a="1" />
-    </spot>
+        <material id="fieldMat">
+            <emission r="0.05" g="0.2" b="0.05" a="0.5"/>
+            <ambient r="0.05" g="0.2" b="0.05" a="0.5"/>
+            <diffuse r="0.1" g="0.4" b="0.1" a="0.5"/>
+            <specular r="0.1" g="0.4" b="0.1" a="0.5"/>
+            <shininess value="0.3"/>
+        </material>
 
-  </lights>
+        <material id="ballMat">
+            <emission r="0.05" g="0.05" b="0.05" a="0.5"/>
+            <ambient r="0.05" g="0.05" b="0.05" a="0.5"/>
+            <diffuse r="0.05" g="0.05" b="0.05" a="0.5"/>
+            <specular r="0.05" g="0.05" b="0.05" a="0.5"/>
+            <shininess value="0.3"/>
+        </material>
 
+        <material id="postMat">
+            <emission r="0.1" g="0.1" b="0.1" a="0.4"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="0.4"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.3"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.3"/>
+            <shininess value="0.6"/>
+        </material>
 
-  <textures>
+        <material id="standMat">
+            <emission r="0.1" g="0.1" b="0.2" a="0.4"/>
+            <ambient r="0.1" g="0.1" b="0.2" a="0.4"/>
+            <diffuse r="0.3" g="0.3" b="0.5" a="0.3"/>
+            <specular r="0.3" g="0.3" b="0.5" a="0.3"/>
+            <shininess value="0.6"/>
+        </material>
 
-    <!-- Deve existir um ou mais blocos "texture" -->
-    <!-- Os identificadores "id" nao podem ser repetidos -->
-    <!-- length_s e length_t sao fatores de escala de textura:-->
-    <!-- Exemplo length_s=3.0: uma ocorrencia da textura, em -->
-    <!-- comprimento, deve cobrir um comprimento igual -->
-    <!-- a 3 unidades;  -->
-    <!-- Exemplo length_t=0.4, uma ocorrencia da textura, em -->
-    <!-- largura, deve cobrir uma largura igual a 0.4 unidades.  -->
-    <!-- Transf. Geometr. do tipo escalamento sobre os -->
-    <!-- objetos respetivos podem a violar esta regra.         -->
-    <!-- Nao necessario aplicar fatores de escala em  -->
-    <!-- quadricas (esfera, ciclindro...) -->
+    </materials>
 
-    <texture id="fieldTex" file="textures\\field.jpg" length_s="1.0" length_t="1.0" />
-    <texture id="goalPostTxt" file="textures\\goalPost.jpg" length_s="8" length_t="5" />
-    <texture id="lightPostTxt" file="textures\\lightPost.jpg" length_s="1" length_t="1" />
-    <texture id="standTxt" file="textures\\stand.jpg" length_s="4" length_t="3" />
+    <transformations>
 
-  </textures>
+        <!-- Deve existir um ou mais blocos "transformation" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <transformation id="ola">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <scale x="1" y="1" z="1"/>
+        </transformation>
+    </transformations>
 
+    <primitives>
 
-  <materials>
+        <primitive id="fieldPrim">
+            <rectangle x1="0" y1="0" x2="32" y2="20"/>
+        </primitive>
 
-    <!-- Deve existir um ou mais blocos "material" -->
-    <!-- Os identificadores "id" nao podem ser repetidos -->
-    <material id="fieldMat" >
-      <emission r="0.05" g="0.2" b="0.05" a="0.5" />
-      <ambient r="0.05" g="0.2" b="0.05" a="0.5" />
-      <diffuse r="0.1" g="0.4" b="0.1" a="0.5" />
-      <specular r="0.1" g="0.4" b="0.1" a="0.5" />
-      <shininess value="0.3" />
-    </material>
+        <primitive id="cStandPrim">
+            <rectangle x1="0" y1="0" x2="32" y2="5"/>
+        </primitive>
 
-    <material id="postMat" >
-      <emission r="0.1" g="0.1" b="0.1" a="0.4" />
-      <ambient r="0.1" g="0.1" b="0.1" a="0.4" />
-      <diffuse r="0.3" g="0.3" b="0.3" a="0.3" />
-      <specular r="0.3" g="0.3" b="0.3" a="0.3" />
-      <shininess value="0.6" />
-    </material>
+        <primitive id="bStandPrim">
+            <rectangle x1="0" y1="0" x2="20" y2="5"/>
+        </primitive>
 
-    <material id="standMat" >
-      <emission r="0.1" g="0.1" b="0.2" a="0.4" />
-      <ambient r="0.1" g="0.1" b="0.2" a="0.4" />
-      <diffuse r="0.3" g="0.3" b="0.5" a="0.3" />
-      <specular r="0.3" g="0.3" b="0.5" a="0.3" />
-      <shininess value="0.6" />
-    </material>
+        <primitive id="goalPostPrim">
+          <cylinder base="0.5" top="0.5" height="1" slices="50" stacks="20" />
+        </primitive>
 
-  </materials>
+        <primitive id="ballPrim">
+            <sphere radius="1" slices="50" stacks="50" />
+        </primitive>
 
+    </primitives>
 
-  <transformations>
+    <components>
 
-    <!-- Deve existir um ou mais blocos "transformation" -->
-    <!-- Os identificadores "id" nao podem ser repetidos -->
-    <transformation id="trans">
-      <!-- deve existir pelo menos uma instrução de transformacao; -->
-      <!-- podem ser usadas tantas instrucoes quantas as -->
-      <!-- necessárias, mas escritas pela mesma ordem que
-      <!-- seria usada na sua escrita diretamente em código WebGL -->
-
-      <translate x="2" y="0.2" z="1" />
-      <rotate axis="x" angle="30" />
-      <scale x="1" y="1" z="1" />
-    </transformation>
-
-  </transformations>
-
-
-  <primitives>
-
-    <primitive id="fieldPrim">
-      <rectangle x1="0" y1="0" x2="50" y2="20" />
-    </primitive>
-
-    <primitive id="standCentral">
-      <rectangle x1="0" y1="0" x2="50" y="10" />
-    </primitive>
-
-    <primitive id="standBack">
-      <rectangle x1="0" y1="0" x2="20" y="10" />
-    </primitive>
-
-    <primitive id="goalPostVert">
-      <cylinder base="0.5" top="0.5" height="1" slices="50" stacks="20" />
-    </primitive>
-
-    <primitive id="goalPostHoriz">
-      <cylinder base="0.5" top="0.5" height="2" slices="50" stacks="20" />
-    </primitive>
-
-  </primitives>
-
-
-  <components>
-
-    <component id="ss">
-
-      <!-- bloco "transformation" obrigatorio -->
-      <transformation>
-
-        <!-- deve conter uma referencia a uma das "transformation" -->
-        <!-- declaradas anteriormente -->
-        <transformationref id="ss" />
-
-        <!-- ou, ALTERNATIVAMENTE, transformacoes explicitas, -->
-        <!-- usando zero ou mais instrucoes como as seguintes,  -->
-        <!-- seguindo as mesmas regras que no bloco transformations-->
-        <translate x="ff" y="ff" z="ff" />
-        <rotate axis="cc" angle="ff" />
-        <scale x="ff" y="ff" z="ff" />
-      </transformation>
-
-      <!-- declaracao obrigatoria de pelo menos um material; -->
-      <!-- o material id="inherit", mantem (herda) material do "pai" -->
-      <!-- se varios materiais declarados, o default e' o -->
-      <!-- primeiro material; de cada vez que se pressione a tecla m/M, -->
-      <!-- o material muda para o proximo material da lista; do -->
-      <!-- ultimo material da lista volta ao primeiro -->
-      <materials>
-        <material id="ss" />
-      </materials>
-
-      <!-- declaracao obrigatoria de texture -->
-      <!-- id="inherit" mantem (herda) a textura do objecto "pai" -->
-      <!-- id="none" remove a textura recebida do pai -->
-      <!-- a textura declarada sobrepoe a textura recebida do -->
-      <!-- objecto "pai" -->
-      <texture id="ss" />
-
-      <!-- bloco "children" obrigatorio num "component" -->
-      <children>
-
-        <!-- deve existir uma ou mais tags "componentref" e/ou -->
-        <!-- "primitiveref", identificando outros -->
-        <!-- componentes ou primitivas -->
-        <componentref id="ss" />
-        <primitiveref id="ss" />
-
-      </children>
-
-    </component>
-
-    <component id="root">
+        <component id="root">
 
             <!-- bloco "transformation" obrigatorio -->
             <transformation>
-
-                <!-- deve conter uma referencia a uma das "transformation" -->
-                <!-- declaradas anteriormente -->
-                <!--  <transformationref id="ola" /> -->
-
-                <!-- ou, ALTERNATIVAMENTE, transformacoes explicitas, -->
-                <!-- usando zero ou mais das instrucoes seguintes, sem -->
-                <!-- limite nem ordem -->
-                <!-- ex: bloco transformation pode ficar sem conteudo -->
-
-                <scale x="1" y="1" z="1" />
+                <scale x="1" y="1" z="1"/>
             </transformation>
 
-            <!-- declaracao obrigatoria de pelo menos um material; -->
-            <!-- o material id="inherit", mantem (herda) material do "pai" -->
-            <!-- se varios materiais declarados, o default e' o -->
-            <!-- primeiro material; de cada vez que se pressione a tecla m/M, -->
-            <!-- o material muda para o proximo material da lista; do -->
-            <!-- ultimo material da lista volta ao primeiro -->
             <materials>
-                <material id="m4" />
-                <material id="m3" />
+                <material id="m1"/>
             </materials>
 
-            <!-- declaracao obrigatoria de texture -->
-            <!-- id="inherit" mantem (herda) a textura do objecto "pai" -->
-            <!-- id="none" remove a textura recebida do pai -->
-            <!-- a textura declarada sobrepoe a textura recebida do -->
-            <!-- objecto "pai" -->
-            <texture id="none" />
+            <texture id="none"/>
 
-            <!-- bloco "children" obrigatorio num "component" -->
             <children>
-
-                <!-- deve existir uma ou mais tags "componentref" e/ou -->
-                <!-- "primitiveref", identificando outros -->
-                <!-- componentes ou primitivas -->
-                <componentref id="stands" />
-                <componentref id="goals" />
-                <componentref id="field" />
+                <componentref id="field"/>
+                <componentref id="stands"/>
+                <componentref id="goals"/>
+                <componentref id="ball"/>
             </children>
 
         </component>
 
+        <component id="field">
 
-              <component id="field">
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="-10" y="0" z="-16"/>
+                <rotate axis="y" angle="-90"/>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
 
-                  <!-- bloco "transformation" obrigatorio -->
-                  <transformation>
-                      <translate x="-70" y="1" z="0" />
-                      <rotate axis="z" angle="90" />
-                      <scale x="50" y="50" z="50" />
-                  </transformation>
+            <materials>
+                <material id="fieldMat"/>
+            </materials>
 
-                  <materials>
-                      <material id="fieldMat" />
-                  </materials>
+            <texture id="fieldTex"/>
 
+            <children>
+                <primitiveref id="fieldPrim"/>
+            </children>
 
-                  <texture id="ftFieldTex" />
+        </component>
 
+        <component id="stands">
 
-                  <children>
-                      <primitiveref id="fieldPrim" />
-                  </children>
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <scale x="1" y="1" z="1"/>
+            </transformation>
 
-              </component>
-  </components>
+            <materials>
+                <material id="standMat"/>
+            </materials>
+
+            <texture id="standTex"/>
+
+            <children>
+                <componentref id="cStandL"/>
+                <componentref id="cStandR"/>
+                <componentref id="bStandF"/>
+                <componentref id="bStandB"/>
+            </children>
+
+        </component>
+
+        <component id="cStandL">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="-10" y="0" z="16"/>
+                <rotate axis="z" angle="60"/>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="cStandPrim"/>
+            </children>
+
+        </component>
+
+        <component id="cStandR">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <rotate axis="y" angle="180"/>
+                <translate x="-10" y="0" z="16"/>
+                <rotate axis="z" angle="60"/>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="cStandPrim"/>
+            </children>
+
+        </component>
+
+        <component id="bStandB">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <rotate axis="y" angle="-90"/>
+                <translate x="-16" y="0" z="10"/>
+                <rotate axis="z" angle="60"/>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="bStandPrim"/>
+            </children>
+
+        </component>
+
+        <component id="bStandF">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <rotate axis="y" angle="90"/>
+                <translate x="-16" y="0" z="10"/>
+                <rotate axis="z" angle="60"/>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="bStandPrim"/>
+            </children>
+
+        </component>
+
+        <component id="goals">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <scale x="1" y="1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="standMat"/>
+            </materials>
+
+            <texture id="standTex"/>
+
+            <children>
+                <componentref id="goalB"/>
+                <componentref id="goalF"/>
+            </children>
+
+        </component>
+
+        <component id="goalB">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <scale x="1" y="1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="postMat"/>
+            </materials>
+
+            <texture id="goalPostTex"/>
+
+            <children>
+                <componentref id="goalBPostU"/>
+                <componentref id="goalBPostL"/>
+                <componentref id="goalBPostR"/>
+            </children>
+
+        </component>
+
+        <component id="goalBPostU">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="1.5" y="0.7" z="-13.6"/>
+                <rotate axis="y" angle="-90"/>
+                <scale x="0.1" y="0.1" z="3"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+              <primitiveref id="goalPostPrim"/>
+            </children>
+
+        </component>
+
+        <component id="goalBPostL">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="1.5" y="0" z="-13.6"/>
+                <rotate axis="x" angle="-90"/>
+                <scale x="0.1" y="0.1" z="0.7"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+              <primitiveref id="goalPostPrim"/>
+            </children>
+
+        </component>
+
+        <component id="goalBPostR">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="-1.5" y="0" z="-13.6"/>
+                <rotate axis="x" angle="-90"/>
+                <scale x="0.1" y="0.1" z="0.7"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+              <primitiveref id="goalPostPrim"/>
+            </children>
+
+        </component>
+
+        <component id="goalF">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <scale x="1" y="1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="postMat"/>
+            </materials>
+
+            <texture id="goalPostTex"/>
+
+            <children>
+                <componentref id="goalFPostU"/>
+                <componentref id="goalFPostL"/>
+                <componentref id="goalFPostR"/>
+            </children>
+
+        </component>
+
+        <component id="goalFPostU">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="1.5" y="0.7" z="13.6"/>
+                <rotate axis="y" angle="-90"/>
+                <scale x="0.1" y="0.1" z="3"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+              <primitiveref id="goalPostPrim"/>
+            </children>
+
+        </component>
+
+        <component id="goalFPostL">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="-1.5" y="0" z="13.6"/>
+                <rotate axis="x" angle="-90"/>
+                <scale x="0.1" y="0.1" z="0.7"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+              <primitiveref id="goalPostPrim"/>
+            </children>
+
+        </component>
+
+        <component id="goalFPostR">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="1.5" y="0" z="13.6"/>
+                <rotate axis="x" angle="-90"/>
+                <scale x="0.1" y="0.1" z="0.7"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+              <primitiveref id="goalPostPrim"/>
+            </children>
+
+        </component>
+
+        <component id="ball">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="0" y="0.1" z="0"/>
+                <scale x="0.2" y="0.2" z="0.2"/>
+            </transformation>
+
+            <materials>
+                <material id="ballMat"/>
+            </materials>
+
+            <texture id="ballTex"/>
+
+            <children>
+              <primitiveref id="ballPrim"/>
+            </children>
+
+        </component>
+
+    </components>
 
 </dsx>
