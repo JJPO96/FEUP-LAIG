@@ -6,8 +6,6 @@ function MyCylinder(scene, base, top, height, slices, stacks) {
     this.height = height;
     this.slices = slices;
     this.stacks = stacks;
-
-    this.initBuffers();
 };
 
 MyCylinder.prototype = Object.create(CGFobject.prototype);
@@ -31,5 +29,4 @@ MyCylinder.prototype.initBuffers = function() {
     this.scene.popMatrix();
 
     this.primitiveType = this.scene.gl.TRIANGLES;
-    this.initGLBuffers();
 };

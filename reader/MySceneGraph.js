@@ -176,8 +176,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 						this.reader.getFloat(background, 'b'),
 						this.reader.getFloat(background, 'a')];
 
-	this.illumination.background = bg;
-
 	console.log('Illumination read from file: Background R = ' + this.illumination.background[0]
 																			 + ", Background G = " + this.illumination.background[1]
 	                              			 + ", Background B = " + this.illumination.background[2]
