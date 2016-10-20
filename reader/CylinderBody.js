@@ -24,15 +24,15 @@ CylinderBody.prototype.initBuffers = function() {
 	var hRt = this.height / this.stacks;
 	var radRt = (this.top - this.base) / this.stacks;
 
-	for (var stack = 0; stack <= this.stacks; stack++) {
-		var z = stack * hRt;
-		var radius = this.top - stack * radRt;
+	for (var st = 0; st <= this.stacks; st++) {
+		var z = st * hRt;
+		var radius = this.top - st * radRt;
 
-		for (var slice = 0; slice <= this.slices; slice++) {
-			var x = radius * Math.cos(slice * angRt);
-			var y = radius * Math.sin(slice * angRt);
-			var s = 1 - (stack / this.stacks);
-			var t = 1 - (slice / this.slices);
+		for (var sl = 0; sl <= this.slices; sl++) {
+			var x = radius * Math.cos(sl * angRt);
+			var y = radius * Math.sin(sl * angRt);
+			var s = 1 - (st / this.stacks);
+			var t = 1 - (sl / this.slices);
 
 			this.vertices.push(x, y, z);
 			this.normals.push(x, y, 0);
@@ -41,13 +41,13 @@ CylinderBody.prototype.initBuffers = function() {
 	}
 
 
-	for (var stack = 0; stack < this.stacks; stack++) {
-		for (var slice = 0; slice < this.slices; slice++) {
-			var p1 = (stack * (this.slices + 1)) + slice;
-			var p2 = p1 + this.slices + 1;
+	for (var st = 0; st < this.stacks; st++) {
+		for (var sl = 0; sl < this.slices; sl++) {
+			var a = (st * (this.slices + 1)) + sl;
+			var b = a + this.slices + 1;
 
-			this.indices.push(p1, p2 + 1, p2);
-			this.indices.push(p1, p1 + 1, p2 + 1);
+			this.indices.push(a, b + 1, b);
+			this.indices.push(a, a + 1, b + 1);
 		}
 	}
 

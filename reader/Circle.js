@@ -1,4 +1,4 @@
-function Circle(scene, slices) {
+function Circle(scene, radius, slices) {
 	CGFobject.call(this,scene);
 
 	this.radius = radius;
@@ -17,7 +17,7 @@ Circle.prototype.initBuffers = function() {
 	this.texCoords = [];
 
 
-	var angle = (2*Math.PI) / this.slices;
+	var ang = (2*Math.PI) / this.slices;
 	var ind = 1;
 
 	this.vertices.push(0, 0, 0);

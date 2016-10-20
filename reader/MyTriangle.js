@@ -1,6 +1,6 @@
 
 function MyTriangle(scene,x1,x2,x3,y1,y2,y3,z1,z2,z3) {
-	GFobject.call(this,scene);
+	CGFobject.call(this,scene);
 
   this.x1 = x1;
   this.x2 = x2;

@@ -14,7 +14,7 @@ function MySceneGraph(filename, scene) {
 	 * If any error occurs, the reader calls onXMLError on this object, with an error message
 	 */
 
-	this.reader.open('scenes/dsxscene.xml', this);
+	this.reader.open('scenes/submissionDSX.xml', this);
 }
 
 /*
@@ -382,16 +382,8 @@ MySceneGraph.prototype.parseTransformation= function(transformation) {
 	console.log("ID: " + ret.getID() + "\n");
 
 	for (var i = children.length-1; i >= 0; i--) {
-		console.log(ret.matrix[0]);
-		console.log(ret.matrix[1]);
-		console.log(ret.matrix[2]);
-		console.log(ret.matrix[3]);
-		ret.matrix = MultipleMatrix(ret.matrix,this.parseTransChild(children[i]));
+			ret.matrix = MultiplyMatrix(ret.matrix,this.parseTransChild(children[i]));
 	}
-		console.log(ret.matrix[0]);
-		console.log(ret.matrix[1]);
-		console.log(ret.matrix[2]);
-		console.log(ret.matrix[3]);
 
 	;
 	return ret;
@@ -444,8 +436,41 @@ MySceneGraph.prototype.parseTransChild= function(child){
 }
 
 MySceneGraph.prototype.parsePrimitives = function (rootElement) {
+		this.primitives = [];
 
+		elems = rootElement.getElementsByTagName('primitives')
+
+		if (!elems) {
+	      return "primitives missing!";
+	  }
+
+		var primitives = elems[0];
+
+		var arrPrimitives = primitives.getElementsByTagName('primitive');
+
+		for (var i = 0; i < arrPrimitives.length; i++) {
+			this.primitives.push(this.parsePrimitive(arrPrimitives[i]));
+		}
 };
+
+MySceneGraph.prototype.parsePrimitive= function(primitive) {
+	var ret = new Primitive(this.reader.getString(primitive,"id",true));
+
+	if (primitive.children[0].nodeName == "rectangle") {
+		ret.primitive = this.parserRectangle(primitive.children[0]);
+	} else if (primitive.children[0].nodeName == "triangle"){
+		ret.primitive = this.parserTriangle(primitive.children[0]);
+	} else if (primitive.children[0].nodeName == "cylinder"){
+		ret.primitive = this.parserCylinder(primitive.children[0]);
+	} else if (primitive.children[0].nodeName == "sphere"){
+		ret.primitive = this.parserSphere(primitive.children[0]);
+	} else if (primitive.children[0].nodeName == "torus"){
+		ret.primitive = this.parserTorus(primitive.children[0]);
+	}
+
+	return ret;
+}
+
 
 MySceneGraph.prototype.parseComponents= function(rootElement) {
 
@@ -602,82 +627,52 @@ MySceneGraph.prototype.parseTransformationElements = function(rootElement)
 }
 
 MySceneGraph.prototype.parserRectangle = function(element){
-	var coord ={
-		x1:0,
-		x2:0,
-		y1:0,
-		y2:0
-	}
-
-	coord.x1 = this.reader.getFloat(element, 'x1');
-	coord.x2 = this.reader.getFloat(element, 'x2');
-	coord.y1 = this.reader.getFloat(element, 'y1');
-	coord.y2 = this.reader.getFloat(element, 'y2');
-
-	return new Rectangle(this.scene,coord.x1, coord.x2, coord.y1, coord.y2);
+	return new MyRectangle(this.scene,
+														this.reader.getFloat(element, 'x1'),
+														this.reader.getFloat(element, 'x2'),
+														this.reader.getFloat(element, 'y1'),
+														this.reader.getFloat(element, 'y2'));
 }
 
 MySceneGraph.prototype.parserTriangle = function(element){
-	var coord ={
-		x1:0,
-		x2:0,
-		x3:0,
-		y1:0,
-		y2:0,
-		y3:0,
-		z1:0,
-		z2:0,
-		z3:0
-	}
 
-	coord.x1 = this.reader.getFloat(element, 'x1');
-	coord.x2 = this.reader.getFloat(element, 'x2');
-	coord.x3 = this.reader.getFloat(element, 'x3');
-	coord.y1 = this.reader.getFloat(element, 'y1');
-	coord.y2 = this.reader.getFloat(element, 'y2');
-	coord.y3 = this.reader.getFloat(element, 'y3');
-	coord.z1 = this.reader.getFloat(element, 'z1');
-	coord.z2 = this.reader.getFloat(element, 'z2');
-	coord.z3 = this.reader.getFloat(element, 'z3');
-
-	return new Triangle(this.scene,coord.x1, coord.y1, coord.z1 ,coord.x2, coord.y2, coord.z2,coord.x3, coord.y3, coord.z3);
+	return new MyTriangle(this.scene,
+													this.reader.getFloat(element, 'x1'),
+													this.reader.getFloat(element, 'x2'),
+													this.reader.getFloat(element, 'x3'),
+													this.reader.getFloat(element, 'y1'),
+													this.reader.getFloat(element, 'y2'),
+													this.reader.getFloat(element, 'y3'),
+													this.reader.getFloat(element, 'z1'),
+													this.reader.getFloat(element, 'z2'),
+													this.reader.getFloat(element, 'z3') );
 }
 
 MySceneGraph.prototype.parserCylinder = function(element){
 
-	var coord ={
-		base: 0,
-		top: 0,
-		height: 0,
-		slices: 0,
-		stacks: 0
-	}
-
-	coord.base = this.reader.getFloat(element, 'base');
-	coord.top = this.reader.getFloat(element, 'top');
-	coord.height = this.reader.getFloat(element, 'height');
-	coord.slices = this.reader.getInteger(element, 'slices');
-	coord.stacks = this.reader.getInteger(element, 'stacks');
-
-	return new Cylinder(this.scene,coord.base, coord.top, coord.height ,coord.slices, coord.stacks);
+	return new MyCylinder(this.scene,
+												this.reader.getFloat(element, 'base'),
+		 										this.reader.getFloat(element, 'top'),
+												this.reader.getFloat(element, 'height'),
+												this.reader.getInteger(element, 'slices'),
+												this.reader.getInteger(element, 'stacks'));
 
 }
-
 
 MySceneGraph.prototype.parserSphere = function(element){
 
-	var coord ={
-		radius: 0,
-		slices: 0,
-		stacks: 0
-	}
-
-	coord.radius = this.reader.getFloat(element, 'radius');
-	coord.slices = this.reader.getInteger(element, 'slices');
-	coord.stacks = this.reader.getInteger(element, 'stacks');
-
-
-	return new Sphere(this.scene, coord.radius, coord.slices, coord.stacks);
-
+	return new MySphere(this.scene,
+												this.reader.getFloat(element, 'radius'),
+												this.reader.getInteger(element, 'slices'),
+												this.reader.getInteger(element, 'stacks'));
 }
 
+MySceneGraph.prototype.parserTorus = function(element){
+
+	return new MyTorus(this.scene,
+												this.reader.getFloat(element, 'inner'),
+												this.reader.getInteger(element, 'outer'),
+												this.reader.getInteger(element, 'stacks'),
+												this.reader.getInteger(element, 'loops'));
+
+}

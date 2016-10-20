@@ -24,7 +24,7 @@ function Transformation(id){
   };
 }
 
-function MultipleMatrix(m1,m2){
+function MultiplyMatrix(m1,m2){
   var ret = [[0,0,0,0],
              [0,0,0,0],
              [0,0,0,0],

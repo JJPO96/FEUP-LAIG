@@ -39,3 +39,8 @@ function Material(id) {
     this.specular = []; // [r,g,b,a]
     this.shininess;
 }
+
+function Primitive(id) {
+    this.id = id;
+    this.primitive;
+}
