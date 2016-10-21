@@ -20,16 +20,12 @@ MyInterface.prototype.init = function(application) {
     return true;
 };
 
-/*
-Type:
-  - 0 -> spot
-  - 1 -> omni
-ID:
-  - id of the light
-Status:
-  - 0 -> disabled
-  - 1 -> enabled
-*/
-MyInterface.prototype.addLight = function(type, id, status) {
-
+MyInterface.prototype.addLight = function(type, i, id) {
+  if (type == "omni") {
+    this.omni.add(this.scene.lightsArray,i,this.scene.lightsArray[i]).name(id);
+  } else if (type == "spot"){
+    this.spot.add(this.scene.lightsArray,i,this.scene.lightsArray[i]).name(id);
+  } else {
+    console.log("Wrong type of light!!");
+  }
 }

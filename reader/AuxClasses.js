@@ -24,6 +24,11 @@ function Perspective(id, near, far, angle) {
     this.to = []; // [x,y,z]
 }
 
+function MyCamera(id, camera) {
+    this.id = id;
+    this.camera = camera;
+}
+
 function Texture(id, file, length_s, length_t) {
     this.id = id;
     this.file = file;

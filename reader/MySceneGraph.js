@@ -3,7 +3,18 @@ function MySceneGraph(filename, scene) {
 
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
-	scene.graph=this;
+	scene.graph = this;
+
+	this.sceneAtr;
+	this.views;
+	this.illumination;
+	this.omniLights = [];
+	this.spotLights = [];
+	this.textureList=[];
+	this.materials = [];
+	this.transformations = [];
+	this.primitives = [];
+
 
 	// File reading
 	this.reader = new CGFXMLreader();
@@ -104,7 +115,7 @@ MySceneGraph.prototype.parseViews= function(rootElement) {
 }
 
 MySceneGraph.prototype.parsePerspective = function(perspective){
-	var ret = new Perspective(this.reader.getString(perspective,"id",true),
+	var temp = new Perspective(this.reader.getString(perspective,"id",true),
 														this.reader.getFloat(perspective,"near"),
 														this.reader.getFloat(perspective,"far"),
 														this.reader.getFloat(perspective,"angle"));
@@ -112,15 +123,24 @@ MySceneGraph.prototype.parsePerspective = function(perspective){
 	var fr = perspective.getElementsByTagName("from")[0];
 	var to = perspective.getElementsByTagName("to")[0];
 
-	ret.from.push(this.reader.getFloat(fr,"x"));
-	ret.from.push(this.reader.getFloat(fr,"y"));
-	ret.from.push(this.reader.getFloat(fr,"z"));
+	temp.from.push(this.reader.getFloat(fr,"x"));
+	temp.from.push(this.reader.getFloat(fr,"y"));
+	temp.from.push(this.reader.getFloat(fr,"z"));
 
-	ret.to.push(this.reader.getFloat(to,"x"));
-	ret.to.push(this.reader.getFloat(to,"y"));
-	ret.to.push(this.reader.getFloat(to,"z"));
+	temp.to.push(this.reader.getFloat(to,"x"));
+	temp.to.push(this.reader.getFloat(to,"y"));
+	temp.to.push(this.reader.getFloat(to,"z"));
 
-	return ret;
+	return new MyCamera(temp.id,
+												new CGFcamera(temp.angle * Math.PI/180,
+																			temp.near,
+																			temp.far,
+																			vec3.fromValues(temp.from.x,
+																											temp.from.y,
+																											temp.from.z),
+																			vec3.fromValues(temp.to.x,
+																											temp.to.y,
+ 																											temp.to.z)));
 }
 
 MySceneGraph.prototype.parseIllumination = function(rootElement){
@@ -176,6 +196,8 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 						this.reader.getFloat(background, 'b'),
 						this.reader.getFloat(background, 'a')];
 
+	this.illumination.background = bg;
+
 	console.log('Illumination read from file: Background R = ' + this.illumination.background[0]
 																			 + ", Background G = " + this.illumination.background[1]
 	                              			 + ", Background B = " + this.illumination.background[2]
@@ -183,9 +205,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 }
 
 MySceneGraph.prototype.parseLights = function(rootElement){
-	this.omniLights = [];
-	this.spotLights = [];
-
 	elems = rootElement.getElementsByTagName('lights')
 
 	if (!elems) {
@@ -273,6 +292,8 @@ MySceneGraph.prototype.parseSpotLight = function(spot){
 		ret.specular.push(this.reader.getFloat(specular,"g"));
 		ret.specular.push(this.reader.getFloat(specular,"b"));
 		ret.specular.push(this.reader.getFloat(specular,"a"));
+
+		return ret;
 }
 
 MySceneGraph.prototype.parseTextures = function(rootElement){
@@ -283,7 +304,6 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		onXMLError("textures element is missing.");
 	}
 
-	this.textureList=[];
 
 	var numText = textures[0].children.length;
 
@@ -312,7 +332,6 @@ MySceneGraph.prototype.parseMaterials= function(rootElement) {
 
 	var materials = elems[0];
 
-	this.materials = [];
 	var arrMaterials = materials.getElementsByTagName('material');
 
 	for (var i = 0; i < arrMaterials.length; i++) {
@@ -365,7 +384,6 @@ MySceneGraph.prototype.parseTransformations= function(rootElement) {
 
 	var transformations = elems[0];
 
-	this.transformations = [];
 	var arrTransformations = transformations.getElementsByTagName('transformation');
 
 	for (var i = 0; i < arrTransformations.length; i++) {
@@ -434,7 +452,7 @@ MySceneGraph.prototype.parseTransChild= function(child){
 }
 
 MySceneGraph.prototype.parsePrimitives = function (rootElement) {
-		this.primitives = [];
+
 
 		elems = rootElement.getElementsByTagName('primitives')
 
