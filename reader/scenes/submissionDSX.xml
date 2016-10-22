@@ -48,8 +48,8 @@
 
   <illumination doublesided="1" local="1">
 
-    <ambient r="0.1" g="0.1" b="0.1" a="10"/>
-    <background r="0.1" g="0.1" b="0.1" a="10"/>
+    <ambient r="0.2" g="0.2" b="0.2" a="1"/>
+    <background r="0" g="0.7" b="0.7" a="20"/>
 
   </illumination>
 
