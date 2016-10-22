@@ -92,7 +92,7 @@ MySceneGraph.prototype.parseScene= function(rootElement) {
 
 	this.sceneAtr = new SceneAtr(
 		this.reader.getString(scene,'root',true),
-		this.reader.getString(scene,'axis_length',true)
+		this.reader.getFloat(scene,'axis_length')
 	);
 }
 
@@ -174,21 +174,13 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 	this.illumination = new Illumination(this.reader.getBoolean(elems, 'doublesided'),
 																			 this.reader.getBoolean(elems, 'local'));
 
-	console.log('Illumination read from file: doubleSided = ' + this.illumination.doubleSided
-																							+ ", local = " + this.illumination.local);
-
-	ambient = ambient[0];
+		ambient = ambient[0];
 	var amb = [this.reader.getFloat(ambient, 'r'),
 						 this.reader.getFloat(ambient, 'g'),
 						 this.reader.getFloat(ambient, 'b'),
 						 this.reader.getFloat(ambient, 'a')];
 
 	this.illumination.ambient = amb;
-
-	console.log('Illumination read from file: Ambient R = ' + this.illumination.ambient[0]
-																			 + ", Ambient G = " + this.illumination.ambient[1]
-																			 + ", Ambient B = " + this.illumination.ambient[2]
-																			 + ", Ambient A = " + this.illumination.ambient[3]);
 
 	background = background[0];
 	var bg = [this.reader.getFloat(background, 'r'),
@@ -198,11 +190,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 
 	this.illumination.background = bg;
 
-	console.log('Illumination read from file: Background R = ' + this.illumination.background[0]
-																			 + ", Background G = " + this.illumination.background[1]
-	                              			 + ", Background B = " + this.illumination.background[2]
-																			 + ", Background A = ", this.illumination.background[3]);
-}
+	}
 
 MySceneGraph.prototype.parseLights = function(rootElement){
 	elems = rootElement.getElementsByTagName('lights')
@@ -515,8 +503,7 @@ MySceneGraph.prototype.parseComponents= function(rootElement) {
 		if(transformationRef != null && transformationRef.length != 0)
 		{
 			transformationListID[0] = this.reader.getString(transformationRef[0], 'id');
-			console.log("Transformation Ref ID = " +  transformationListID[0]);
-		}
+			}
 		else
 		{
 			transformationList = this.parseTransformationElements(transformation);
