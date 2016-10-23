@@ -1,6 +1,6 @@
 
 function MyRectangle(scene,x1,x2,y1,y2,minS = 0,minT = 0,maxS = 1,maxT = 1) {
-	CGFobject.call(this,scene);
+	CGFobject.call(this, scene);
 
   this.x1 = x1;
   this.x2 = x2;

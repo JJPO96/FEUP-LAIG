@@ -135,12 +135,12 @@ MySceneGraph.prototype.parsePerspective = function(perspective){
 												new CGFcamera(temp.angle * Math.PI/180,
 																			temp.near,
 																			temp.far,
-																			vec3.fromValues(temp.from.x,
-																											temp.from.y,
-																											temp.from.z),
-																			vec3.fromValues(temp.to.x,
-																											temp.to.y,
- 																											temp.to.z)));
+																			vec3.fromValues(temp.from[0],
+																											temp.from[1],
+																											temp.from[2]),
+																			vec3.fromValues(temp.to[0],
+																											temp.to[1],
+ 																											temp.to[2])));
 }
 
 MySceneGraph.prototype.parseIllumination = function(rootElement){

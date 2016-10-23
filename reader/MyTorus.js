@@ -9,7 +9,7 @@ function MyTorus(scene, inner, outer, slices, loops) {
 };
 
 MyTorus.prototype = Object.create(CGFobject.prototype);
-Torus.prototype.constructor = MyTorus;
+MyTorus.prototype.constructor = MyTorus;
 
 MyTorus.prototype.initBuffers = function() {
 

@@ -1,5 +1,5 @@
-function MyInterface(){
-  CGFinterface.call(this);
+function MyInterface() {
+    CGFinterface.call(this);
 }
 
 
@@ -21,11 +21,22 @@ MyInterface.prototype.init = function(application) {
 };
 
 MyInterface.prototype.addLight = function(type, i, id) {
-  if (type == "omni") {
-    this.omni.add(this.scene.lightsArray,i,this.scene.lightsArray[i]).name(id);
-  } else if (type == "spot"){
-    this.spot.add(this.scene.lightsArray,i,this.scene.lightsArray[i]).name(id);
-  } else {
-    console.log("Wrong type of light!!");
-  }
+    if (type == "omni") {
+        this.omni.add(this.scene.lightsArray, i, this.scene.lightsArray[i]).name(id);
+    } else if (type == "spot") {
+        this.spot.add(this.scene.lightsArray, i, this.scene.lightsArray[i]).name(id);
+    } else {
+        console.log("Unknown type of light!!");
+    }
 }
+
+MyInterface.prototype.processKeyDown = function(event) {
+    switch (event.keyCode) {
+        case (77): //M
+            this.scene.updateMaterial();
+            break;
+        case (86): //V
+            this.scene.updateView();
+            break;
+    };
+};
