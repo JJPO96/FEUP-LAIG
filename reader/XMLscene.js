@@ -96,13 +96,13 @@ XMLscene.prototype.initMaterials = function()
     this.materialsList = this.graph.materialsList;
     this.materialsIDs = this.graph.materialsIDs;
 
-    console.log("materials IDS length: " + this.materialsIDs.length);
 }
 
 XMLscene.prototype.initTextures = function ()
 {
     this.texturesList = this.graph.texturesList;
     this.texturesID = this.graph.texturesID;
+   
 
     if(this.texturesID.length > 0)
         this.enableTextures(true);
@@ -121,7 +121,6 @@ XMLscene.prototype.initComponents = function()
     this.componentsList = this.graph.componentsList;
     this.componentsIDs = this.graph.componentsIDs;
     
-    console.log(this.componentsList);
 }
 
 
@@ -255,9 +254,9 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	var text;
 
 	node = this.componentsList['root'];
-    console.log("Nó: " + node + "ID: " + node.id);
 	if(node instanceof Component){
 
+	console.log(node);
 	//transformations
 	this.pushMatrix();
 //	this.multMatrix(this.transformationList[node.transformationsID]);
@@ -270,16 +269,14 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	}
 
 	//textures
-    console.log(this.texturesList);
-	texture = this.texturesList[node.texture];
-	switch(node.texture){
-			case "none":
-				 texture = null;
-			break;
-			case "inherit":
-				 texture = texture;
-			break;
-	}
+    console.log(node.texture);
+	text = this.texturesList[node.texture];
+	
+	if (node.texture == "none")
+		text = null;
+	else if (node.texture == "inherit")
+		text = texture;
+
     console.log(text);
     //mat.setTexture(texture);
     //mat.apply();
