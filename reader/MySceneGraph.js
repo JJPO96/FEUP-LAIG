@@ -324,9 +324,11 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 
 		var text = new CGFtexture(this.scene, file);
 		this.texturesList[id] = text;
-		this.texturesID[i] = id;
-		
-	};
+		this.texturesID[i] = id;		
+	}
+	
+	console.log("AAAAAAAAAA");
+	console.log("Texturas: " + texturesList[1]);
 }
 
 MySceneGraph.prototype.parseMaterials= function(rootElement) {

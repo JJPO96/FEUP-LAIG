@@ -254,41 +254,42 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
   	var mat;
 	var text;
 
-	node = this.componentsList[root];
+	node = this.componentsList['root'];
+    console.log("Nó: " + node + "ID: " + node.id);
 	if(node instanceof Component){
 
 	//transformations
 	this.pushMatrix();
-	this.multMatrix(this.transformationList[node.transformationsID]);
+//	this.multMatrix(this.transformationList[node.transformationsID]);
 
 	//materials
 	if(node.materialID == 'inherit')
-		mat = material;
+			mat = material;
 	else {
-		 mat = this.materialsList[node.materialID];
+		  mat = this.materialsList[node.materialID];
 	}
 
 	//textures
-   
-	textures = this.texturesList[node.texture];//[node.textureIndex];
+    console.log(this.texturesList);
+	texture = this.texturesList[node.texture];
 	switch(node.texture){
 			case "none":
-				 textures = null;
+				 texture = null;
 			break;
 			case "inherit":
-				 textures = texture;
+				 texture = texture;
 			break;
 	}
-    console.log(textures);
-    mat.setTexture(textures);
-    mat.apply();
+    console.log(text);
+    //mat.setTexture(texture);
+    //mat.apply();
     
-    if(node.transformationsID != null)
+  /*  if(node.transformationsID != null)
     {
         this.applyTransformations(this.transformationsList[node.transformationsID]);
     }
     else {
-   
+
         this.applyTransformations(node.transformations);
     }
 
@@ -298,11 +299,42 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 	for(var i = 0 ; i < node.componentRefs.length; i++ ){
         var childID = node.componentRefs[i];
-      
 	    this.displayGraph(childID, mat, text);
 	}
-
+*/
 
 	this.popMatrix();
-	}
-};
+
+}
+
+
+}
+
+XMLscene.prototype.applyTransformations = function(transformations){
+/*    console.log("transformations: ");
+    console.log(transformations);*/
+    //var i = transformations.length - 1; i >= 0; i--
+
+    //var i = 0; i < transformations.length; i++
+    for(var i = 0; i < transformations.length; i++){
+        var transf = transformations[i];
+        //console.log(transf);
+    //    console.log(transformations[i].tagName);
+        switch(transf.type){
+            case "rotate":
+            this.rotate(transf.angle * Math.PI / 180,
+                        transf.axis == "x" ? 1 : 0,
+                        transf.axis == "y" ? 1 : 0,
+                        transf.axis == "z" ? 1 : 0);
+            break;
+            case "translate":
+            this.translate(transf.x, transf.y, transf.z);
+            break;
+            case "scale":
+            this.scale(transf.x, transf.y, transf.z);
+            break;
+        }
+
+    }
+        //console.log(transformations[i]);
+}
