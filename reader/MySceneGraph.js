@@ -4,6 +4,10 @@ function MySceneGraph(filename, scene) {
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
 	scene.graph = this;
+	
+	this.rgba = ['r', 'g', 'b', 'a'];
+	this.xyzw = ['x', 'y', 'z', 'w'];
+	this.xyz = ['x', 'y', 'z'];
 
 	this.sceneAtr;
 	this.views;
@@ -332,22 +336,54 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 }
 
 MySceneGraph.prototype.parseMaterials= function(rootElement) {
-	elems = rootElement.getElementsByTagName('materials')
+	var component = ['emission', 'ambient', 'diffuse', 'specular'];
 
-	if (!elems) {
-      return "materials missing!";
-  }
+	var materials = rootElement.getElementsByTagName('materials');
 
-	var materials = elems[0];
-
-	var arrMaterials = materials.getElementsByTagName('material');
-
-	for (var i = 0; i < arrMaterials.length; i++) {
-
-		var id = arrMaterials[i].attributes.getNamedItem("id").value;
-		this.materialsIDs[i] = id;
-		this.materials.push(this.parseMaterial(arrMaterials[i]));
+	if (materials == null  || materials.length==0) {
+		return  "materials element is missing.";
 	}
+
+
+	var ltMaterial = materials[0].getElementsByTagName('material');
+
+	for(var i = 0; i< ltMaterial.length; i++){
+
+		var id = ltMaterial[i].attributes.getNamedItem("id").value;
+
+		if(id === null)
+			continue;
+
+		var material = [];
+
+		var x =  ltMaterial[i].getElementsByTagName('shininess')[0];
+		material[4] = x.getAttribute("value");
+
+		for(var j = 0; j < component.length ; j++){
+
+			var att = ltMaterial[i].getElementsByTagName(component[j]);
+
+			material[j] = [];
+			for(var k = 0; k < this.rgba.length; k++)
+			{
+				material[j][k] = att[0].getAttribute(this.rgba[k]);
+				//console.log("Material property: " + material[j][k]);
+			}
+
+		}
+		if(this.materialsList.hasOwnProperty(id))
+			return "material " + id + " repeated";
+
+		var mat = new CGFappearance(this.scene);
+		mat.setEmission(material[0][0], material[0][1], material[0][2], material[0][3]);
+		mat.setAmbient(material[1][0], material[1][1], material[1][2], material[1][3]);
+		mat.setDiffuse(material[2][0], material[2][1], material[2][2], material[2][3]);
+		mat.setSpecular(material[3][0], material[3][1], material[3][2], material[3][3]);
+		mat.setShininess(material[4]);
+
+		this.materialsList[id] = mat;
+		this.materialsIDs[i] = id;
+	};
 
 
 
