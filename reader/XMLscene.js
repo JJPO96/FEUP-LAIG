@@ -54,6 +54,16 @@ XMLscene.prototype.initCameras = function() {
 	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 };
 
+/*XMLscene.prototype.initCameras = function()
+{
+	for(var i = 0; i < this.graph.cameras.length / 6; i++)
+		this.cameras[i] = new CGFcamera(0.4, this.graph.cameras[i * 6 + 1], this.graph.cameras[i * 6 + 2], this.graph.cameras[i * 6 + 4], this.graph.cameras[5]);
+
+	this.camera = this.cameras[this.currentCamera];
+    this.interface.setActiveCamera(this.camera);
+}*/
+
+
 XMLscene.prototype.initLights = function() {
 	this.setGlobalAmbientLight(0, 0 ,0, 1);
 
@@ -69,6 +79,12 @@ XMLscene.prototype.initLights = function() {
 
 
 };
+
+/*XMLscene.prototype.initIllumination = function()
+{
+	this.gl.clearColor(this.graph.backgroundR,this.graph.backgroundG,this.graph.backgroundB,this.graph.backgroundA);
+    this.setAmbient(this.graph.ambientR, this.graph.ambientG, this.graph.ambientB, this.graph.ambientA);
+}*/
 
 XMLscene.prototype.updateLights = function() {
 	for (i = 0; i < this.lights.length; i++)
@@ -104,6 +120,8 @@ XMLscene.prototype.initComponents = function()
 {
     this.componentsList = this.graph.componentsList;
     this.componentsIDs = this.graph.componentsIDs;
+    
+    console.log(this.componentsList);
 }
 
 
@@ -151,7 +169,12 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.lights[0].enable();
     this.updateView();
     this.initDSXLights();
+    this.initMaterials();
+    this.initTextures();
+    this.initTextures();
+    this.initComponents();
     this.axis = new CGFaxis(this, this.graph.sceneAtr.axis_length, 0.05);
+	
 };
 
 XMLscene.prototype.updateView = function () {
@@ -161,6 +184,8 @@ XMLscene.prototype.updateView = function () {
   this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
 
 };
+
+
 
 XMLscene.prototype.initDSXLights = function() {
     var j = 0;
