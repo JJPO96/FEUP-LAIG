@@ -168,3 +168,62 @@ XMLscene.prototype.updateLights = function () {
     this.lights[i].update();
 
 }
+
+XMLscene.prototype.displayGraph = function(root, material, texture)
+{
+    var node;
+  	var mat;
+	var text;
+
+	node = this.componentsList[root];
+	if(node instanceof Component){
+
+	//transformations
+	this.pushMatrix();
+	this.multMatrix(this.transformationList[node.transformationsID]);
+
+	//materials
+	if(node.materialID == 'inherit')
+		mat = material;
+	else {
+		 mat = this.materialsList[node.materialID];
+	}
+
+	//textures
+   
+	textures = this.texturesList[node.texture];//[node.textureIndex];
+	switch(node.texture){
+			case "none":
+				 textures = null;
+			break;
+			case "inherit":
+				 textures = texture;
+			break;
+	}
+    console.log(textures);
+    mat.setTexture(textures);
+    mat.apply();
+    
+    if(node.transformationsID != null)
+    {
+        this.applyTransformations(this.transformationsList[node.transformationsID]);
+    }
+    else {
+   
+        this.applyTransformations(node.transformations);
+    }
+
+    for(var i = 0; i < node.primitivesRefs.length; i++){
+        this.primitives[node.primitivesRefs[i]].display();
+    }
+
+	for(var i = 0 ; i < node.componentRefs.length; i++ ){
+        var childID = node.componentRefs[i];
+      
+	    this.displayGraph(childID, mat, text);
+	}
+
+
+	this.popMatrix();
+	}
+};
