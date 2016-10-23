@@ -48,3 +48,14 @@ MyRectangle.prototype.initBuffers = function () {
 	this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
 };
+
+MyRectangle.prototype.updateTexCoords = function (ampS, ampT) {
+	this.texCoords = [
+			0.0, 1.0,
+			this.diffX/ampS, 1.0,
+			this.diffX/ampS, 1.0 - (this.diffY/ampT),
+			0.0, 1.0 - (this.diffY/ampT)
+	    ];
+
+			 this.updateTexCoordsGLBuffers();
+}

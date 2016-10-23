@@ -43,3 +43,12 @@ MyTriangle.prototype.initBuffers = function () {
 	this.primitiveType=this.scene.gl.TRIANGLES;
 	this.initGLBuffers();
 };
+
+MyTriangle.prototype.updateTexCoords = function (ampS, ampT) {
+	this.texCoords = [
+		0.0, 0.0,
+		this.comp/ampS, 1.0,
+		this.texelX/ ampS, 1- this.texelY/ampT
+	];
+		 this.updateTexCoordsGLBuffers();
+}

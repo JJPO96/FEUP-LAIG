@@ -123,6 +123,11 @@ XMLscene.prototype.initComponents = function()
     
 }
 
+XMLscene.prototype.initPrimitives = function () {
+    this.primitives = this.graph.primitivesList;
+    this.primitivesIDs = this.graph.primitivesIDs;
+};
+
 
 XMLscene.prototype.display = function() {
 	// ---- BEGIN Background, camera and axis setup
@@ -169,10 +174,11 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.updateView();
     this.initDSXLights();
     this.initMaterials();
+    this.initPrimitives();
     this.initTextures();
     this.initTextures();
     this.initComponents();
-    this.axis = new CGFaxis(this, this.graph.sceneAtr.axis_length, 0.05);
+    this.axis = new CGFaxis(this, this.graph.axis_length);
 	
 };
 
@@ -249,74 +255,75 @@ XMLscene.prototype.updateLights = function () {
 
 XMLscene.prototype.displayGraph = function(root, material, texture)
 {
-    var node;
-  	var mat;
-	var text;
+	 var node;
+	 var mat;
+	 var text;
+	  var s;
+	  var t;
+	  
+	console.log(this.componentsList);
 
-	node = this.componentsList['root'];
-	if(node instanceof Component){
-
+	node = this.componentsList[root];
+		
 	console.log(node);
-	//transformations
-	this.pushMatrix();
-//	this.multMatrix(this.transformationList[node.transformationsID]);
 
-	//materials
-	if(node.materialID == 'inherit')
-			mat = material;
-	else {
-		  mat = this.materialsList[node.materialID];
+		//transformations
+		this.pushMatrix();
+
+		//materials
+		if(node.materialListIDs[0] == 'inherit')
+				mat = material;
+		else
+	      mat = this.materialsList[node.materialListIDs[node.materialIndex]];
+
+		//textures
+		text = this.texturesList[node.texture];
+	  console.log(text);
+
+
+		switch(node.texture){
+				case "none":
+					 text = null;
+				break;
+				case "inherit":
+					 text = texture;
+				break;
+		}
+
+	  //mat.setTexture(text);
+	  //mat.apply();
+
+	    if(node.transformationsID != null)
+	        this.applyTransformations(this.transformationsList[node.transformationsID]);
+	    else
+	        this.applyTransformations(node.transformations);
+
+	    for(var i = 0; i < node.primitivesRefs.length; i++){
+	      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
+	        s = this.texturesList[node.texture + "s"];
+	        t = this.texturesList[node.texture + "t"];
+	        this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+	      }
+	        this.primitives[node.primitivesRefs[i]].display();
+	    }
+
+		for(var i = 0 ; i < node.componentRefs.length; i++ ){
+	        var childID = node.componentRefs[i];
+		    this.displayGraph(childID, mat, text);
+
 	}
+		this.popMatrix();
 
-	//textures
-    console.log(node.texture);
-	text = this.texturesList[node.texture];
-	
-	if (node.texture == "none")
-		text = null;
-	else if (node.texture == "inherit")
-		text = texture;
 
-    console.log(text);
-    //mat.setTexture(texture);
-    //mat.apply();
-    
-  /*  if(node.transformationsID != null)
-    {
-        this.applyTransformations(this.transformationsList[node.transformationsID]);
-    }
-    else {
 
-        this.applyTransformations(node.transformations);
-    }
-
-    for(var i = 0; i < node.primitivesRefs.length; i++){
-        this.primitives[node.primitivesRefs[i]].display();
-    }
-
-	for(var i = 0 ; i < node.componentRefs.length; i++ ){
-        var childID = node.componentRefs[i];
-	    this.displayGraph(childID, mat, text);
-	}
-*/
-
-	this.popMatrix();
 
 }
 
-
-}
-
-XMLscene.prototype.applyTransformations = function(transformations){
-/*    console.log("transformations: ");
-    console.log(transformations);*/
-    //var i = transformations.length - 1; i >= 0; i--
-
-    //var i = 0; i < transformations.length; i++
+XMLscene.prototype.applyTransformations = function(transformations)
+{
     for(var i = 0; i < transformations.length; i++){
         var transf = transformations[i];
-        //console.log(transf);
-    //    console.log(transformations[i].tagName);
+
         switch(transf.type){
             case "rotate":
             this.rotate(transf.angle * Math.PI / 180,
@@ -331,7 +338,5 @@ XMLscene.prototype.applyTransformations = function(transformations){
             this.scale(transf.x, transf.y, transf.z);
             break;
         }
-
     }
-        //console.log(transformations[i]);
 }
