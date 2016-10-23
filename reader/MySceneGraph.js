@@ -23,6 +23,7 @@ function MySceneGraph(filename, scene) {
 	this.materialsIDs = [];
 	
 	this.primitivesList = {};
+	this.primitivesIDs = [];
 	
 	this.componentsList = {};
 	this.componentsIDs = [];
@@ -79,7 +80,7 @@ MySceneGraph.prototype.parseLoadOk=function (rootElement) {
 	this.parseMaterials(rootElement);
 	this.parseTransformations(rootElement);
 	this.parsePrimitives(rootElement);
-	//this.parseComponents(rootElement);
+	this.parseComponents(rootElement);
 
 	this.loadedOk=true;
 
@@ -395,10 +396,13 @@ MySceneGraph.prototype.parseTransformations= function(rootElement) {
 	var transformations = elems[0];
 
 	var arrTransformations = transformations.getElementsByTagName('transformation');
-
 	for (var i = 0; i < arrTransformations.length; i++) {
+
 		this.transformations.push(this.parseTransformation(arrTransformations[i]));
-		this.transformationsIDs[i] = this.reader.getString(arrTransformations[i].children, 'id');
+	}
+	
+	for (var i = 0; i < arrTransformations.length; i++) {
+		this.transformationsIDs[i] = this.transformations[this.transformations.length-1].id;
 		this.transformationList[this.transformationsIDs[i]] = transformations;
 	}
 }
@@ -476,9 +480,10 @@ MySceneGraph.prototype.parsePrimitives = function (rootElement) {
 	var arrPrimitives = primitives.getElementsByTagName('primitive');
 
 	for (var i = 0; i < arrPrimitives.length; i++) {
-		this.primitives.push(this.parsePrimitive(arrPrimitives[i]));
 		var id = this.reader.getString(arrPrimitives[i], 'id');
 		this.primitivesIDs[i] = id;
+		this.primitives.push(this.parsePrimitive(arrPrimitives[i]));
+		
 	}
 };
 
@@ -497,7 +502,7 @@ MySceneGraph.prototype.parsePrimitive= function(primitive) {
 		ret.primitive = this.parserTorus(primitive.children[0]);
 	}
 	
-	this.primitivesList[child.id] = ret.primitive;
+	this.primitivesList[this.reader.getString(primitive,"id",true)] = ret.primitive;
 
 	return ret;
 }
