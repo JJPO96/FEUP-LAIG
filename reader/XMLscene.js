@@ -24,6 +24,23 @@ XMLscene.prototype.init = function(application) {
 
 	this.axis = new CGFaxis(this);
 
+	this.currentCamera = 0;
+	this.cameras = [];
+	
+	this.materialsList = {};
+    this.materialsIDs = []
+
+    this.texturesList = {};
+	this.texturesID = [];
+
+    this.transformationsList = {};
+    this.transformationsIDs = [];
+
+    this.componentsList = {};
+    this.componentsIDs = [];
+
+    this.lightsStatus =[];
+    this.lightsNames = [];
 
 	// Scene elements
   //TODO primitivas de teste
@@ -58,6 +75,37 @@ XMLscene.prototype.updateLights = function() {
 	this.lights[i].update();
 }
 
+XMLscene.prototype.initMaterials = function()
+{
+    this.materialsList = this.graph.materialsList;
+    this.materialsIDs = this.graph.materialsIDs;
+
+    console.log("materials IDS length: " + this.materialsIDs.length);
+}
+
+XMLscene.prototype.initTextures = function ()
+{
+    this.texturesList = this.graph.texturesList;
+    this.texturesID = this.graph.texturesID;
+
+    if(this.texturesID.length > 0)
+        this.enableTextures(true);
+}
+
+XMLscene.prototype.initTransformations = function()
+{
+   
+    this.transformationsList = this.graph.transformationList;
+    this.transformationsIDs = this.graph.transformationIDs;
+
+}
+
+XMLscene.prototype.initComponents = function()
+{
+    this.componentsList = this.graph.componentsList;
+    this.componentsIDs = this.graph.componentsIDs;
+}
+
 
 XMLscene.prototype.display = function() {
 	// ---- BEGIN Background, camera and axis setup
@@ -75,10 +123,16 @@ XMLscene.prototype.display = function() {
 
 	// Update all lights used
 	this.updateLights();
-  this.floor.display();
-  this.leftWall.display();
+	//this.floor.display();
+	//this.leftWall.display();
 	// Draw axis
 	this.axis.display();
+	
+	if (this.graph.loadedOk)
+	{
+		this.lights[0].update();
+		this.displayGraph(this.graph.root, null, null);
+	};	
 }
 
 XMLscene.prototype.onGraphLoaded = function() {

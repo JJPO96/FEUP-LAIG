@@ -380,7 +380,7 @@ MySceneGraph.prototype.parseMaterial= function(material) {
 	ret.specular.push(this.reader.getFloat(specular,"a"));
 
 	ret.shininess = this.reader.getFloat(shininess,"value");
-	
+	var id = material.attributes.getNamedItem("id").value;
 	this.materialsList[id] = ret;
 
 	return ret;
