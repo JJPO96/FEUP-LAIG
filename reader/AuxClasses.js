@@ -29,23 +29,27 @@ function MyCamera(id, camera) {
     this.camera = camera;
 }
 
-function Texture(id, file, length_s, length_t) {
+function Texture(scene, id, file, length_s, length_t) {
     this.id = id;
-    this.file = file;
+    this.text = new CGFappearance(scene);
+    this.text.loadTexture(file);
     this.length_s = length_s;
     this.length_t = length_t;
 }
 
-function Material(id) {
+function Material(scene, id) {
     this.id = id;
-    this.emission = []; // [r,g,b,a]
-    this.ambient = []; // [r,g,b,a]
-    this.diffuse = []; // [r,g,b,a]
-    this.specular = []; // [r,g,b,a]
-    this.shininess;
+    this.material = new CGFappearance(scene);
 }
 
 function Primitive(id) {
     this.id = id;
     this.primitive;
+}
+
+function searchByID(array, id) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].id == id)
+            return array[i];
+    }
 }

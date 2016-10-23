@@ -323,7 +323,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		var length_s = e.attributes.getNamedItem("length_s").value;
 		var length_t = e.attributes.getNamedItem("length_t").value;
 
-		var text = new CGFtexture(this.scene, file);
+		var text = new Texture(this.scene,id, file,length_s,length_t);
 		this.texturesList[id] = text;
 		this.texturesID[i] = id;
 	}
@@ -363,28 +363,32 @@ MySceneGraph.prototype.parseMaterial= function(material) {
 	var specular = material.getElementsByTagName("specular")[0];
 	var shininess = material.getElementsByTagName("shininess")[0];
 
-	ret.emission.push(this.reader.getFloat(emission,"r"));
-	ret.emission.push(this.reader.getFloat(emission,"g"));
-	ret.emission.push(this.reader.getFloat(emission,"b"));
-	ret.emission.push(this.reader.getFloat(emission,"a"));
+	ret.material.setEmission(
+						this.reader.getFloat(emission, "r"),
+						this.reader.getFloat(emission, "g"),
+						this.reader.getFloat(emission, "b"),
+						this.reader.getFloat(emission, "a"));
 
-	ret.ambient.push(this.reader.getFloat(ambient,"r"));
-	ret.ambient.push(this.reader.getFloat(ambient,"g"));
-	ret.ambient.push(this.reader.getFloat(ambient,"b"));
-	ret.ambient.push(this.reader.getFloat(ambient,"a"));
+	ret.material.setAmbient(
+						this.reader.getFloat(ambient, "r"),
+						this.reader.getFloat(ambient, "g"),
+						this.reader.getFloat(ambient, "b"),
+						this.reader.getFloat(ambient, "a"));
 
-	ret.diffuse.push(this.reader.getFloat(diffuse,"r"));
-	ret.diffuse.push(this.reader.getFloat(diffuse,"g"));
-	ret.diffuse.push(this.reader.getFloat(diffuse,"b"));
-	ret.diffuse.push(this.reader.getFloat(diffuse,"a"));
+	ret.material.setDiffuse(
+						this.reader.getFloat(diffuse, "r"),
+						this.reader.getFloat(diffuse, "g"),
+						this.reader.getFloat(diffuse, "b"),
+						this.reader.getFloat(diffuse, "a"));
 
-	ret.specular.push(this.reader.getFloat(specular,"r"));
-	ret.specular.push(this.reader.getFloat(specular,"g"));
-	ret.specular.push(this.reader.getFloat(specular,"b"));
-	ret.specular.push(this.reader.getFloat(specular,"a"));
+	ret.material.setSpecular(
+						this.reader.getFloat(specular, "r"),
+						this.reader.getFloat(specular, "g"),
+						this.reader.getFloat(specular, "b"),
+						this.reader.getFloat(specular, "a"));
 
-	ret.shininess = this.reader.getFloat(shininess,"value");
-	var id = material.attributes.getNamedItem("id").value;
+	ret.material.setShininess(this.reader.getFloat(shininess, "value"));
+var id = material.attributes.getNamedItem("id").value;
 	this.materialsList[id] = ret;
 
 	return ret;
