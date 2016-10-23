@@ -1,11 +1,3 @@
-var degToRad = Math.PI / 180.0;
-
-var BOARD_WIDTH = 6.0;
-var BOARD_HEIGHT = 4.0;
-
-var BOARD_A_DIVISIONS = 30;
-var BOARD_B_DIVISIONS = 100;
-
 function XMLscene(itf) {
     CGFscene.call(this);
     this.interface = itf;
@@ -17,55 +9,77 @@ XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
 XMLscene.prototype.init = function(application) {
-    CGFscene.prototype.init.call(this, application);
-    this.initCameras();
-    this.initLights();
+	CGFscene.prototype.init.call(this, application);
 
-    this.enableTextures(true);
+	this.initCameras();
+	this.initLights();
 
-    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    this.gl.clearDepth(100.0);
-    this.gl.enable(this.gl.DEPTH_TEST);
-    this.gl.enable(this.gl.CULL_FACE);
-    this.gl.depthFunc(this.gl.LEQUAL);
+	this.enableTextures(true);
 
-    this.axis = new CGFaxis(this);
-    this.teste = MyQuad(this,0,1,0,1);
+	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	this.gl.clearDepth(100.0);
+	this.gl.enable(this.gl.DEPTH_TEST);
+	this.gl.enable(this.gl.CULL_FACE);
+	this.gl.depthFunc(this.gl.LEQUAL);
+
+	this.axis = new CGFaxis(this);
+
+
+	// Scene elements
+  //TODO primitivas de teste
+	this.leftWall = new MyTorus(this,2,4,20,20);
+	this.floor = new MyQuad(this,0,10,0,12);
+
+
 };
 
 XMLscene.prototype.initCameras = function() {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
+	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 };
 
 XMLscene.prototype.initLights = function() {
-    this.lights[0].setPosition(4, 6, 1, 1);
-    this.lights[0].setVisible(true); // show marker on light position (different from enabled)
-    this.lights[0].setAmbient(0, 0, 0, 1);
-    this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[0].setSpecular(10, 10, 0, 1);
-    this.lights[0].enable();
+	this.setGlobalAmbientLight(0, 0 ,0, 1);
+
+	this.setGlobalAmbientLight(0.5,0.5,0.5, 1.0);
+
+	// Positions for four lights
+	this.lights[0].setPosition(4, 6, 1, 1);
+	this.lights[0].setVisible(true); // show marker on light position (different from enabled)
+	this.lights[0].setAmbient(0, 0, 0, 1);
+	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
+	this.lights[0].setSpecular(10, 10,0 ,1);
+	this.lights[0].enable();
+
+
+};
+
+XMLscene.prototype.updateLights = function() {
+	for (i = 0; i < this.lights.length; i++)
+	this.lights[i].update();
 }
 
+
 XMLscene.prototype.display = function() {
-    // ---- BEGIN Background, camera and axis setup
+	// ---- BEGIN Background, camera and axis setup
 
-    // Clear image and depth buffer everytime we update the scene
-    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+	// Clear image and depth buffer everytime we update the scene
+	this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+	this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-    // Initialize Model-View matrix as identity (no transformation)
-    this.updateProjectionMatrix();
-    this.loadIdentity();
+	// Initialize Model-View matrix as identity (no transformation)
+	this.updateProjectionMatrix();
+	this.loadIdentity();
 
-    // Apply transformations corresponding to the camera position relative to the origin
-    this.applyViewMatrix();
+	// Apply transformations corresponding to the camera position relative to the origin
+	this.applyViewMatrix();
 
-    // Update all lights used
-    this.updateLights();
-
-    // Draw axis
-    this.axis.display();
-};
+	// Update all lights used
+	this.updateLights();
+  this.floor.display();
+  this.leftWall.display();
+	// Draw axis
+	this.axis.display();
+}
 
 XMLscene.prototype.onGraphLoaded = function() {
 
@@ -84,6 +98,14 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.updateView();
     this.initDSXLights();
     this.axis = new CGFaxis(this, this.graph.sceneAtr.axis_length, 0.05);
+};
+
+XMLscene.prototype.updateView = function () {
+  this.camera = this.graph.views.perspectives[this.viewIndex].camera;
+  this.interface.setActiveCamera(this.graph.views.perspectives[this.viewIndex].camera);
+
+  this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+
 };
 
 XMLscene.prototype.initDSXLights = function() {
@@ -146,16 +168,3 @@ XMLscene.prototype.updateLights = function () {
     this.lights[i].update();
 
 }
-
-XMLscene.prototype.updateLights = function() {
-  for (i = 0; i < this.lights.length; i++)
-  this.lights[i].update();
-}
-
-XMLscene.prototype.updateView = function () {
-  this.camera = this.graph.views.perspectives[this.viewIndex].camera;
-  this.interface.setActiveCamera(this.graph.views.perspectives[this.viewIndex].camera);
-
-  this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
-
-};
