@@ -8,6 +8,7 @@ function XMLscene(itf) {
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
+//Init func of the scene
 XMLscene.prototype.init = function(application) {
 	CGFscene.prototype.init.call(this, application);
 
@@ -26,7 +27,7 @@ XMLscene.prototype.init = function(application) {
 
 	this.currentCamera = 0;
 	this.cameras = [];
-
+	
 	this.materialsList = {};
     this.materialsIDs = []
 
@@ -41,6 +42,11 @@ XMLscene.prototype.init = function(application) {
 
     this.lightsStatus =[];
     this.lightsNames = [];
+
+	// Scene elements
+  //TODO primitivas de teste
+	this.leftWall = new MyTorus(this,2,4,20,20);
+	this.floor = new MyQuad(this,0,10,0,12);
 
 
 };
@@ -67,12 +73,7 @@ XMLscene.prototype.initLights = function() {
 
 };
 
-
-XMLscene.prototype.updateLights = function() {
-	for (i = 0; i < this.lights.length; i++)
-	this.lights[i].update();
-}
-
+//Initialization of the data from Materials
 XMLscene.prototype.initMaterials = function()
 {
     this.materialsList = this.graph.materialsList;
@@ -80,37 +81,42 @@ XMLscene.prototype.initMaterials = function()
 
 }
 
+//Initialization of the data from Textures
 XMLscene.prototype.initTextures = function ()
 {
     this.texturesList = this.graph.texturesList;
     this.texturesID = this.graph.texturesID;
-
+   
 
     if(this.texturesID.length > 0)
         this.enableTextures(true);
 }
 
+//Initialization of the data from Transformations
 XMLscene.prototype.initTransformations = function()
 {
-
+   
     this.transformationsList = this.graph.transformationList;
     this.transformationsIDs = this.graph.transformationIDs;
 
 }
 
+//Initialization of the data from Components
 XMLscene.prototype.initComponents = function()
 {
     this.componentsList = this.graph.componentsList;
     this.componentsIDs = this.graph.componentsIDs;
-
+    
 }
 
+//Initialization of the data from Primitives
 XMLscene.prototype.initPrimitives = function () {
     this.primitives = this.graph.primitivesList;
     this.primitivesIDs = this.graph.primitivesIDs;
 };
 
 
+//Function of display of the scene
 XMLscene.prototype.display = function() {
 	// ---- BEGIN Background, camera and axis setup
 
@@ -127,17 +133,18 @@ XMLscene.prototype.display = function() {
 
 	// Update all lights used
 	this.updateLights();
-  
+	
 	// Draw axis
 	this.axis.display();
-
+	
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
 		this.displayGraph(this.graph.root, null, null);
-	};
+	};	
 }
 
+//Function to intialize everything 
 XMLscene.prototype.onGraphLoaded = function() {
 
     this.gl.clearColor(this.graph.illumination.background[0],
@@ -160,9 +167,10 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.initTransformations();
     this.initComponents();
     this.axis = new CGFaxis(this, this.graph.axis_length);
-
+	
 };
 
+//Function to update the different views from dsx by pressing 'v'
 XMLscene.prototype.updateView = function () {
   this.camera = this.graph.views.perspectives[this.viewIndex].camera;
   this.interface.setActiveCamera(this.graph.views.perspectives[this.viewIndex].camera);
@@ -171,13 +179,14 @@ XMLscene.prototype.updateView = function () {
 
 };
 
+//Function to update the different materials from dsx by pressing 'm'
 XMLscene.prototype.updateMaterial = function(){
     for(var i = 0;  i < this.componentsIDs.length; i++)
         this.componentsList[this.componentsIDs[i]].updateMaterial();
 }
 
 
-
+//Function of initialization of lights from dsx
 XMLscene.prototype.initDSXLights = function() {
     var j = 0;
 
@@ -225,6 +234,7 @@ XMLscene.prototype.initDSXLights = function() {
     }
 };
 
+//Function to update the state ON or OFF from lights
 XMLscene.prototype.updateLights = function () {
 
   for (var i = 0; i < this.lightsArray.length; i++) {
@@ -239,14 +249,15 @@ XMLscene.prototype.updateLights = function () {
 
 }
 
+//Function of the graph where the scene is created
 XMLscene.prototype.displayGraph = function(root, material, texture)
 {
 	 var node;
 	 var mat;
 	 var text;
 	  var s;
-	  var
-
+	  var 
+	  
 
 	  node = this.componentsList[root];
 
@@ -301,6 +312,8 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 		this.popMatrix();
 
 	}
+
+//Function to appy the transformations in each node
 XMLscene.prototype.applyTransformations = function(transformations)
 {
 	for(var i = 0; i < transformations.length; i++){

@@ -76,6 +76,7 @@ MySceneGraph.prototype.onXMLReady = function() {
  * Callback to be executed on any read error
  */
 
+//Function to verify the status of the loading parser
 MySceneGraph.prototype.parseLoadOk = function(rootElement) {
 
     var rootElement = this.reader.xmlDoc.documentElement;
@@ -102,11 +103,13 @@ MySceneGraph.prototype.parseLoadOk = function(rootElement) {
 
 }
 
+//Programed function to any error on dsx
 MySceneGraph.prototype.onXMLError = function(message) {
     console.error("XML Loading Error: " + message);
     this.loadedOk = false;
 };
 
+//Loading of the scene from dsx
 MySceneGraph.prototype.parseScene = function(rootElement) {
     var elems = rootElement.getElementsByTagName('scene');
     if (elems == null) {
@@ -125,6 +128,7 @@ MySceneGraph.prototype.parseScene = function(rootElement) {
 
 }
 
+//Loading of the views from dsx
 MySceneGraph.prototype.parseViews = function(rootElement) {
     elems = rootElement.getElementsByTagName('views')
 
@@ -143,6 +147,7 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
     }
 }
 
+//Loading of the perspective from dsx
 MySceneGraph.prototype.parsePerspective = function(perspective) {
     var temp = new Perspective(this.reader.getString(perspective, "id", true),
         this.reader.getFloat(perspective, "near"),
@@ -172,6 +177,7 @@ MySceneGraph.prototype.parsePerspective = function(perspective) {
                 temp.to[2])));
 }
 
+//Loading of the illumination from dsx
 MySceneGraph.prototype.parseIllumination = function(rootElement) {
     var elems = rootElement.getElementsByTagName('illumination');
     if (elems == null) {
@@ -223,6 +229,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 
 }
 
+//Loading of the lights from dsx
 MySceneGraph.prototype.parseLights = function(rootElement) {
     elems = rootElement.getElementsByTagName('lights')
 
@@ -245,6 +252,7 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 
 }
 
+//Loading of the omni lights from dsx
 MySceneGraph.prototype.parseOmniLight = function(omni) {
     var ret = new omniLight(this.reader.getString(omni, "id", true),
         this.reader.getBoolean(omni, "enabled"));
@@ -276,6 +284,7 @@ MySceneGraph.prototype.parseOmniLight = function(omni) {
     return ret;
 }
 
+//Loading of the spot lights from dsx
 MySceneGraph.prototype.parseSpotLight = function(spot) {
 
     var ret = new spotLight(this.reader.getString(spot, "id", true),
@@ -315,6 +324,7 @@ MySceneGraph.prototype.parseSpotLight = function(spot) {
     return ret;
 }
 
+//Loading of the textures from dsx
 MySceneGraph.prototype.parseTextures = function(rootElement) {
 
     var textures = rootElement.getElementsByTagName('textures');
@@ -349,6 +359,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 
 }
 
+//Loading of the materials from dsx
 MySceneGraph.prototype.parseMaterials = function(rootElement) {
         var component = ['emission', 'ambient', 'diffuse', 'specular'];
 
@@ -380,7 +391,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
                 material[j] = [];
                 for (var k = 0; k < this.rgba.length; k++) {
                     material[j][k] = att[0].getAttribute(this.rgba[k]);
-                    //console.log("Material property: " + material[j][k]);
+                   
                 }
 
             }
@@ -401,7 +412,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
     }
 
-
+//Loading of the transformations from dsx
 MySceneGraph.prototype.parseTransformations = function(rootElement) {
 
 	var transformations = rootElement.getElementsByTagName('transformations');
@@ -435,6 +446,7 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
 
 }
 
+//Function to calculate the values from transformations
 MySceneGraph.prototype.getTransformationValues = function(transformation){
 	var values = {};
 	switch(transformation.tagName)
@@ -461,7 +473,7 @@ MySceneGraph.prototype.getTransformationValues = function(transformation){
 
 }
 
-
+//Loading of the primitives from dsx
 MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 
 
@@ -521,6 +533,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
     }
 };
 
+//Loading of the components from dsx
 MySceneGraph.prototype.parseComponents = function(rootElement) {
 
 	var components = rootElement.getElementsByTagName('components');
@@ -618,7 +631,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 
 
 
-
+//Loading of the rectangle from dsx
 MySceneGraph.prototype.parserRectangle = function(element) {
     var coord = {
         x1: 0,
@@ -635,6 +648,7 @@ MySceneGraph.prototype.parserRectangle = function(element) {
     return new MyRectangle(this.scene, coord.x1, coord.x2, coord.y1, coord.y2);
 }
 
+//Loading of the triangle from dsx
 MySceneGraph.prototype.parserTriangle = function(element) {
 
     var coord = {
@@ -662,6 +676,7 @@ MySceneGraph.prototype.parserTriangle = function(element) {
     return new MyTriangle(this.scene, coord.x1, coord.y1, coord.z1, coord.x2, coord.y2, coord.z2, coord.x3, coord.y3, coord.z3);
 }
 
+//Loading of the cylinder from dsx
 MySceneGraph.prototype.parserCylinder = function(element) {
 
 	var coord ={
@@ -682,6 +697,7 @@ MySceneGraph.prototype.parserCylinder = function(element) {
 
 }
 
+//Loading of the sphere from dsx
 MySceneGraph.prototype.parserSphere = function(element) {
 
     return new MySphere(this.scene,
@@ -690,6 +706,7 @@ MySceneGraph.prototype.parserSphere = function(element) {
         this.reader.getInteger(element, 'stacks'));
 }
 
+//Loading of the torus from dsx
 MySceneGraph.prototype.parserTorus = function(element) {
 
     return new MyTorus(this.scene,
@@ -700,6 +717,7 @@ MySceneGraph.prototype.parserTorus = function(element) {
 
 }
 
+//Function to validate the dsx
 MySceneGraph.prototype.validateDSX = function(rootElement) {
     var DSXtags = rootElement.children;
 

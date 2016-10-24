@@ -10,6 +10,8 @@ function Component(scene, materialListIDs, transformationsID, transformations, t
 
 }
 
+
+//Function responsible to change the material on the component
 Component.prototype.updateMaterial = function () {
     if(this.materialIndex < this.materialListIDs.length - 1)
         this.materialIndex++;
