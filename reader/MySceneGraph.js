@@ -48,7 +48,7 @@ function MySceneGraph(filename, scene) {
      * If any error occurs, the reader calls onXMLError on this object, with an error message
      */
 
-    this.reader.open('scenes/LAIG_TP1_DSX_T2_G10_v02.dsx', this);
+    this.reader.open('scenes/submissionDSX.xml', this);
 }
 
 /*
@@ -403,6 +403,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 
 MySceneGraph.prototype.parseTransformations = function(rootElement) {
+	
 	var transformations = rootElement.getElementsByTagName('transformations');
 
 	if (transformations == null  || transformations.length==0) {
@@ -432,7 +433,6 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
 
 	}
     
-    
 }
 
 MySceneGraph.prototype.getTransformationValues = function(transformation){
@@ -458,8 +458,9 @@ MySceneGraph.prototype.getTransformationValues = function(transformation){
 		break;
 	}
 	return values;
-	//console.log(values);
+	
 }
+
 
 MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 
@@ -568,6 +569,9 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 		var materialLength = material[0].children.length;
 		var materialID = [];
 
+		if(materialLength == 0)
+			return "every element must include at least a material";
+
 		//reads materialsIDs
 		for(var j = 0; j < materialLength; j++)
 			materialID[j] = this.reader.getString(material[0].children[j], 'id');
@@ -609,52 +613,11 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 		this.componentsIDs[i] = componentID;
 
 	}
-
+	
 }
 
 
 
-/*
-MySceneGraph.prototype.parseTransformationElements = function(rootElement) {
-    var transformationList = [];
-
-    var translate = rootElement.getElementsByTagName('translate');
-    if (translate[0] != null) {
-        transformationList[0] = translate[0].attributes.getNamedItem("x").value;
-        transformationList[1] = translate[0].attributes.getNamedItem("y").value;
-        transformationList[2] = translate[0].attributes.getNamedItem("z").value;
-    } else {
-        transformationList[0] = 0;
-        transformationList[1] = 0;
-        transformationList[2] = 0;
-    }
-
-    var rotate = rootElement.getElementsByTagName('rotate');
-    if (rotate[0] != null) {
-        transformationList[3] = rotate[0].attributes.getNamedItem("axis").value;
-        transformationList[4] = rotate[0].attributes.getNamedItem("angle").value;
-    } else {
-        transformationList[3] = 0;
-        transformationList[4] = 0;
-    }
-
-
-    var scale = rootElement.getElementsByTagName('scale');
-    if (scale[0] != null) {
-        transformationList[5] = scale[0].attributes.getNamedItem("x").value;
-        transformationList[6] = scale[0].attributes.getNamedItem("y").value;
-        transformationList[7] = scale[0].attributes.getNamedItem("z").value;
-    } else {
-        transformationList[5] = 0;
-        transformationList[6] = 0;
-        transformationList[7] = 0;
-    }
-
-   console.log(transformationList);
-
-    return transformationList;
-
-}*/
 
 MySceneGraph.prototype.parserRectangle = function(element) {
     var coord = {
