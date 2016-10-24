@@ -846,10 +846,21 @@ MySceneGraph.prototype.parserTriangle = function(element){
 
 MySceneGraph.prototype.parserCylinder = function(element){
 
-	return new MyCylinder(this.scene,
-												
-												this.reader.getInteger(element, 'slices'),
-												this.reader.getInteger(element, 'stacks'));
+	var coord ={
+			base: 0,
+			top: 0,
+			height: 0,
+			slices: 0,
+			stacks: 0
+		}
+
+		coord.base = this.reader.getFloat(element, 'base');
+		coord.top = this.reader.getFloat(element, 'top');
+		coord.height = this.reader.getFloat(element, 'height');
+		coord.slices = this.reader.getInteger(element, 'slices');
+		coord.stacks = this.reader.getInteger(element, 'stacks');
+
+		return new MyCylinder(this.scene,coord.base, coord.top, coord.height ,coord.slices, coord.stacks);
 
 }
 
