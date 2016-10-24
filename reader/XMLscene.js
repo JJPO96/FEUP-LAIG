@@ -176,7 +176,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.initMaterials();
     this.initPrimitives();
     this.initTextures();
-    this.initTextures();
+    this.initTransformations();
     this.initComponents();
     this.axis = new CGFaxis(this, this.graph.axis_length);
 	
@@ -295,52 +295,44 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	  mat.setTexture(text);
 	  mat.apply();
 
-	  if(node.transformationsID != null){
+	  if(node.transformationsID != null)
 	        this.applyTransformations(this.transformationsList[node.transformationsID]);
-	        console.log("a" + this.transformationsList[node.transformationsID]);
-	  }
-	    else{
-	    	console.log("B");
+	    else
 	        this.applyTransformations(node.transformations);
-	        console.log(node.transformations);
-	    }
 
 	    for(var i = 0; i < node.primitivesRefs.length; i++){
 	      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
 	        s = this.texturesList[node.texture + "s"];
 	        t = this.texturesList[node.texture + "t"];
-	        if(s > 1 && t > 1)
-	        {
-	                this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
-	                mat.setTextureWrap('REPEAT', 'REPEAT');
+	        if(s > 1 && t > 1){
+	            this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+	            mat.setTextureWrap('REPEAT', 'REPEAT');
 	        }
 	      }
-	        this.primitives[node.primitivesRefs[i]].display();
+	      this.primitives[node.primitivesRefs[i]].display();
 	    }
 
 		for(var i = 0 ; i < node.componentRefs.length; i++ ){
 	        var childID = node.componentRefs[i];
 		    this.displayGraph(childID, mat, text);
+
 	}
 		this.popMatrix();
 
-}
-
+	}
 XMLscene.prototype.applyTransformations = function(transformations)
 {
-    for(var i = 0; i < transformations.length; i++){
+	for(var i = 0; i < transformations.length; i++){
         var transf = transformations[i];
 
         switch(transf.type){
             case "rotate":
-            	
             this.rotate(transf.angle * Math.PI / 180,
                         transf.axis == "x" ? 1 : 0,
                         transf.axis == "y" ? 1 : 0,
                         transf.axis == "z" ? 1 : 0);
             break;
             case "translate":
-            	
             this.translate(transf.x, transf.y, transf.z);
             break;
             case "scale":
