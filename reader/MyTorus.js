@@ -39,6 +39,7 @@ MyTorus.prototype.initBuffers = function() {
  }
 
 
+ 
  for(var loop = 0 ; loop < this.loops ; ++loop){
    for(var slice = 0; slice < this.slices ; ++slice){
      this.indices.push(loop * (this.slices + 1) + slice, (loop + 1) * (this.slices + 1) + slice, (loop + 1) * (this.slices + 1) + slice + 1);

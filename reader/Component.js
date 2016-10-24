@@ -7,9 +7,12 @@ function Component(scene, materialListIDs, transformationsID, transformations, t
 	this.texture = texture;
 	this.primitivesRefs = primitivesRefs;
 	this.componentRefs = componentRefs;
-  /*this.id = id;
-  this.transformation;
-  this.materials = [];
-  this.texture;
-  this.childrens = [];*/
+
 }
+
+Component.prototype.changeMaterial = function () {
+    if(this.materialIndex < this.materialListIDs.length - 1)
+        this.materialIndex++;
+    else
+        this.materialIndex = 0;
+};

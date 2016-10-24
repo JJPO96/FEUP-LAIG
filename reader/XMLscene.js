@@ -190,6 +190,11 @@ XMLscene.prototype.updateView = function () {
 
 };
 
+XMLscene.prototype.changeMaterial = function(){
+    for(var i = 0;  i < this.componentsIDs.length; i++)
+        this.componentsList[this.componentsIDs[i]].changeMaterial();
+}
+
 
 
 XMLscene.prototype.initDSXLights = function() {
@@ -259,18 +264,15 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	 var mat;
 	 var text;
 	  var s;
-	  var t;
+	  var 
 	  
-	console.log(this.componentsList);
 
-	node = this.componentsList[root];
-		
-	console.log(node);
+	  node = this.componentsList[root];
 
 		//transformations
 		this.pushMatrix();
 
-		//materials
+		//
 		if(node.materialListIDs[0] == 'inherit')
 				mat = material;
 		else
@@ -278,7 +280,6 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 		//textures
 		text = this.texturesList[node.texture];
-	  console.log(text);
 
 
 		switch(node.texture){
@@ -290,10 +291,11 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 				break;
 		}
 
-	  //mat.setTexture(text);
-	  //mat.apply();
 
-	    if(node.transformationsID != null)
+	  mat.setTexture(text);
+	  mat.apply();
+
+	  if(node.transformationsID != null)
 	        this.applyTransformations(this.transformationsList[node.transformationsID]);
 	    else
 	        this.applyTransformations(node.transformations);
@@ -302,7 +304,11 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
 	        s = this.texturesList[node.texture + "s"];
 	        t = this.texturesList[node.texture + "t"];
-	        this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+	        if(s > 1 && t > 1)
+	        {
+	                this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+	                mat.setTextureWrap('REPEAT', 'REPEAT');
+	        }
 	      }
 	        this.primitives[node.primitivesRefs[i]].display();
 	    }
@@ -310,12 +316,8 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 		for(var i = 0 ; i < node.componentRefs.length; i++ ){
 	        var childID = node.componentRefs[i];
 		    this.displayGraph(childID, mat, text);
-
 	}
 		this.popMatrix();
-
-
-
 
 }
 
@@ -326,12 +328,14 @@ XMLscene.prototype.applyTransformations = function(transformations)
 
         switch(transf.type){
             case "rotate":
+            	
             this.rotate(transf.angle * Math.PI / 180,
                         transf.axis == "x" ? 1 : 0,
                         transf.axis == "y" ? 1 : 0,
                         transf.axis == "z" ? 1 : 0);
             break;
             case "translate":
+            	
             this.translate(transf.x, transf.y, transf.z);
             break;
             case "scale":
