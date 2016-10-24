@@ -695,7 +695,7 @@ MySceneGraph.prototype.parserTorus = function(element) {
     return new MyTorus(this.scene,
         this.reader.getFloat(element, 'inner'),
         this.reader.getInteger(element, 'outer'),
-        this.reader.getInteger(element, 'stacks'),
+        this.reader.getInteger(element, 'slices'),
         this.reader.getInteger(element, 'loops'));
 
 }

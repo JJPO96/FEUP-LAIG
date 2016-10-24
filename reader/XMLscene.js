@@ -26,7 +26,7 @@ XMLscene.prototype.init = function(application) {
 
 	this.currentCamera = 0;
 	this.cameras = [];
-	
+
 	this.materialsList = {};
     this.materialsIDs = []
 
@@ -42,11 +42,6 @@ XMLscene.prototype.init = function(application) {
     this.lightsStatus =[];
     this.lightsNames = [];
 
-	// Scene elements
-  //TODO primitivas de teste
-	this.leftWall = new MyTorus(this,2,4,20,20);
-	this.floor = new MyQuad(this,0,10,0,12);
-
 
 };
 
@@ -54,14 +49,6 @@ XMLscene.prototype.initCameras = function() {
 	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 };
 
-/*XMLscene.prototype.initCameras = function()
-{
-	for(var i = 0; i < this.graph.cameras.length / 6; i++)
-		this.cameras[i] = new CGFcamera(0.4, this.graph.cameras[i * 6 + 1], this.graph.cameras[i * 6 + 2], this.graph.cameras[i * 6 + 4], this.graph.cameras[5]);
-
-	this.camera = this.cameras[this.currentCamera];
-    this.interface.setActiveCamera(this.camera);
-}*/
 
 
 XMLscene.prototype.initLights = function() {
@@ -80,11 +67,6 @@ XMLscene.prototype.initLights = function() {
 
 };
 
-/*XMLscene.prototype.initIllumination = function()
-{
-	this.gl.clearColor(this.graph.backgroundR,this.graph.backgroundG,this.graph.backgroundB,this.graph.backgroundA);
-    this.setAmbient(this.graph.ambientR, this.graph.ambientG, this.graph.ambientB, this.graph.ambientA);
-}*/
 
 XMLscene.prototype.updateLights = function() {
 	for (i = 0; i < this.lights.length; i++)
@@ -102,7 +84,7 @@ XMLscene.prototype.initTextures = function ()
 {
     this.texturesList = this.graph.texturesList;
     this.texturesID = this.graph.texturesID;
-   
+
 
     if(this.texturesID.length > 0)
         this.enableTextures(true);
@@ -110,7 +92,7 @@ XMLscene.prototype.initTextures = function ()
 
 XMLscene.prototype.initTransformations = function()
 {
-   
+
     this.transformationsList = this.graph.transformationList;
     this.transformationsIDs = this.graph.transformationIDs;
 
@@ -120,7 +102,7 @@ XMLscene.prototype.initComponents = function()
 {
     this.componentsList = this.graph.componentsList;
     this.componentsIDs = this.graph.componentsIDs;
-    
+
 }
 
 XMLscene.prototype.initPrimitives = function () {
@@ -145,16 +127,15 @@ XMLscene.prototype.display = function() {
 
 	// Update all lights used
 	this.updateLights();
-	//this.floor.display();
-	//this.leftWall.display();
+  
 	// Draw axis
 	this.axis.display();
-	
+
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
 		this.displayGraph(this.graph.root, null, null);
-	};	
+	};
 }
 
 XMLscene.prototype.onGraphLoaded = function() {
@@ -179,7 +160,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.initTransformations();
     this.initComponents();
     this.axis = new CGFaxis(this, this.graph.axis_length);
-	
+
 };
 
 XMLscene.prototype.updateView = function () {
@@ -264,8 +245,8 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	 var mat;
 	 var text;
 	  var s;
-	  var 
-	  
+	  var
+
 
 	  node = this.componentsList[root];
 

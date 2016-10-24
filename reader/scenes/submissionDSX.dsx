@@ -167,6 +167,14 @@
       <shininess value="0.3"/>
     </material>
 
+    <material id="lightMat">
+      <emission r="1" g="1" b="1" a="1"/>
+      <ambient r="1" g="1" b="1" a="0.2"/>
+      <diffuse r="1" g="1" b="1" a="0.2"/>
+      <specular r="1" g="1" b="1" a="0.2"/>
+      <shininess value="1"/>
+    </material>
+
     <material id="ballMat">
       <emission r="0.05" g="0.05" b="0.05" a="0.5"/>
       <ambient r="0.05" g="0.05" b="0.05" a="0.5"/>
@@ -220,6 +228,10 @@
 
     <primitive id="tarPrim">
       <rectangle x1="0" y1="0" x2="128" y2="128"/>
+    </primitive>
+
+    <primitive id="lightBulbPrim">
+      <torus inner="0.9" outer="1" slices="30" loops="30"/>
     </primitive>
 
     <primitive id="cWallPrim">
@@ -959,6 +971,8 @@
       <children>
         <componentref id="lightBPostL"/>
         <componentref id="lightBPostR"/>
+        <componentref id="lightBBulbL"/>
+        <componentref id="lightBBulbR"/>
       </children>
 
     </component>
@@ -1005,6 +1019,48 @@
 
     </component>
 
+    <component id="lightBBulbL">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="-9" y="8.2" z="-15"/>
+        <rotate axis="x" angle="90"/>
+        <scale x="0.5" y="0.5" z="0.5"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="lightBulbPrim"/>
+      </children>
+
+    </component>
+
+    <component id="lightBBulbR">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="9" y="8.2" z="-15"/>
+        <rotate axis="x" angle="90"/>
+        <scale x="0.5" y="0.5" z="0.5"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="lightBulbPrim"/>
+      </children>
+
+    </component>
+
     <component id="lightF">
 
       <!-- bloco "transformation" obrigatorio -->
@@ -1021,6 +1077,8 @@
       <children>
         <componentref id="lightFPostL"/>
         <componentref id="lightFPostR"/>
+        <componentref id="lightFBulbL"/>
+        <componentref id="lightFBulbR"/>
       </children>
 
     </component>
@@ -1063,6 +1121,48 @@
 
       <children>
         <primitiveref id="lightPostPrim"/>
+      </children>
+
+    </component>
+
+    <component id="lightFBulbL">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="-9" y="8.2" z="15"/>
+        <rotate axis="x" angle="90"/>
+        <scale x="0.5" y="0.5" z="0.5"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="lightBulbPrim"/>
+      </children>
+
+    </component>
+
+    <component id="lightFBulbR">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="9" y="8.2" z="15"/>
+        <rotate axis="x" angle="90"/>
+        <scale x="0.5" y="0.5" z="0.5"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="lightBulbPrim"/>
       </children>
 
     </component>
