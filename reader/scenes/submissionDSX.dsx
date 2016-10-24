@@ -90,7 +90,7 @@
     <spot id="lightBL" enabled="1" angle="10" exponent="1">
       <!-- atencao, "target" e' diferente de "direction" -->
       <target x="0" y="0" z="0"/>
-      <location x="-12" y="8.2" z="-18"/>
+      <location x="-9" y="8.2" z="-15"/>
       <ambient r="1" g="1" b="1" a="1"/>
       <diffuse r="1" g="1" b="1" a="1"/>
       <specular r="1" g="1" b="1" a="1"/>
@@ -99,7 +99,7 @@
     <spot id="lightBR" enabled="1" angle="10" exponent="1">
       <!-- atencao, "target" e' diferente de "direction" -->
       <target x="0" y="0" z="0"/>
-      <location x="12" y="8.2" z="-18"/>
+      <location x="9" y="8.2" z="-15"/>
       <ambient r="1" g="1" b="1" a="1"/>
       <diffuse r="1" g="1" b="1" a="1"/>
       <specular r="1" g="1" b="1" a="1"/>
@@ -108,7 +108,7 @@
     <spot id="lightFL" enabled="1" angle="10" exponent="1">
       <!-- atencao, "target" e' diferente de "direction" -->
       <target x="0" y="0" z="0"/>
-      <location x="-12" y="8.2" z="18"/>
+      <location x="-9" y="8.2" z="15"/>
       <ambient r="1" g="1" b="1" a="1"/>
       <diffuse r="1" g="1" b="1" a="1"/>
       <specular r="1" g="1" b="1" a="1"/>
@@ -117,7 +117,7 @@
     <spot id="lightFR" enabled="1" angle="10" exponent="1">
       <!-- atencao, "target" e' diferente de "direction" -->
       <target x="0" y="0" z="0"/>
-      <location x="12" y="8.2" z="18"/>
+      <location x="9" y="8.2" z="15"/>
       <ambient r="1" g="1" b="1" a="1"/>
       <diffuse r="1" g="1" b="1" a="1"/>
       <specular r="1" g="1" b="1" a="1"/>
@@ -144,6 +144,8 @@
     <texture id="lightPostTex" file="textures\\lightPost.jpg" length_s="1" length_t="1"/>
     <texture id="standTex" file="textures\\stand.jpg" length_s="1" length_t="1"/>
     <texture id="ballTex" file="textures\\ball.jpg" length_s="1" length_t="1"/>
+    <texture id="tarTex" file="textures\\tar.jpg" length_s="1" length_t="1"/>
+    <texture id="wallTex" file="textures\\wall.jpg" length_s="1" length_t="1"/>
 
   </textures>
 
@@ -189,6 +191,14 @@
       <shininess value="0.6"/>
     </material>
 
+    <material id="tarMat">
+      <emission r="0.05" g="0.05" b="0.05" a="1"/>
+      <ambient r="0.05" g="0.05" b="0.05" a="1"/>
+      <diffuse r="0.05" g="0.05" b="0.05" a="1"/>
+      <specular r="0.05" g="0.05" b="0.05" a="1"/>
+      <shininess value="0.05"/>
+    </material>
+
   </materials>
 
   <transformations>
@@ -208,12 +218,32 @@
       <rectangle x1="0" y1="0" x2="32" y2="20"/>
     </primitive>
 
+    <primitive id="tarPrim">
+      <rectangle x1="0" y1="0" x2="128" y2="128"/>
+    </primitive>
+
+    <primitive id="cWallPrim">
+      <rectangle x1="0" y1="0" x2="32" y2="2.5"/>
+    </primitive>
+
+    <primitive id="bWallPrim">
+      <rectangle x1="0" y1="0" x2="20" y2="2.5"/>
+    </primitive>
+
+    <primitive id="cornerWallPrim">
+      <rectangle x1="0" y1="0" x2="6.124" y2="2.5"/>
+    </primitive>
+
     <primitive id="cStandPrim">
       <rectangle x1="0" y1="0" x2="32" y2="5"/>
     </primitive>
 
     <primitive id="bStandPrim">
       <rectangle x1="0" y1="0" x2="20" y2="5"/>
+    </primitive>
+
+    <primitive id="cornerStandPrim">
+      <triangle x1="4.33" y1="2.5" z1="0" x2="0" y2="2.5" z2="-4.33" x3="0" y3="0" z3="0"/>
     </primitive>
 
     <primitive id="goalPostPrim">
@@ -247,7 +277,9 @@
 
       <children>
         <componentref id="field"/>
+        <componentref id="tar"/>
         <componentref id="stands"/>
+        <componentref id="walls"/>
         <componentref id="goals"/>
         <componentref id="lights"/>
         <componentref id="ball"/>
@@ -276,6 +308,221 @@
 
     </component>
 
+    <component id="tar">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="-64" y="-0.1" z="-64"/>
+        <rotate axis="y" angle="-90"/>
+        <rotate axis="x" angle="-90"/>
+      </transformation>
+
+      <materials>
+        <material id="tarMat"/>
+      </materials>
+
+      <texture id="tarTex"/>
+
+      <children>
+        <primitiveref id="tarPrim"/>
+      </children>
+
+    </component>
+
+    <component id="walls">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <scale x="1" y="1" z="1"/>
+      </transformation>
+
+      <materials>
+        <material id="tarMat"/>
+      </materials>
+
+      <texture id="wallTex"/>
+
+      <children>
+        <componentref id="cWallL"/>
+        <componentref id="cWallR"/>
+        <componentref id="bWallF"/>
+        <componentref id="bWallB"/>
+        <componentref id="cornerWallBL"/>
+        <componentref id="cornerWallBR"/>
+        <componentref id="cornerWallFL"/>
+        <componentref id="cornerWallFR"/>
+      </children>
+
+    </component>
+
+    <component id="cWallL">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="-14.33" y="0" z="0"/>
+        <rotate axis="y" angle="-90"/>
+        <translate x="-16" y="0" z="0"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cWallPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cWallR">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="14.33" y="0" z="0"/>
+        <rotate axis="y" angle="90"/>
+        <translate x="-16" y="0" z="0"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cWallPrim"/>
+      </children>
+
+    </component>
+
+    <component id="bWallB">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="0" y="0" z="20.33"/>
+        <rotate axis="y" angle="0"/>
+        <translate x="-10" y="0" z="0"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="bWallPrim"/>
+      </children>
+
+    </component>
+
+    <component id="bWallF">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="0" y="0" z="-20.33"/>
+        <rotate axis="y" angle="180"/>
+        <translate x="-10" y="0" z="0"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="bWallPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cornerWallBL">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="-12.16" y="0" z="-18.16"/>
+        <rotate axis="y" angle="-135"/>
+        <translate x="-3.062" y="0" z="0"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cornerWallPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cornerWallBR">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="12.16" y="0" z="-18.16"/>
+        <rotate axis="y" angle="135"/>
+        <translate x="-3.062" y="0" z="0"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cornerWallPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cornerWallFL">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="-12.16" y="0" z="18.16"/>
+        <rotate axis="y" angle="-45"/>
+        <translate x="-3.062" y="0" z="0"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cornerWallPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cornerWallFR">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="12.16" y="0" z="18.16"/>
+        <rotate axis="y" angle="45"/>
+        <translate x="-3.062" y="0" z="0"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cornerWallPrim"/>
+      </children>
+
+    </component>
+
     <component id="stands">
 
       <!-- bloco "transformation" obrigatorio -->
@@ -294,6 +541,10 @@
         <componentref id="cStandR"/>
         <componentref id="bStandF"/>
         <componentref id="bStandB"/>
+        <componentref id="cornerStandBL"/>
+        <componentref id="cornerStandBR"/>
+        <componentref id="cornerStandFL"/>
+        <componentref id="cornerStandFR"/>
       </children>
 
     </component>
@@ -381,6 +632,85 @@
 
       <children>
         <primitiveref id="bStandPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cornerStandBL">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="-10" y="0" z="-16"/>
+        <rotate axis="y" angle="90"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cornerStandPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cornerStandBR">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="10" y="0" z="-16"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cornerStandPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cornerStandFL">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="-10" y="0" z="16"/>
+        <rotate axis="y" angle="180"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cornerStandPrim"/>
+      </children>
+
+    </component>
+
+    <component id="cornerStandFR">
+
+      <!-- bloco "transformation" obrigatorio -->
+      <transformation>
+        <translate x="10" y="0" z="16"/>
+        <rotate axis="y" angle="-90"/>
+      </transformation>
+
+      <materials>
+        <material id="inherit"/>
+      </materials>
+
+      <texture id="inherit"/>
+
+      <children>
+        <primitiveref id="cornerStandPrim"/>
       </children>
 
     </component>
@@ -637,7 +967,7 @@
 
       <!-- bloco "transformation" obrigatorio -->
       <transformation>
-        <translate x="-12" y="-0.4" z="-18"/>
+        <translate x="-9" y="-0.4" z="-15"/>
         <rotate axis="x" angle="-90"/>
         <scale x="0.3" y="0.3" z="2.1"/>
       </transformation>
@@ -658,7 +988,7 @@
 
       <!-- bloco "transformation" obrigatorio -->
       <transformation>
-        <translate x="12" y="-0.4" z="-18"/>
+        <translate x="9" y="-0.4" z="-15"/>
         <rotate axis="x" angle="-90"/>
         <scale x="0.3" y="0.3" z="2.1"/>
       </transformation>
@@ -699,7 +1029,7 @@
 
       <!-- bloco "transformation" obrigatorio -->
       <transformation>
-        <translate x="-12" y="-0.4" z="18"/>
+        <translate x="-9" y="-0.4" z="15"/>
         <rotate axis="x" angle="-90"/>
         <scale x="0.3" y="0.3" z="2.1"/>
       </transformation>
@@ -720,7 +1050,7 @@
 
       <!-- bloco "transformation" obrigatorio -->
       <transformation>
-        <translate x="12" y="-0.4" z="18"/>
+        <translate x="9" y="-0.4" z="15"/>
         <rotate axis="x" angle="-90"/>
         <scale x="0.3" y="0.3" z="2.1"/>
       </transformation>
