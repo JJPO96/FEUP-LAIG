@@ -637,8 +637,8 @@
 
       <!-- bloco "transformation" obrigatorio -->
       <transformation>
-        <translate x="12" y="8.2" z="-18"/>
-        <rotate axis="x" angle="90"/>
+        <translate x="-12" y="-0.4" z="-18"/>
+        <rotate axis="x" angle="-90"/>
         <scale x="0.3" y="0.3" z="2.1"/>
       </transformation>
 
@@ -658,8 +658,8 @@
 
       <!-- bloco "transformation" obrigatorio -->
       <transformation>
-        <translate x="-12" y="8.2" z="-18"/>
-        <rotate axis="x" angle="90"/>
+        <translate x="12" y="-0.4" z="-18"/>
+        <rotate axis="x" angle="-90"/>
         <scale x="0.3" y="0.3" z="2.1"/>
       </transformation>
 
@@ -699,8 +699,8 @@
 
       <!-- bloco "transformation" obrigatorio -->
       <transformation>
-        <translate x="12" y="8.2" z="18"/>
-        <rotate axis="x" angle="90"/>
+        <translate x="-12" y="-0.4" z="18"/>
+        <rotate axis="x" angle="-90"/>
         <scale x="0.3" y="0.3" z="2.1"/>
       </transformation>
 
@@ -720,8 +720,8 @@
 
       <!-- bloco "transformation" obrigatorio -->
       <transformation>
-        <translate x="-12" y="8.2" z="18"/>
-        <rotate axis="x" angle="90"/>
+        <translate x="12" y="-0.4" z="18"/>
+        <rotate axis="x" angle="-90"/>
         <scale x="0.3" y="0.3" z="2.1"/>
       </transformation>
 
