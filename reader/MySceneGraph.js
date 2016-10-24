@@ -487,7 +487,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
         }
 
         if (child.children == null | child.children.length != 1) {
-            return "there must be only one primitive";
+            return "there must be just only one primitive";
         }
 
         var primitiveChild = child.children[0];
