@@ -48,7 +48,7 @@ function MySceneGraph(filename, scene) {
      * If any error occurs, the reader calls onXMLError on this object, with an error message
      */
 
-    this.reader.open('scenes/submissionDSX.xml', this);
+    this.reader.open(filename, this);
 }
 
 /*
@@ -403,7 +403,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 
 MySceneGraph.prototype.parseTransformations = function(rootElement) {
-	
+
 	var transformations = rootElement.getElementsByTagName('transformations');
 
 	if (transformations == null  || transformations.length==0) {
@@ -432,7 +432,7 @@ MySceneGraph.prototype.parseTransformations = function(rootElement) {
 		this.transformationList[this.transformationsIDs[i]] = tr;
 
 	}
-    
+
 }
 
 MySceneGraph.prototype.getTransformationValues = function(transformation){
@@ -458,7 +458,7 @@ MySceneGraph.prototype.getTransformationValues = function(transformation){
 		break;
 	}
 	return values;
-	
+
 }
 
 
@@ -613,7 +613,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 		this.componentsIDs[i] = componentID;
 
 	}
-	
+
 }
 
 
