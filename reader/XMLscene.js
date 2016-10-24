@@ -190,9 +190,9 @@ XMLscene.prototype.updateView = function () {
 
 };
 
-XMLscene.prototype.changeMaterial = function(){
+XMLscene.prototype.updateMaterial = function(){
     for(var i = 0;  i < this.componentsIDs.length; i++)
-        this.componentsList[this.componentsIDs[i]].changeMaterial();
+        this.componentsList[this.componentsIDs[i]].updateMaterial();
 }
 
 
@@ -295,10 +295,15 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	  mat.setTexture(text);
 	  mat.apply();
 
-	  if(node.transformationsID != null)
+	  if(node.transformationsID != null){
 	        this.applyTransformations(this.transformationsList[node.transformationsID]);
-	    else
+	        console.log("a" + this.transformationsList[node.transformationsID]);
+	  }
+	    else{
+	    	console.log("B");
 	        this.applyTransformations(node.transformations);
+	        console.log(node.transformations);
+	    }
 
 	    for(var i = 0; i < node.primitivesRefs.length; i++){
 	      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){

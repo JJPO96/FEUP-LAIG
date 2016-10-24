@@ -10,7 +10,7 @@ function Component(scene, materialListIDs, transformationsID, transformations, t
 
 }
 
-Component.prototype.changeMaterial = function () {
+Component.prototype.updateMaterial = function () {
     if(this.materialIndex < this.materialListIDs.length - 1)
         this.materialIndex++;
     else

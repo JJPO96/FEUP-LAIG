@@ -48,7 +48,7 @@ function MySceneGraph(filename, scene) {
      * If any error occurs, the reader calls onXMLError on this object, with an error message
      */
 
-    this.reader.open('scenes/submissionDSX.xml', this);
+    this.reader.open('scenes/LAIG_TP1_DSX_T2_G10_v02.dsx', this);
 }
 
 /*
@@ -400,180 +400,65 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 
     }
-    /*
-    MySceneGraph.prototype.parseMaterial= function(material) {
-    	var ret = new Material(this.reader.getString(material,"id",true));
 
-    	var emission = material.getElementsByTagName("emission")[0];
-    	var ambient = material.getElementsByTagName("ambient")[0];
-    	var diffuse = material.getElementsByTagName("diffuse")[0];
-    	var specular = material.getElementsByTagName("specular")[0];
-    	var shininess = material.getElementsByTagName("shininess")[0];
-
-    	ret.material.setEmission(
-    						this.reader.getFloat(emission, "r"),
-    						this.reader.getFloat(emission, "g"),
-    						this.reader.getFloat(emission, "b"),
-    						this.reader.getFloat(emission, "a"));
-
-    	ret.material.setAmbient(
-    						this.reader.getFloat(ambient, "r"),
-    						this.reader.getFloat(ambient, "g"),
-    						this.reader.getFloat(ambient, "b"),
-    						this.reader.getFloat(ambient, "a"));
-
-    	ret.material.setDiffuse(
-    						this.reader.getFloat(diffuse, "r"),
-    						this.reader.getFloat(diffuse, "g"),
-    						this.reader.getFloat(diffuse, "b"),
-    						this.reader.getFloat(diffuse, "a"));
-
-    	ret.material.setSpecular(
-    						this.reader.getFloat(specular, "r"),
-    						this.reader.getFloat(specular, "g"),
-    						this.reader.getFloat(specular, "b"),
-    						this.reader.getFloat(specular, "a"));
-
-    	ret.material.setShininess(this.reader.getFloat(shininess, "value"));
-    var id = material.attributes.getNamedItem("id").value;
-    	this.materialsList[id] = ret;
-
-    	return ret;
-    }
-    */
-    /*MySceneGraph.prototype.parseTransformations= function(rootElement) {
-    	elems = rootElement.getElementsByTagName('transformations')
-    	if (!elems) {
-          return "transformations missing!";
-      }
-
-    	var transformations = elems[0];
-
-    	var arrTransformations = transformations.getElementsByTagName('transformation');
-    	for (var i = 0; i < arrTransformations.length; i++) {
-
-    		this.transformations.push(this.parseTransformation(arrTransformations[i]));
-    	}
-
-    	for (var i = 0; i < arrTransformations.length; i++) {
-    		this.transformationsIDs[i] = this.transformations[this.transformations.length-1].id;
-    		this.transformationList[this.transformationsIDs[i]] = transformations;
-    	}
-    }
-
-    MySceneGraph.prototype.parseTransformation= function(transformation) {
-    	var ret = new Transformation(this.reader.getString(transformation,"id",true));
-    	var children = transformation.children;
-
-
-    	for (var i = children.length-1; i >= 0; i--) {
-    			ret.matrix = MultiplyMatrix(ret.matrix,this.parseTransChild(children[i]));
-    	}
-
-    	;
-    	return ret;
-    }
-
-    MySceneGraph.prototype.parseTransChild= function(child){
-    	if(child.nodeName == "translate"){
-    		var tx = this.reader.getFloat(child,"x");
-    		var ty = this.reader.getFloat(child,"y");
-    		var tz = this.reader.getFloat(child,"z");
-
-    		return [[1,0,0,tx],
-    						[0,1,0,ty],
-    						[0,0,1,tz],
-    						[0,0,0,1]];
-
-    	}else if(child.nodeName == "rotate"){
-    		var rAxis = this.reader.getFloat(child,"axis");
-    		var rAngle = this.reader.getFloat(child,"angle");
-    		rAngle *= (Math.PI/180);
-
-    		if (rAxis = "x") {
-    			return [[1,0,0,0],
-    							[0,Math.cos(rAngle),-Math.sin(rAngle),0],
-    							[0,Math.sin(rAngle),Math.cos(rAngle),0],
-    							[0,0,0,1]];
-
-    		}else if (rAxis = "y") {
-    			return [[Math.cos(rAngle),0,-Math.sin(rAngle),0],
-    							[0,1,0,0],
-    							[Math.sin(rAngle),0,Math.cos(rAngle),0],
-    							[0,0,0,1]];
-
-    		}else if (rAxis = "z") {
-    			return [[Math.cos(rAngle),-Math.sin(rAngle),0,0],
-    							[Math.sin(rAngle),Math.cos(rAngle),0,0],
-    							[0,0,1,0],
-    							[0,0,0,1]];
-    		}
-    	}else if(child.nodeName == "scale"){
-    		var sx = this.reader.getFloat(child,"x");
-    		var sy = this.reader.getFloat(child,"y");
-    		var sz = this.reader.getFloat(child,"z");
-
-    		return [[sx,0,0,0],
-    						[0,sy,0,0],
-    						[0,0,sz,0],
-    						[0,0,0,1]];
-    	}
-    }*/
 
 MySceneGraph.prototype.parseTransformations = function(rootElement) {
-    var transformations = rootElement.getElementsByTagName('transformations');
+	var transformations = rootElement.getElementsByTagName('transformations');
 
-    if (transformations == null || transformations.length == 0) {
-        return "transformations element is missing.";
-    }
+	if (transformations == null  || transformations.length==0) {
+		return "transformations element is missing.";
+	}
 
-    var numTransf = transformations[0].children.length;
+	var numTransf = transformations[0].children.length;
 
-    if (numTransf <= 0)
-        return "transformation elements are missing";
+	if(numTransf <= 0)
+		return "transformation elements are missing";
 
-    for (var i = 0; i < numTransf; i++) {
-        var transf = transformations[0].children[i];
+	for(var i = 0; i < numTransf; i++)
+	{
+		var transf = transformations[0].children[i];
 
-        var id = this.reader.getString(transf, 'id');
-        this.transformationsIDs[i] = id;
+		var id =  this.reader.getString(transf, 'id');
+		this.transformationsIDs[i] = id;
 
-        if (this.transformationList.hasOwnProperty(id))
-            return "transformation " + id + " repeated";
+		if(this.transformationList.hasOwnProperty(id))
+			return "transformation " + id + " repeated";
 
-        var tr = [];
-        for (var j = 0; j < transf.children.length; j++)
-            tr.push(this.getTransformationValues(transf.children[j]));
+		var tr = [];
+		for(var j = 0; j < transf.children.length; j++)
+			tr.push(this.getTransformationValues(transf.children[j]));
 
-        this.transformationList[this.transformationsIDs[i]] = tr;
+		this.transformationList[this.transformationsIDs[i]] = tr;
 
-    }
+	}
+    
+    
 }
 
-MySceneGraph.prototype.getTransformationValues = function(transformation) {
-    //	console.log(transformation);
-    var values = {};
-    switch (transformation.tagName) {
-        case "rotate":
-            values.type = "rotate";
-            values.axis = this.reader.getString(transformation, "axis");
-            values.angle = this.reader.getString(transformation, "angle");
-            break;
-        case "translate":
-            values.type = "translate";
-            values.x = this.reader.getString(transformation, "x");
-            values.y = this.reader.getString(transformation, "y");
-            values.z = this.reader.getString(transformation, "z");
-            break;
-        case "scale":
-            values.type = "scale";
-            values.x = this.reader.getString(transformation, "x");
-            values.y = this.reader.getString(transformation, "y");
-            values.z = this.reader.getString(transformation, "z");
-            break;
-    }
-    return values;
-    //console.log(values);
+MySceneGraph.prototype.getTransformationValues = function(transformation){
+	var values = {};
+	switch(transformation.tagName)
+	{
+		case "rotate":
+		values.type = "rotate";
+		values.axis = this.reader.getString(transformation, "axis");
+		values.angle = this.reader.getString(transformation, "angle");
+		break;
+		case "translate":
+		values.type = "translate";
+		values.x = this.reader.getString(transformation, "x");
+		values.y = this.reader.getString(transformation, "y");
+		values.z = this.reader.getString(transformation, "z");
+		break;
+		case "scale":
+		values.type = "scale";
+		values.x = this.reader.getString(transformation, "x");
+		values.y = this.reader.getString(transformation, "y");
+		values.z = this.reader.getString(transformation, "z");
+		break;
+	}
+	return values;
+	//console.log(values);
 }
 
 MySceneGraph.prototype.parsePrimitives = function(rootElement) {
@@ -634,121 +519,102 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
         this.primitivesList[child.id] = primitive;
     }
 };
-/*
-MySceneGraph.prototype.parsePrimitive= function(primitive) {
-	var ret = new Primitive(this.reader.getString(primitive,"id",true));
 
-	if (primitive.children[0].nodeName == "rectangle") {
-		ret.primitive = this.parserRectangle(primitive.children[0]);
-	} else if (primitive.children[0].nodeName == "triangle"){
-		ret.primitive = this.parserTriangle(primitive.children[0]);
-	} else if (primitive.children[0].nodeName == "cylinder"){
-		ret.primitive = this.parserCylinder(primitive.children[0]);
-	} else if (primitive.children[0].nodeName == "sphere"){
-		ret.primitive = this.parserSphere(primitive.children[0]);
-	} else if (primitive.children[0].nodeName == "torus"){
-		ret.primitive = this.parserTorus(primitive.children[0]);
-	}
-
-	this.primitivesList[this.reader.getString(primitive,"id",true)] = ret.primitive;
-
-	return ret;
-}
-
-*/
 MySceneGraph.prototype.parseComponents = function(rootElement) {
 
-    var components = rootElement.getElementsByTagName('components');
+	var components = rootElement.getElementsByTagName('components');
 
-    if (components == null || components.length == 0) {
-        return "components element is missing.";
-    }
+	if (components == null  || components.length==0) {
+		return "components element is missing.";
+	}
 
-    var compLength = components[0].children.length;
-    for (var i = 0; i < compLength; i++) {
-        var component = components[0].children[i];
+	var compLength = components[0].children.length;
+	for(var i = 0; i < compLength; i++)
+	{
+		var component = components[0].children[i];
 
-        var componentID = this.reader.getString(component, 'id');
+		var componentID = this.reader.getString(component, 'id');
 
-        if (this.componentsList.hasOwnProperty(componentID))
-            return "component " + componentID + " repeated";
+		if(this.componentsList.hasOwnProperty(componentID))
+			return "component " +  componentID + " repeated";
 
-        var transformation = component.getElementsByTagName('transformation');
+		var transformation = component.getElementsByTagName('transformation');
 
-        if (transformation == null) {
-            return "transformation element is missing on Components";
-        }
+		if(transformation == null) {
+			return "transformation element is missing on Components";
+		}
 
-        transformation = transformation[0];
-        var transformationRef = transformation.getElementsByTagName('transformationref');
-        var transformationID;
-        var transfList = [];
-        // reads transformationref or the transformation list
-        if (transformationRef != null && transformationRef.length != 0)
-            transformationID = this.reader.getString(transformationRef[0], 'id');
-        else {
-            transformationID = null;
-            for (var j = 0; j < transformation.children.length; j++)
-                transfList.push(this.getTransformationValues(transformation.children[j]));
-        }
-
-
-        var material = component.getElementsByTagName('materials');
-
-        if (material.length == 0) {
-            return "materials element is missing com Components";
-        }
-
-        var materialLength = material[0].children.length;
-        var materialID = [];
-
-        //reads materialsIDs
-        for (var j = 0; j < materialLength; j++)
-            materialID[j] = this.reader.getString(material[0].children[j], 'id');
+		transformation = transformation[0];
+		var transformationRef = transformation.getElementsByTagName('transformationref');
+		var transformationID;
+		var transfList = [];
+		// reads transformationref or the transformation list
+		if(transformationRef != null && transformationRef.length != 0)
+			transformationID = this.reader.getString(transformationRef[0], 'id');
+		else
+		{
+			transformationID = null;
+			for(var j = 0; j < transformation.children.length; j++)
+				transfList.push(this.getTransformationValues(transformation.children[j]));
+		}
 
 
-        var texture = component.getElementsByTagName('texture');
-        if (texture == null || texture.length == 0) {
-            return "texture element is missing on Components";
-        }
+		var material = component.getElementsByTagName('materials');
 
-        texture = this.reader.getString(texture[0], 'id');
+		if (material.length == 0) {
+			return "materials element is missing com Components";
+		}
 
+		var materialLength = material[0].children.length;
+		var materialID = [];
 
-        var children = component.getElementsByTagName('children');
-        if (children == null || children.length == 0) {
-            return "children element is missing on Components";
-        }
-
-        children = children[0];
-        var componentref = children.getElementsByTagName('componentref');
-        var primitiveref = children.getElementsByTagName('primitiveref');
-        if (componentref.length == 0 && primitiveref.length == 0) {
-            return "children element on Components must contain componentref and/or primitiveref";
-        }
-
-        var componentRefs = [];
-        var primitiveRefs = [];
-
-        for (var j = 0; j < componentref.length; j++)
-            componentRefs[j] = this.reader.getString(componentref[j], 'id');
-
-        for (var j = 0; j < primitiveref.length; j++)
-            primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
+		//reads materialsIDs
+		for(var j = 0; j < materialLength; j++)
+			materialID[j] = this.reader.getString(material[0].children[j], 'id');
 
 
-        var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs);
+		var texture = component.getElementsByTagName('texture');
+		if(texture == null || texture.length == 0) {
+			return "texture element is missing on Components";
+		}
 
-        this.componentsList[componentID] = component;
-        this.componentsIDs[i] = componentID;
+		texture = this.reader.getString(texture[0], 'id');
 
-    }
+
+		var children = component.getElementsByTagName('children');
+		if(children == null || children.length == 0) {
+			return "children element is missing on Components";
+		}
+
+		children = children[0];
+		var componentref = children.getElementsByTagName('componentref');
+		var primitiveref = children.getElementsByTagName('primitiveref');
+		if(componentref.length == 0 && primitiveref.length == 0) {
+			return "children element on Components must contain componentref and/or primitiveref";
+		}
+
+		var componentRefs = [];
+		var primitiveRefs = [];
+
+		for(var j = 0; j < componentref.length; j++)
+			componentRefs[j] = this.reader.getString(componentref[j], 'id');
+
+		for(var j = 0; j < primitiveref.length; j++)
+			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
+
+
+		var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs);
+
+		this.componentsList[componentID] = component;
+		this.componentsIDs[i] = componentID;
+
+	}
 
 }
 
 
 
-
+/*
 MySceneGraph.prototype.parseTransformationElements = function(rootElement) {
     var transformationList = [];
 
@@ -784,13 +650,11 @@ MySceneGraph.prototype.parseTransformationElements = function(rootElement) {
         transformationList[7] = 0;
     }
 
-    console.log("Transformation read from file (component): " + " TX = " + transformationList[0] + " TY = " + transformationList[1] + " TZ = " + transformationList[2] +
-        " Rotation axis: " + transformationList[3] + " R Angle " + transformationList[4] +
-        " SX = " + transformationList[5] + " SY = " + transformationList[6] + " SZ = " + transformationList[7]);
+   console.log(transformationList);
 
     return transformationList;
 
-}
+}*/
 
 MySceneGraph.prototype.parserRectangle = function(element) {
     var coord = {
@@ -837,10 +701,21 @@ MySceneGraph.prototype.parserTriangle = function(element) {
 
 MySceneGraph.prototype.parserCylinder = function(element) {
 
-    return new MyCylinder(this.scene,
+	var coord ={
+			base: 0,
+			top: 0,
+			height: 0,
+			slices: 0,
+			stacks: 0
+		}
 
-        this.reader.getInteger(element, 'slices'),
-        this.reader.getInteger(element, 'stacks'));
+		coord.base = this.reader.getFloat(element, 'base');
+		coord.top = this.reader.getFloat(element, 'top');
+		coord.height = this.reader.getFloat(element, 'height');
+		coord.slices = this.reader.getInteger(element, 'slices');
+		coord.stacks = this.reader.getInteger(element, 'stacks');
+
+		return new MyCylinder(this.scene,coord.base, coord.top, coord.height ,coord.slices, coord.stacks);
 
 }
 
