@@ -181,8 +181,9 @@ XMLscene.prototype.updateView = function () {
 
 //Function to update the different materials from dsx by pressing 'm'
 XMLscene.prototype.updateMaterial = function(){
-    for(var i = 0;  i < this.componentsIDs.length; i++)
+    for(var i = 0;  i < this.componentsIDs.length; i++){
         this.componentsList[this.componentsIDs[i]].updateMaterial();
+    }
 }
 
 
@@ -264,7 +265,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 		//transformations
 		this.pushMatrix();
 
-		//
+		//materials
 		if(node.materialListIDs[0] == 'inherit')
 				mat = material;
 		else
@@ -294,13 +295,16 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 	    for(var i = 0; i < node.primitivesRefs.length; i++){
 	      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
-	        s = this.texturesList[node.texture + "s"];
-	        t = this.texturesList[node.texture + "t"];
-	        if(s > 1 && t > 1){
-	            this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
-	            mat.setTextureWrap('REPEAT', 'REPEAT');
+	       
+	    	  s = this.texturesList[node.texture + "s"];
+	    	  t = this.texturesList[node.texture + "t"];
+	    	  
+	    	  if(s > 1 && t > 1){
+	    		  this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+	    		  mat.setTextureWrap('REPEAT', 'REPEAT');
 	        }
 	      }
+	      
 	      this.primitives[node.primitivesRefs[i]].display();
 	    }
 

@@ -17,7 +17,6 @@ function MySceneGraph(filename, scene) {
     this.omniLights = [];
     this.spotLights = [];
 
-
     this.nodes = {};
 
     this.texturesList = {};
@@ -37,6 +36,9 @@ function MySceneGraph(filename, scene) {
 
     this.primitivesList = {};
     this.primitivesIDs = [];
+    
+    this.animationsList = {};
+    this.animationsIDs = [];
 
 
     // File reading
@@ -471,6 +473,35 @@ MySceneGraph.prototype.getTransformationValues = function(transformation){
 	}
 	return values;
 
+}
+
+MySceneGraph.prototype.parseAnimation = function(rootElement) {
+	
+	var animations = rootElement.getElementsByTagName('animations');
+
+	if (animations == null  || animations.length==0) {
+		return "transformations element is missing.";
+	}
+	
+	var numAnim = animations[0].children.length;
+	
+	for (var i = 0; i<numAnim; i++)
+		{
+			var anim = animations[0].children[i];
+			
+			var id = this.reader.getString(anim, 'id');
+			this.animationsIDs[i] = id;
+			
+			if(this.animationList.hasOwnProperty(id))
+				return "animation " + id + " repeated";
+			
+			if (this.reader.getString(anim, 'type')=='linear')
+				this.parseLinearAnimation(anim);
+			
+			if (this.reader.getString(anim, 'type')=='circular')
+				this.parseCircularAnimation(anim);	
+		}
+	
 }
 
 //Loading of the primitives from dsx

@@ -206,6 +206,8 @@
       <specular r="0.05" g="0.05" b="0.05" a="1"/>
       <shininess value="0.05"/>
     </material>
+	
+
 
   </materials>
 
@@ -283,6 +285,7 @@
 
       <materials>
         <material id="m1"/>
+
       </materials>
 
       <texture id="none"/>
@@ -310,6 +313,8 @@
 
       <materials>
         <material id="fieldMat"/>
+		<material id="m1"/>
+	
       </materials>
 
       <texture id="fieldTex"/>
@@ -331,6 +336,7 @@
 
       <materials>
         <material id="tarMat"/>
+		
       </materials>
 
       <texture id="tarTex"/>
@@ -350,6 +356,7 @@
 
       <materials>
         <material id="tarMat"/>
+		
       </materials>
 
       <texture id="wallTex"/>
@@ -399,6 +406,7 @@
 
       <materials>
         <material id="inherit"/>
+		
       </materials>
 
       <texture id="inherit"/>
@@ -544,6 +552,7 @@
 
       <materials>
         <material id="standMat"/>
+		<material id="m1"/>
       </materials>
 
       <texture id="standTex"/>
@@ -736,6 +745,7 @@
 
       <materials>
         <material id="postMat"/>
+		<material id="fieldMat"/>
       </materials>
 
       <texture id="goalPostTex"/>
@@ -924,7 +934,9 @@
       </transformation>
 
       <materials>
+	  
         <material id="ballMat"/>
+		
       </materials>
 
       <texture id="ballTex"/>
@@ -944,6 +956,7 @@
 
       <materials>
         <material id="postMat"/>
+		<material id="m1"/>
       </materials>
 
       <texture id="lightPostTex"/>
