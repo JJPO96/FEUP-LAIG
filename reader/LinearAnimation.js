@@ -1,4 +1,4 @@
-var LinearAnimation = function() {
+var LinearAnimation = function(pontoscontrolo) {
     Animation.apply(this, arguments);
     // LinearAnimation initialization...
 };

@@ -504,6 +504,16 @@ MySceneGraph.prototype.parseAnimation = function(rootElement) {
 	
 }
 
+MySceneGraph.prototype.parseLinearAnimation = function(animation) {
+	
+}
+
+MySceneGraph.prototype.parseCircularAnimation = function(animation) {
+	
+}
+
+
+
 //Loading of the primitives from dsx
 MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 
