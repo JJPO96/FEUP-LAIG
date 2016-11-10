@@ -607,6 +607,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 //Loading of the components from dsx
 MySceneGraph.prototype.parseComponents = function(rootElement) {
 
+	//-----------------------------------------------------
+	//----------------------COMPONENT----------------------
+	//-----------------------------------------------------
 	var components = rootElement.getElementsByTagName('components');
 
 	if (components == null  || components.length==0) {
@@ -614,6 +617,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 	}
 
 	var compLength = components[0].children.length;
+	
 	for(var i = 0; i < compLength; i++)
 	{
 		var component = components[0].children[i];
@@ -622,7 +626,10 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 
 		if(this.componentsList.hasOwnProperty(componentID))
 			return "component " +  componentID + " repeated";
-
+		
+		//----------------------------------------------------------
+		//----------------------TRANSFORMATION----------------------
+		//----------------------------------------------------------
 		var transformation = component.getElementsByTagName('transformation');
 
 		if(transformation == null) {
@@ -642,8 +649,21 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 			for(var j = 0; j < transformation.children.length; j++)
 				transfList.push(this.getTransformationValues(transformation.children[j]));
 		}
+		
+		//-----------------------------------------------------
+		//----------------------ANIMATION----------------------
+		//-----------------------------------------------------
+		var animation = component.getElementsByTagName('animation');
+		
+		var animationLength = animation[0].children.length;
+		var animationID = [];
+		
+		for (var j = 0; j < animationLength; j++)
+			animationID[j] = this.reader.getString(animation[0].children[j], 'id);')
 
-
+		//----------------------------------------------------	
+		//----------------------MATERIAL----------------------
+		//----------------------------------------------------
 		var material = component.getElementsByTagName('materials');
 
 		if (material.length == 0) {
@@ -659,16 +679,20 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 		//reads materialsIDs
 		for(var j = 0; j < materialLength; j++)
 			materialID[j] = this.reader.getString(material[0].children[j], 'id');
-
-
+		
+		//---------------------------------------------------
+		//----------------------TEXTURE----------------------
+		//---------------------------------------------------
 		var texture = component.getElementsByTagName('texture');
 		if(texture == null || texture.length == 0) {
 			return "texture element is missing on Components";
 		}
 
 		texture = this.reader.getString(texture[0], 'id');
-
-
+		
+		//----------------------------------------------------
+		//----------------------CHILDREN----------------------
+		//----------------------------------------------------
 		var children = component.getElementsByTagName('children');
 		if(children == null || children.length == 0) {
 			return "children element is missing on Components";
