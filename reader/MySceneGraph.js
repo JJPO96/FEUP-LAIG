@@ -98,6 +98,7 @@ MySceneGraph.prototype.parseLoadOk = function(rootElement) {
     this.parseTransformations(rootElement);
     this.parsePrimitives(rootElement);
     this.parseComponents(rootElement);
+    this.parseAnimation(rootElement);
 
     this.loadedOk = true;
 
@@ -490,25 +491,52 @@ MySceneGraph.prototype.parseAnimation = function(rootElement) {
 			var anim = animations[0].children[i];
 			
 			var id = this.reader.getString(anim, 'id');
+			var span = this.reader.getString(anim, 'span');
+			
 			this.animationsIDs[i] = id;
+			
 			
 			if(this.animationList.hasOwnProperty(id))
 				return "animation " + id + " repeated";
 			
+			var anima = [];
+			
+			for (var j = 0; j<anim.children.length; j++){
+			
 			if (this.reader.getString(anim, 'type')=='linear')
-				this.parseLinearAnimation(anim);
+				anima.push(this.parseLinearAnimation(anim.children[j]));
 			
 			if (this.reader.getString(anim, 'type')=='circular')
-				this.parseCircularAnimation(anim);	
+				anima.push(this.parseCircularAnimation(anim.children[j]));	
+			
+			}
+			
+			this.animationList[animationID[i]] = anima;
 		}
 	
 }
 
 MySceneGraph.prototype.parseLinearAnimation = function(animation) {
 	
+	var values = {};
+	
+	values.xx = this.reader.getString(animation, "xx");	
+	values.yy = this.reader.getString(animation, "yy");
+	values.zz = this.reader.getString(animation, "zz");
+	
+	return values;
 }
 
 MySceneGraph.prototype.parseCircularAnimation = function(animation) {
+	
+	var values = {};
+	
+	values.centerx=this.reader.getString(animation, "centerx");
+	values.centery=this.reader.getString(animation, "centery");
+	values.centerz=this.reader.getString(animation, "centerz");
+	values.radius=this.reader.getString(animation, "radius");
+	values.startang=this.reader.getString(animation,"startang");
+	values.rotang=this.reader.getString(animation,"rotang");
 	
 }
 
