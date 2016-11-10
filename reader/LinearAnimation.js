@@ -21,11 +21,4 @@ LinearAnimation.prototype.constructor = LinearAnimation;
 
 LinearAnimation.prototype.move = function () {
    
-	
-<<<<<<< HEAD
 };
-=======
-};
-
-
->>>>>>> origin/master
