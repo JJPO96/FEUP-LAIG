@@ -3,6 +3,8 @@ function XMLscene(itf) {
     this.interface = itf;
     this.lightsArray = [];
     this.viewIndex = 0;
+    this.updateTime = 10;
+    this.temp = 0;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -27,7 +29,7 @@ XMLscene.prototype.init = function(application) {
 
 	this.currentCamera = 0;
 	this.cameras = [];
-	
+
 	this.materialsList = {};
     this.materialsIDs = []
 
@@ -55,8 +57,6 @@ XMLscene.prototype.initCameras = function() {
 	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 };
 
-
-
 XMLscene.prototype.initLights = function() {
 	this.setGlobalAmbientLight(0, 0 ,0, 1);
 
@@ -74,39 +74,35 @@ XMLscene.prototype.initLights = function() {
 };
 
 //Initialization of the data from Materials
-XMLscene.prototype.initMaterials = function()
-{
+XMLscene.prototype.initMaterials = function(){
     this.materialsList = this.graph.materialsList;
     this.materialsIDs = this.graph.materialsIDs;
 
 }
 
 //Initialization of the data from Textures
-XMLscene.prototype.initTextures = function ()
-{
+XMLscene.prototype.initTextures = function (){
     this.texturesList = this.graph.texturesList;
     this.texturesID = this.graph.texturesID;
-   
+
 
     if(this.texturesID.length > 0)
         this.enableTextures(true);
 }
 
 //Initialization of the data from Transformations
-XMLscene.prototype.initTransformations = function()
-{
-   
+XMLscene.prototype.initTransformations = function(){
+
     this.transformationsList = this.graph.transformationList;
     this.transformationsIDs = this.graph.transformationIDs;
 
 }
 
 //Initialization of the data from Components
-XMLscene.prototype.initComponents = function()
-{
+XMLscene.prototype.initComponents = function(){
     this.componentsList = this.graph.componentsList;
     this.componentsIDs = this.graph.componentsIDs;
-    
+
 }
 
 //Initialization of the data from Primitives
@@ -115,6 +111,9 @@ XMLscene.prototype.initPrimitives = function () {
     this.primitivesIDs = this.graph.primitivesIDs;
 };
 
+XMLScene.prototype.update = function(currTime) {
+  console.log("Time: " + currTime);
+};
 
 //Function of display of the scene
 XMLscene.prototype.display = function() {
@@ -133,18 +132,18 @@ XMLscene.prototype.display = function() {
 
 	// Update all lights used
 	this.updateLights();
-	
+
 	// Draw axis
 	this.axis.display();
-	
+
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
 		this.displayGraph(this.graph.root, null, null);
-	};	
+	};
 }
 
-//Function to intialize everything 
+//Function to intialize everything
 XMLscene.prototype.onGraphLoaded = function() {
 
     this.gl.clearColor(this.graph.illumination.background[0],
@@ -167,7 +166,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.initTransformations();
     this.initComponents();
     this.axis = new CGFaxis(this, this.graph.axis_length);
-	
+
 };
 
 //Function to update the different views from dsx by pressing 'v'
@@ -251,14 +250,13 @@ XMLscene.prototype.updateLights = function () {
 }
 
 //Function of the graph where the scene is created
-XMLscene.prototype.displayGraph = function(root, material, texture)
-{
+XMLscene.prototype.displayGraph = function(root, material, texture){
 	 var node;
 	 var mat;
 	 var text;
 	  var s;
-	  var 
-	  
+	  var
+
 
 	  node = this.componentsList[root];
 
@@ -295,16 +293,16 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 
 	    for(var i = 0; i < node.primitivesRefs.length; i++){
 	      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
-	       
+
 	    	  s = this.texturesList[node.texture + "s"];
 	    	  t = this.texturesList[node.texture + "t"];
-	    	  
+
 	    	  if(s > 1 && t > 1){
 	    		  this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
 	    		  mat.setTextureWrap('REPEAT', 'REPEAT');
 	        }
 	      }
-	      
+
 	      this.primitives[node.primitivesRefs[i]].display();
 	    }
 
@@ -318,8 +316,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture)
 	}
 
 //Function to appy the transformations in each node
-XMLscene.prototype.applyTransformations = function(transformations)
-{
+XMLscene.prototype.applyTransformations = function(transformations){
 	for(var i = 0; i < transformations.length; i++){
         var transf = transformations[i];
 
