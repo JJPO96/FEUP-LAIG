@@ -520,6 +520,7 @@ MySceneGraph.prototype.parseLinearAnimation = function(animation) {
 	
 	var values = {};
 	
+	values.type = "linear";
 	values.xx = this.reader.getString(animation, "xx");	
 	values.yy = this.reader.getString(animation, "yy");
 	values.zz = this.reader.getString(animation, "zz");
@@ -531,6 +532,7 @@ MySceneGraph.prototype.parseCircularAnimation = function(animation) {
 	
 	var values = {};
 	
+	values.type = "circular";
 	values.centerx=this.reader.getString(animation, "centerx");
 	values.centery=this.reader.getString(animation, "centery");
 	values.centerz=this.reader.getString(animation, "centerz");
