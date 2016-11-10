@@ -1,23 +1,23 @@
-var LinearAnimation = function(pontoscontrolo) {
+var LinearAnimation = function(pontoscontrolo, tempo, scene) {
     Animation.apply(this, arguments);
     
     this.size = 0;
-    
-    for (var i = 0; i<pontoscontrolo.length; i++)
-    	{
-    		this.x = pontoscontrolo[i+1][0] - pontoscontrolo[i][0];
-    		this.y = pontoscontrolo[i+1][1] - pontoscontrolo[i][1];
-    		this.z = pontoscontrolo[i+1][2] - pontoscontrolo[i][2];
-    		
-    		size += sqrt(pow(x,2)+pow(y,2)+pow(z,2),2);
-    	}
-    
-    this.speed = size/tempo; 
+    this.tempo = tempo;   
 
 };
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
+
+LinearAnimation.prototype.speed = function(pontos) {
+	
+	var speed = [];
+	
+	speed[0] = pontos[0]/tempo;
+	speed[1] = pontos[1]/tempo;
+	speed[2] = pontos[2]/tempo;
+ 
+}
 
 LinearAnimation.prototype.move = function () {
    
