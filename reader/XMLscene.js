@@ -45,12 +45,7 @@ XMLscene.prototype.init = function(application) {
     this.lightsStatus =[];
     this.lightsNames = [];
 
-	// Scene elements
-  //TODO primitivas de teste
-	this.leftWall = new MyTorus(this,2,4,20,20);
-	this.floor = new MyQuad(this,0,10,0,12);
-
-
+    this.setUpdatePeriod(this.updateTime);
 };
 
 XMLscene.prototype.initCameras = function() {
@@ -111,7 +106,7 @@ XMLscene.prototype.initPrimitives = function () {
     this.primitivesIDs = this.graph.primitivesIDs;
 };
 
-XMLScene.prototype.update = function(currTime) {
+XMLscene.prototype.update = function(currTime) {
   console.log("Time: " + currTime);
 };
 
