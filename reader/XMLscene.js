@@ -106,6 +106,11 @@ XMLscene.prototype.initPrimitives = function () {
     this.primitivesIDs = this.graph.primitivesIDs;
 };
 
+XMLscene.prototype.initAnimations = function () {
+    this.animations = this.graph.animationsList;
+    this.animationsIDs = this.graph.animationsIDs;
+};
+
 XMLscene.prototype.update = function(currTime) {
   console.log("Time: " + currTime);
 };
@@ -159,6 +164,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.initPrimitives();
     this.initTextures();
     this.initTransformations();
+    this.initAnimations();	
     this.initComponents();
     this.axis = new CGFaxis(this, this.graph.axis_length);
 
@@ -285,6 +291,11 @@ XMLscene.prototype.displayGraph = function(root, material, texture){
 	        this.applyTransformations(this.transformationsList[node.transformationsID]);
 	    else
 	        this.applyTransformations(node.transformations);
+	  
+	  for (var j = 0; j < this.animationsList.length; j++){
+		  var animation = this.animationsList[node.animationID[j]];
+		  animation.move();
+	  }
 
 	    for(var i = 0; i < node.primitivesRefs.length; i++){
 	      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
@@ -300,6 +311,7 @@ XMLscene.prototype.displayGraph = function(root, material, texture){
 
 	      this.primitives[node.primitivesRefs[i]].display();
 	    }
+	    
 
 		for(var i = 0 ; i < node.componentRefs.length; i++ ){
 	        var childID = node.componentRefs[i];

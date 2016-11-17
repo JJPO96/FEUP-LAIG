@@ -12,6 +12,7 @@ var LinearAnimation = function(pontoscontrolo, tempo, scene) {
     this.move();
     
     this.pontoAtual = pontoscontrolo[0];
+    this.pontoIntermedio = 0;
 
 };
 
@@ -59,11 +60,11 @@ LinearAnimation.prototype.incrementation = function(pontos, time) {
 
 LinearAnimation.prototype.calculateSpeed = function() {
 	
-	for (var i = 0; i<pontoscontrolo.length; i++)
+	for (var i = 1; i<pontoscontrolo.length; i++)
 	{
-		this.x = pontoscontrolo[i+1][0] - pontoscontrolo[i][0];
-		this.y = pontoscontrolo[i+1][1] - pontoscontrolo[i][1];
-		this.z = pontoscontrolo[i+1][2] - pontoscontrolo[i][2];
+		this.x = pontoscontrolo[i][0] - pontoscontrolo[i-1][0];
+		this.y = pontoscontrolo[i][1] - pontoscontrolo[i-1][1];
+		this.z = pontoscontrolo[i][2] - pontoscontrolo[i-1][2];
 		
 		size += sqrt(pow(x,2)+pow(y,2)+pow(z,2),2);
 	}
@@ -74,7 +75,6 @@ LinearAnimation.prototype.calculateSpeed = function() {
 
 LinearAnimation.prototype.move = function () {
    
-	while (){ // - TODO JÁ NÃO CONSIGO PENSAR NISTO
 		this.pontoAtual[0] += this.increment[i][0];
 		this.pontoAtual[1] += this.increment[i][1];
 		this.pontoAtual[2] += this.increment[i][2];
