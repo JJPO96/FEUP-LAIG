@@ -12,7 +12,7 @@ function MyPatch(scene, orderU, orderV, partsX, partsY, controlPoints) {
 
 };
 
-MyPatch.prototype = Object.create(CGFobject.prototype);
+MyPatch.prototype = Object.create(CGFnurbsObject.prototype);
 MyPatch.prototype.constructor = MyPatch;
 
 MyPatch.prototype.getKnotsVector = function(degree) {

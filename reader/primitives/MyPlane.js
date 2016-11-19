@@ -16,16 +16,9 @@ function MyPlane(scene, dimX, dimY, partsX, partsY) {
   ];
 
   this.plane = new MyPatch(scene, 1, 1, partsX, partsY, controlPoints);
-/*
-	var nurbsSurface = new CGFnurbsSurface(1, 1, knots1, knots2, controlPoints);
-	getSurfacePoint = function(u, v) {
-		return nurbsSurface.getPoint(u, v);
-	};
-
-	this.plane = new CGFnurbsObject(scene, getSurfacePoint, partsX, partsY);*/
 };
 
-MyPlane.prototype = Object.create(CGFobject.prototype);
+MyPlane.prototype = Object.create(CGFnurbsObject.prototype);
 MyPlane.prototype.constructor = MyPlane;
 
 MyPlane.prototype.getKnotsVector = function(degree) {
