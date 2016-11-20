@@ -42,6 +42,8 @@ function MySceneGraph(filename, scene) {
 
     this.animationsList = {};
     this.animationsIDs = [];
+    
+    
 
 
     // File reading

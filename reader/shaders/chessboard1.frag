@@ -17,7 +17,7 @@ uniform vec4 cS;
 
 
 
-vec4 colorSeclect(vec2 tex, vec4 c1, vec4 c2) {
+vec4 colorSelect(vec2 tex, vec4 c1, vec4 c2) {
 				if(((tex.x > (sU/dU)) && (tex.x < (sU+1.0)/dU)) && ((tex.y > (sV/dV)) && (tex.y < (sV+1.0)/dV)) ){
 							return cS;
 				}else{
