@@ -1,13 +1,8 @@
-/**
- @constructor animation
- @abstract
- */
-var Animation = function() {
+function Animation() {
 
-    if (this.constructor === Animation) {
-      throw new Error("Can't instantiate abstract class!");
-    }
-};
+}
+
+Animation.prototype.constructor = Animation;
 
 Animation.prototype.init = function(id) {
     this.id = id;
