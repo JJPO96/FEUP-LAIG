@@ -44,6 +44,9 @@ XMLscene.prototype.init = function(application) {
 
     this.lightsStatus =[];
     this.lightsNames = [];
+    
+    this.animationsList = {};
+    this.animationsIDs = [];
 
     this.setUpdatePeriod(this.updateTime);
 };
@@ -251,76 +254,71 @@ XMLscene.prototype.updateLights = function () {
 }
 
 //Function of the graph where the scene is created
-XMLscene.prototype.displayGraph = function(root, material, texture){
-	 var node;
-	 var mat;
-	 var text;
-	  var s;
-	  var
+XMLscene.prototype.displayGraph = function(root, material, texture)
+{
+  var node;
+  var mat;
+	var text;
 
 
-	  node = this.componentsList[root];
+	node = this.componentsList[root];
 
-		//transformations
-		this.pushMatrix();
+	//transformations
+	this.pushMatrix();
 
-		//materials
-		if(node.materialListIDs[0] == 'inherit')
-				mat = material;
-		else
-	      mat = this.materialsList[node.materialListIDs[node.materialIndex]];
+	if(node.materialListIDs[0] == 'inherit')
+			mat = material;
+	else
+      mat = this.materialsList[node.materialListIDs[node.materialIndex]];
 
-		//textures
-		text = this.texturesList[node.texture];
-
-
-		switch(node.texture){
-				case "none":
-					 text = null;
-				break;
-				case "inherit":
-					 text = texture;
-				break;
-		}
-
-
-	  mat.setTexture(text);
-	  mat.apply();
-
-	  if(node.transformationsID != null)
-	        this.applyTransformations(this.transformationsList[node.transformationsID]);
-	    else
-	        this.applyTransformations(node.transformations);
-	  
-	  for (var j = 0; j < this.animationsList.length; j++){
-		  var animation = this.animationsList[node.animationID[j]];
-		  animation.move();
-	  }
-
-	    for(var i = 0; i < node.primitivesRefs.length; i++){
-	      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
-
-	    	  s = this.texturesList[node.texture + "s"];
-	    	  t = this.texturesList[node.texture + "t"];
-
-	    	  if(s > 1 && t > 1){
-	    		  this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
-	    		  mat.setTextureWrap('REPEAT', 'REPEAT');
-	        }
-	      }
-
-	      this.primitives[node.primitivesRefs[i]].display();
-	    }
-	    
-
-		for(var i = 0 ; i < node.componentRefs.length; i++ ){
-	        var childID = node.componentRefs[i];
-		    this.displayGraph(childID, mat, text);
-
+	//textures
+	text = this.texturesList[node.texture];
+	switch(node.texture){
+			case "none":
+				 text = null;
+			break;
+			case "inherit":
+				 text = texture;
+			break;
 	}
-		this.popMatrix();
 
-	}
+    if(node.transformationsID != null)
+        this.applyTransformations(this.transformationsList[node.transformationsID]);
+    else
+        this.applyTransformations(node.transformations);
+
+
+   /* if(node.currentAnimation < node.animationList.length){
+        var animation = this.animationsList[node.animationList[node.currentAnimation]];
+        if(animation.animate() == 1 && node.currentAnimation + 1 < node.animationList.length)
+            node.currentAnimation++;
+    }*/
+    for(var i = 0; i < node.primitivesRefs.length; i++){
+      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
+      var  s = this.texturesList[node.texture + "s"];
+      var  t = this.texturesList[node.texture + "t"];
+        if(s  > 1 && t > 1){
+            this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+            mat.setTextureWrap('REPEAT', 'REPEAT');
+        }
+      }
+
+      mat.setTexture(text);
+      mat.apply();
+
+
+      this.primitives[node.primitivesRefs[i]].display();
+    }
+
+	for(var i = 0 ; i < node.componentRefs.length; i++ ){
+        var childID = node.componentRefs[i];
+	    this.displayGraph(childID, mat, text);
+
+}
+	this.popMatrix();
+
+}
+
 
 //Function to appy the transformations in each node
 XMLscene.prototype.applyTransformations = function(transformations){
