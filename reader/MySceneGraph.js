@@ -12,7 +12,7 @@ function MySceneGraph(filename, scene) {
     this.xyz = ['x', 'y', 'z'];
     this.doublexyz = ['xx', 'yy', 'zz'];
 
-    this.allTagNames = ['scene', 'views', 'illumination', 'lights', 'textures', 'materials','transformations','primitives', 'components', 'animations'];
+    this.allTagNames = ['scene', 'views', 'illumination', 'lights', 'textures', 'materials', 'transformations', 'primitives', 'components', 'animations'];
 
     this.sceneAtr;
     this.views;
@@ -82,81 +82,80 @@ MySceneGraph.prototype.onXMLReady = function() {
  */
 
 //Function to verify the status of the loading parser
-MySceneGraph.prototype.onXMLReady=function()
-{
-	console.log("XML Loading finished.");
-	var rootElement = this.reader.xmlDoc.documentElement;
+MySceneGraph.prototype.onXMLReady = function() {
+    console.log("XML Loading finished.");
+    var rootElement = this.reader.xmlDoc.documentElement;
 
-	var checkDSX = this.checkOrder(rootElement);
-	if(checkDSX != 0){
-		this.onXMLError(checkDSX);
-		return;
-	}
+    var checkDSX = this.checkOrder(rootElement);
+    if (checkDSX != 0) {
+        this.onXMLError(checkDSX);
+        return;
+    }
 
-	var sceneError = this.parseScene(rootElement);
-	if (sceneError != null) {
-		this.onXMLError(sceneError);
-		return;
-	}
+    var sceneError = this.parseScene(rootElement);
+    if (sceneError != null) {
+        this.onXMLError(sceneError);
+        return;
+    }
 
-	var viewsError = this.parseViews(rootElement);
-	if (viewsError != null) {
-		this.onXMLError(viewsError);
-		return;
-	}
+    var viewsError = this.parseViews(rootElement);
+    if (viewsError != null) {
+        this.onXMLError(viewsError);
+        return;
+    }
 
-	var illuminationError = this.parseIllumination(rootElement);
-	if (illuminationError != null) {
-		this.onXMLError(illuminationError);
-		return;
-	}
+    var illuminationError = this.parseIllumination(rootElement);
+    if (illuminationError != null) {
+        this.onXMLError(illuminationError);
+        return;
+    }
 
-	var lightsError = this.parseLights(rootElement);
-	if (lightsError != null) {
-		this.onXMLError(lightsError);
-		return;
-	}
+    var lightsError = this.parseLights(rootElement);
+    if (lightsError != null) {
+        this.onXMLError(lightsError);
+        return;
+    }
 
-	var texturesError = this.parseTextures(rootElement);
-	if (texturesError != null) {
-		this.onXMLError(texturesError);
-		return;
-	}
+    var texturesError = this.parseTextures(rootElement);
+    if (texturesError != null) {
+        this.onXMLError(texturesError);
+        return;
+    }
 
-	var materialsError = this.parseMaterials(rootElement);
-	if (materialsError != null) {
-		this.onXMLError(materialsError);
-		return;
-	}
+    var materialsError = this.parseMaterials(rootElement);
+    if (materialsError != null) {
+        this.onXMLError(materialsError);
+        return;
+    }
 
-	var transformationsError = this.parseTransformations(rootElement);
-	if (transformationsError != null) {
-		this.onXMLError(transformationsError);
-		return;
-	}
+    var transformationsError = this.parseTransformations(rootElement);
+    if (transformationsError != null) {
+        this.onXMLError(transformationsError);
+        return;
+    }
 
-	var primitivesError = this.parsePrimitives(rootElement);
-	if (primitivesError != null) {
-		this.onXMLError(primitivesError);
-		return;
-	}
+    var primitivesError = this.parsePrimitives(rootElement);
+    if (primitivesError != null) {
+        this.onXMLError(primitivesError);
+        return;
+    }
 
-	var componentsError = this.parseComponents(rootElement);
-	if (componentsError != null) {
-		this.onXMLError(componentsError);
-		return;
-	}
+    var componentsError = this.parseComponents(rootElement);
+    if (componentsError != null) {
+        this.onXMLError(componentsError);
+        return;
+    }
 
-	var animationsError = this.parseAnimations(rootElement);
-	if (animationsError != null) {
-		this.onXMLError(animationsError);
-		return;
-	}
+    var animationsError = this.parseAnimations(rootElement);
+    if (animationsError != null) {
+        this.onXMLError(animationsError);
+        return;
+    }
 
-	this.loadedOk=true;
+    this.loadedOk = true;
 
-	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-	this.scene.onGraphLoaded();
+    // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
+    this.scene.onGraphLoaded();
 };
 
 //Programed function to any error on dsx
@@ -165,23 +164,23 @@ MySceneGraph.prototype.onXMLError = function(message) {
     this.loadedOk = false;
 };
 
-MySceneGraph.prototype.checkOrder = function(rootElement){
+MySceneGraph.prototype.checkOrder = function(rootElement) {
 
-	if(rootElement.children.length < 9 || rootElement.children.length > 11){
-		console.error("Wrong number of tags");
-		return 1;
-	}
+    if (rootElement.children.length < 9 || rootElement.children.length > 11) {
+        console.error("Wrong number of tags");
+        return 1;
+    }
 
-	for(var i = 0;  i < this.allTagNames.length; i++){
-		if(rootElement.children[i].tagName != this.allTagNames[i]){
-			console.log(rootElement.children[i].tagName);
-			console.log(this.allTagNames[i]);
-			console.warn(rootElement.children[i].tagName + " is not on the right place");
-			break;
-		}
-	}
+    for (var i = 0; i < this.allTagNames.length; i++) {
+        if (rootElement.children[i].tagName != this.allTagNames[i]) {
+            console.log(rootElement.children[i].tagName);
+            console.log(this.allTagNames[i]);
+            console.warn(rootElement.children[i].tagName + " is not on the right place");
+            break;
+        }
+    }
 
-	return 0;
+    return 0;
 }
 
 
@@ -437,115 +436,113 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 
 //Loading of the materials from dsx
 MySceneGraph.prototype.parseMaterials = function(rootElement) {
-        var component = ['emission', 'ambient', 'diffuse', 'specular'];
+    var component = ['emission', 'ambient', 'diffuse', 'specular'];
 
-        var materials = rootElement.getElementsByTagName('materials');
+    var materials = rootElement.getElementsByTagName('materials');
 
-        if (materials == null || materials.length == 0) {
-            return "materials element is missing.";
-        }
+    if (materials == null || materials.length == 0) {
+        return "materials element is missing.";
+    }
 
 
-        var ltMaterial = materials[0].getElementsByTagName('material');
+    var ltMaterial = materials[0].getElementsByTagName('material');
 
-        for (var i = 0; i < ltMaterial.length; i++) {
+    for (var i = 0; i < ltMaterial.length; i++) {
 
-            var id = ltMaterial[i].attributes.getNamedItem("id").value;
+        var id = ltMaterial[i].attributes.getNamedItem("id").value;
 
-            if (id === null)
-                continue;
+        if (id === null)
+            continue;
 
-            var material = [];
+        var material = [];
 
-            var x = ltMaterial[i].getElementsByTagName('shininess')[0];
-            material[4] = x.getAttribute("value");
+        var x = ltMaterial[i].getElementsByTagName('shininess')[0];
+        material[4] = x.getAttribute("value");
 
-            for (var j = 0; j < component.length; j++) {
+        for (var j = 0; j < component.length; j++) {
 
-                var att = ltMaterial[i].getElementsByTagName(component[j]);
+            var att = ltMaterial[i].getElementsByTagName(component[j]);
 
-                material[j] = [];
-                for (var k = 0; k < this.rgba.length; k++) {
-                    material[j][k] = att[0].getAttribute(this.rgba[k]);
-
-                }
+            material[j] = [];
+            for (var k = 0; k < this.rgba.length; k++) {
+                material[j][k] = att[0].getAttribute(this.rgba[k]);
 
             }
-            if (this.materialsList.hasOwnProperty(id))
-                return "material " + id + " repeated";
 
-            var mat = new CGFappearance(this.scene);
-            mat.setEmission(material[0][0], material[0][1], material[0][2], material[0][3]);
-            mat.setAmbient(material[1][0], material[1][1], material[1][2], material[1][3]);
-            mat.setDiffuse(material[2][0], material[2][1], material[2][2], material[2][3]);
-            mat.setSpecular(material[3][0], material[3][1], material[3][2], material[3][3]);
-            mat.setShininess(material[4]);
+        }
+        if (this.materialsList.hasOwnProperty(id))
+            return "material " + id + " repeated";
 
-            this.materialsList[id] = mat;
-            this.materialsIDs[i] = id;
-        };
+        var mat = new CGFappearance(this.scene);
+        mat.setEmission(material[0][0], material[0][1], material[0][2], material[0][3]);
+        mat.setAmbient(material[1][0], material[1][1], material[1][2], material[1][3]);
+        mat.setDiffuse(material[2][0], material[2][1], material[2][2], material[2][3]);
+        mat.setSpecular(material[3][0], material[3][1], material[3][2], material[3][3]);
+        mat.setShininess(material[4]);
+
+        this.materialsList[id] = mat;
+        this.materialsIDs[i] = id;
+    };
 
 
-    }
+}
 
 //Loading of the transformations from dsx
 MySceneGraph.prototype.parseTransformations = function(rootElement) {
 
-	var transformations = rootElement.getElementsByTagName('transformations');
+    var transformations = rootElement.getElementsByTagName('transformations');
 
-	if (transformations == null  || transformations.length==0) {
-		return "transformations element is missing.";
-	}
+    if (transformations == null || transformations.length == 0) {
+        return "transformations element is missing.";
+    }
 
-	var numTransf = transformations[0].children.length;
+    var numTransf = transformations[0].children.length;
 
-	if(numTransf <= 0)
-		return "transformation elements are missing";
+    if (numTransf <= 0)
+        return "transformation elements are missing";
 
-	for(var i = 0; i < numTransf; i++)
-	{
-		var transf = transformations[0].children[i];
+    for (var i = 0; i < numTransf; i++) {
+        var transf = transformations[0].children[i];
 
-		var id =  this.reader.getString(transf, 'id');
-		this.transformationsIDs[i] = id;
+        var id = this.reader.getString(transf, 'id');
+        this.transformationsIDs[i] = id;
 
-		if(this.transformationList.hasOwnProperty(id))
-			return "transformation " + id + " repeated";
+        if (this.transformationList.hasOwnProperty(id))
+            return "transformation " + id + " repeated";
 
-		var tr = [];
-		for(var j = 0; j < transf.children.length; j++)
-			tr.push(this.getTransformationValues(transf.children[j]));
+        var tr = [];
+        for (var j = 0; j < transf.children.length; j++)
+            tr.push(this.getTransformationValues(transf.children[j]));
 
-		this.transformationList[this.transformationsIDs[i]] = tr;
+        this.transformationList[this.transformationsIDs[i]] = tr;
 
-	}
+    }
 
 }
 
 //Function to calculate the values from transformations
-MySceneGraph.prototype.getTransformationValues = function(transformation){
-	var values = {};
-	switch(transformation.tagName)
-	{
-		case "rotate":
-		values.type = "rotate";
-		values.axis = this.reader.getString(transformation, "axis");
-		values.angle = this.reader.getString(transformation, "angle");
-		break;
-		case "translate":
-		values.type = "translate";
-		values.x = this.reader.getString(transformation, "x");
-		values.y = this.reader.getString(transformation, "y");
-		values.z = this.reader.getString(transformation, "z");
-		break;
-		case "scale":
-		values.type = "scale";
-		values.x = this.reader.getString(transformation, "x");
-		values.y = this.reader.getString(transformation, "y");
-		values.z = this.reader.getString(transformation, "z");
-		break;
-	}
-	return values;
+MySceneGraph.prototype.getTransformationValues = function(transformation) {
+    var values = {};
+    switch (transformation.tagName) {
+        case "rotate":
+            values.type = "rotate";
+            values.axis = this.reader.getString(transformation, "axis");
+            values.angle = this.reader.getString(transformation, "angle");
+            break;
+        case "translate":
+            values.type = "translate";
+            values.x = this.reader.getString(transformation, "x");
+            values.y = this.reader.getString(transformation, "y");
+            values.z = this.reader.getString(transformation, "z");
+            break;
+        case "scale":
+            values.type = "scale";
+            values.x = this.reader.getString(transformation, "x");
+            values.y = this.reader.getString(transformation, "y");
+            values.z = this.reader.getString(transformation, "z");
+            break;
+    }
+    return values;
 
 }
 
@@ -604,8 +601,8 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
                 primitive = this.parserTorus(primitiveChild);
                 break;
             case "chessboard":
-            	primitive = this.parserChessboard(primitiveChild);
-            	break;
+                primitive = this.parserChessboard(primitiveChild);
+                break;
             case "patch":
                 primitive = this.parserPatch(primitiveChild);
                 break;
@@ -625,130 +622,128 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
 //Loading of the components from dsx
 MySceneGraph.prototype.parseComponents = function(rootElement) {
 
-	//-----------------------------------------------------
-	//----------------------COMPONENT----------------------
-	//-----------------------------------------------------
-	var components = rootElement.getElementsByTagName('components');
+    //-----------------------------------------------------
+    //----------------------COMPONENT----------------------
+    //-----------------------------------------------------
+    var components = rootElement.getElementsByTagName('components');
 
-	if (components == null  || components.length==0) {
-		return "components element is missing.";
-	}
+    if (components == null || components.length == 0) {
+        return "components element is missing.";
+    }
 
-	var compLength = components[0].children.length;
+    var compLength = components[0].children.length;
 
-	for(var i = 0; i < compLength; i++)
-	{
-		var component = components[0].children[i];
+    for (var i = 0; i < compLength; i++) {
+        var component = components[0].children[i];
 
-		var componentID = this.reader.getString(component, 'id');
+        var componentID = this.reader.getString(component, 'id');
 
-		if(this.componentsList.hasOwnProperty(componentID))
-			return "component " +  componentID + " repeated";
+        if (this.componentsList.hasOwnProperty(componentID))
+            return "component " + componentID + " repeated";
 
-		//----------------------------------------------------------
-		//----------------------TRANSFORMATION----------------------
-		//----------------------------------------------------------
-		var transformation = component.getElementsByTagName('transformation');
+        //----------------------------------------------------------
+        //----------------------TRANSFORMATION----------------------
+        //----------------------------------------------------------
+        var transformation = component.getElementsByTagName('transformation');
 
-		if(transformation == null) {
-			return "transformation element is missing on Components";
-		}
+        if (transformation == null) {
+            return "transformation element is missing on Components";
+        }
 
-		transformation = transformation[0];
-		var transformationRef = transformation.getElementsByTagName('transformationref');
-		var transformationID;
-		var transfList = [];
-		// reads transformationref or the transformation list
-		if(transformationRef != null && transformationRef.length != 0)
-			transformationID = this.reader.getString(transformationRef[0], 'id');
-		else
-		{
-			transformationID = null;
-			for(var j = 0; j < transformation.children.length; j++)
-				transfList.push(this.getTransformationValues(transformation.children[j]));
-		}
+        transformation = transformation[0];
+        var transformationRef = transformation.getElementsByTagName('transformationref');
+        var transformationID;
+        var transfList = [];
+        // reads transformationref or the transformation list
+        if (transformationRef != null && transformationRef.length != 0)
+            transformationID = this.reader.getString(transformationRef[0], 'id');
+        else {
+            transformationID = null;
+            for (var j = 0; j < transformation.children.length; j++)
+                transfList.push(this.getTransformationValues(transformation.children[j]));
+        }
 
-		//-----------------------------------------------------
-		//----------------------ANIMATION----------------------
-		//-----------------------------------------------------
-		/*var animationList = [];
+        //-----------------------------------------------------
+        //----------------------ANIMATION----------------------
+        //-----------------------------------------------------
+        /*var animationList = [];
 
-		var animation = component.getElementsByTagName('animation');
+        var animation = component.getElementsByTagName('animation');
 
-		if(animation.length != 0){
-		for(var j = 0; j < animation[0].children.length; j++)
-			animationList[j] = this.reader.getString(animation[0].children[j], 'id');
-		}*/
+        if(animation.length != 0){
+        for(var j = 0; j < animation[0].children.length; j++)
+        	animationList[j] = this.reader.getString(animation[0].children[j], 'id');
+        }*/
 
-		//----------------------------------------------------
-		//----------------------MATERIAL----------------------
-		//----------------------------------------------------
-		var material = component.getElementsByTagName('materials');
+        //----------------------------------------------------
+        //----------------------MATERIAL----------------------
+        //----------------------------------------------------
+        var material = component.getElementsByTagName('materials');
 
-		if (material.length == 0) {
-			return "materials element is missing com Components";
-		}
+        if (material.length == 0) {
+            return "materials element is missing com Components";
+        }
 
-		var materialLength = material[0].children.length;
-		var materialID = [];
+        var materialLength = material[0].children.length;
+        var materialID = [];
 
-		if(materialLength == 0)
-			return "every element must include at least a material";
+        if (materialLength == 0)
+            return "every element must include at least a material";
 
-		//reads materialsIDs
-		for(var j = 0; j < materialLength; j++)
-			materialID[j] = this.reader.getString(material[0].children[j], 'id');
+        //reads materialsIDs
+        for (var j = 0; j < materialLength; j++)
+            materialID[j] = this.reader.getString(material[0].children[j], 'id');
 
-		//---------------------------------------------------
-		//----------------------TEXTURE----------------------
-		//---------------------------------------------------
-		var texture = component.getElementsByTagName('texture');
-		if(texture == null || texture.length == 0) {
-			return "texture element is missing on Components";
-		}
+        //---------------------------------------------------
+        //----------------------TEXTURE----------------------
+        //---------------------------------------------------
+        var texture = component.getElementsByTagName('texture');
+        if (texture == null || texture.length == 0) {
+            return "texture element is missing on Components";
+        }
 
-		texture = this.reader.getString(texture[0], 'id');
+        texture = this.reader.getString(texture[0], 'id');
 
-		//----------------------------------------------------
-		//----------------------CHILDREN----------------------
-		//----------------------------------------------------
-		var children = component.getElementsByTagName('children');
-		if(children == null || children.length == 0) {
-			return "children element is missing on Components";
-		}
+        //----------------------------------------------------
+        //----------------------CHILDREN----------------------
+        //----------------------------------------------------
+        var children = component.getElementsByTagName('children');
+        if (children == null || children.length == 0) {
+            return "children element is missing on Components";
+        }
 
-		children = children[0];
-		var componentref = children.getElementsByTagName('componentref');
-		var primitiveref = children.getElementsByTagName('primitiveref');
-		if(componentref.length == 0 && primitiveref.length == 0) {
-			return "children element on Components must contain componentref and/or primitiveref";
-		}
+        children = children[0];
+        var componentref = children.getElementsByTagName('componentref');
+        var primitiveref = children.getElementsByTagName('primitiveref');
+        if (componentref.length == 0 && primitiveref.length == 0) {
+            return "children element on Components must contain componentref and/or primitiveref";
+        }
 
-		var componentRefs = [];
-		var primitiveRefs = [];
+        var componentRefs = [];
+        var primitiveRefs = [];
 
-		for(var j = 0; j < componentref.length; j++)
-			componentRefs[j] = this.reader.getString(componentref[j], 'id');
+        for (var j = 0; j < componentref.length; j++)
+            componentRefs[j] = this.reader.getString(componentref[j], 'id');
 
-		for(var j = 0; j < primitiveref.length; j++)
-			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
+        for (var j = 0; j < primitiveref.length; j++)
+            primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
 
-		var animationList = [];
+        var animationList = [];
 
-		var animation = component.getElementsByTagName('animation');
+        var animation = component.getElementsByTagName('animation');
 
-		if(animation.length != 0){
-		for(var j = 0; j < animation[0].children.length; j++)
-			animationList[j] = this.reader.getString(animation[0].children[j], 'id');
-		}
+        if (animation.length != 0) {
+            for (var j = 0; j < animation[0].children.length; j++)
+                animationList[j] = this.reader.getString(animation[0].children[j], 'id');
+        }
 
 
-		var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs, animationList);
+        var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs, animationList);
 
-		this.componentsList[componentID] = component;
-		this.componentsIDs[i] = componentID;
+        this.componentsList[componentID] = component;
+        this.componentsIDs[i] = componentID;
 
-	}
+    }
 
 }
 
@@ -802,58 +797,58 @@ MySceneGraph.prototype.parserTriangle = function(element) {
 //Loading of the cylinder from dsx
 MySceneGraph.prototype.parserCylinder = function(element) {
 
-	var coord ={
-			base: 0,
-			top: 0,
-			height: 0,
-			slices: 0,
-			stacks: 0
-		}
+    var coord = {
+        base: 0,
+        top: 0,
+        height: 0,
+        slices: 0,
+        stacks: 0
+    }
 
-		coord.base = this.reader.getFloat(element, 'base');
-		coord.top = this.reader.getFloat(element, 'top');
-		coord.height = this.reader.getFloat(element, 'height');
-		coord.slices = this.reader.getInteger(element, 'slices');
-		coord.stacks = this.reader.getInteger(element, 'stacks');
+    coord.base = this.reader.getFloat(element, 'base');
+    coord.top = this.reader.getFloat(element, 'top');
+    coord.height = this.reader.getFloat(element, 'height');
+    coord.slices = this.reader.getInteger(element, 'slices');
+    coord.stacks = this.reader.getInteger(element, 'stacks');
 
-		return new MyCylinder(this.scene,coord.base, coord.top, coord.height ,coord.slices, coord.stacks);
+    return new MyCylinder(this.scene, coord.base, coord.top, coord.height, coord.slices, coord.stacks);
 
 }
 
-MySceneGraph.prototype.getNvalues = function(rootElement, type){
+MySceneGraph.prototype.getNvalues = function(rootElement, type) {
 
-	if(rootElement == null)
-	return "error geting values";
+    if (rootElement == null)
+        return "error geting values";
 
-	var tmp = [];
+    var tmp = [];
 
-	for(var i = 0; i< type.length; i++){
-		tmp[i] = this.reader.getFloat(rootElement,type[i]);
-	}
+    for (var i = 0; i < type.length; i++) {
+        tmp[i] = this.reader.getFloat(rootElement, type[i]);
+    }
 
-	return tmp;
+    return tmp;
 }
 
-MySceneGraph.prototype.parserChessboard = function(element){
-	var textureRef = this.reader.getString(element, 'textureref');
-	var texture = this.texturesList[textureRef];
+MySceneGraph.prototype.parserChessboard = function(element) {
+    var textureRef = this.reader.getString(element, 'textureref');
+    var texture = this.texturesList[textureRef];
 
-	var du = this.reader.getInteger(element, 'du');
-	var dv = this.reader.getInteger(element, 'dv');
-	var su = this.reader.getInteger(element, 'su');
-	var sv = this.reader.getInteger(element, 'sv');
+    var du = this.reader.getInteger(element, 'du');
+    var dv = this.reader.getInteger(element, 'dv');
+    var su = this.reader.getInteger(element, 'su');
+    var sv = this.reader.getInteger(element, 'sv');
 
-	var c1 = this.getNvalues(element.getElementsByTagName('c1')[0], this.rgba);
-	var c2 = this.getNvalues(element.getElementsByTagName('c2')[0], this.rgba);
-	var cs = this.getNvalues(element.getElementsByTagName('cs')[0], this.rgba);
+    var c1 = this.getNvalues(element.getElementsByTagName('c1')[0], this.rgba);
+    var c2 = this.getNvalues(element.getElementsByTagName('c2')[0], this.rgba);
+    var cs = this.getNvalues(element.getElementsByTagName('cs')[0], this.rgba);
 
-	console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
-	console.log(c1);
-	console.log(c2);
-	console.log(cs);
+    console.log("texture= " + textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv);
+    console.log(c1);
+    console.log(c2);
+    console.log(cs);
 
 
-	return new MyChessboard(this.scene, du, dv, texture, su, sv, c1, c2, cs);
+    return new MyChessboard(this.scene, du, dv, texture, su, sv, c1, c2, cs);
 
 }
 
@@ -884,36 +879,31 @@ MySceneGraph.prototype.parserPatch = function(element) {
     var oV = this.reader.getInteger(element, 'orderV');
     var controlPoints = [];
 
-    var testPoints = [	// U = 0
-      [ // V = 0..3;
-         [ -1.5, -1.5, 0.0, 1 ],
-         [ -2.0, -2.0, 2.0, 1 ],
-         [ -2.0,  2.0, 2.0, 1 ],
-         [ -1.5,  1.5, 0.0, 1 ]
-
-      ],
-      // U = 1
-      [ // V = 0..3
-         [ 0, 0, 3.0, 1 ],
-         [ 0, -2.0, 3.0, 1],
-         [ 0,  2.0, 3.0, 1 ],
-         [ 0,  0, 3.0, 1 ]
-      ],
-      // U = 2
-      [ // V = 0..3
-         [ 1.5, -1.5, 0.0, 1 ],
-         [ 2.0, -2.0, 2.0, 1 ],
-         [ 2.0,  2.0, 2.0, 1 ],
-         [ 1.5,  1.5, 0.0, 1 ]
-      ]
-    ];
+    if (element.children.length < ((oU + 1) * (oV + 1))) {
+        console.log("Error creating patch: control points missing!");
+    } else if (element.children.length > ((oU + 1) * (oV + 1))) {
+        console.log("Error creating patch: too many control points!");
+    }
+    var abc = 0;
+    for (var i = 0; i < (oU + 1); i++) {
+      var tempA = [];
+      for (var j = 0; j < (oV + 1); j++) {
+        var tempB = [this.reader.getFloat(element.children[abc],'x'),
+                     this.reader.getFloat(element.children[abc],'y'),
+                     this.reader.getFloat(element.children[abc],'z'),
+                     1];
+        abc++;
+        tempA.push(tempB);
+      }
+      controlPoints.push(tempA);
+    }
 
     return new MyPatch(this.scene,
-        oU,
-        oV,
-        this.reader.getInteger(element, 'partsU'),
-        this.reader.getInteger(element, 'partsV'),
-        testPoints);
+                       oU,
+                       oV,
+                       this.reader.getInteger(element, 'partsU'),
+                       this.reader.getInteger(element, 'partsV'),
+                       controlPoints);
 
 }
 
@@ -933,62 +923,62 @@ MySceneGraph.prototype.parserVehicle = function(element) {
 
 }
 
-MySceneGraph.prototype.parseAnimations = function(variable){
+MySceneGraph.prototype.parseAnimations = function(variable) {
 
-	var allElements = variable.getElementsByTagName('animations');
+    var allElements = variable.getElementsByTagName('animations');
 
-	if(allElements == null){
-		return "animations element is missing";
-	}
+    if (allElements == null) {
+        return "animations element is missing";
+    }
 
-	var animations = allElements[0].getElementsByTagName('animation');
+    var animations = allElements[0].getElementsByTagName('animation');
 
-	for(var i = 0; i < animations.length; i++ ){
-		var element = animations[i];
-		var id = this.reader.getString(element, 'id');
-		var span = this.reader.getFloat(element, 'span');
-		var type = this.reader.getString(element, 'type');
-		var controlPoints = [];
+    for (var i = 0; i < animations.length; i++) {
+        var element = animations[i];
+        var id = this.reader.getString(element, 'id');
+        var span = this.reader.getFloat(element, 'span');
+        var type = this.reader.getString(element, 'type');
+        var controlPoints = [];
 
-		this.animationsIDs[i] = id;
+        this.animationsIDs[i] = id;
 
-		switch (type) {
-			case "linear":
-			controlPoints = this.getControlPoints(element, this.doublexyz);
+        switch (type) {
+            case "linear":
+                controlPoints = this.getControlPoints(element, this.doublexyz);
 
-			console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
-			this.animationsList[id] = new LinearAnimation(id, controlPoints, span, this.scene);
+                console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] + " control1= " + controlPoints[0][1] + " control2= " + controlPoints[0][2]);
+                this.animationsList[id] = new LinearAnimation(id, controlPoints, span, this.scene);
 
-			break;
-			case "circular":
-			var center = [];
-			center.push( this.reader.getFloat(element,'centerx'));
-			center.push( this.reader.getFloat(element,'centery'));
-			center.push( this.reader.getFloat(element,'centerz'));
+                break;
+            case "circular":
+                var center = [];
+                center.push(this.reader.getFloat(element, 'centerx'));
+                center.push(this.reader.getFloat(element, 'centery'));
+                center.push(this.reader.getFloat(element, 'centerz'));
 
-			var radius = this.reader.getFloat(element, 'radius');
-			var startang = this.reader.getFloat(element, 'startang');
-			var rotang = this.reader.getFloat(element, 'rotang');
-			//console.log("id = " + id + " span= " + span + " type= " + type + " centerX= " + center[0]+ " centerY= " + center[1] + " centerZ= " + center[2] + " radius= " + radius + " startang= "+ startang + " rotang= " + rotang);
-			this.animationsList[id] = new CircularAnimation(id, span, center, radius, startang, rotang, this.scene);
-			break;
-		}
-	}
+                var radius = this.reader.getFloat(element, 'radius');
+                var startang = this.reader.getFloat(element, 'startang');
+                var rotang = this.reader.getFloat(element, 'rotang');
+                //console.log("id = " + id + " span= " + span + " type= " + type + " centerX= " + center[0]+ " centerY= " + center[1] + " centerZ= " + center[2] + " radius= " + radius + " startang= "+ startang + " rotang= " + rotang);
+                this.animationsList[id] = new CircularAnimation(id, span, center, radius, startang, rotang, this.scene);
+                break;
+        }
+    }
 }
 
-MySceneGraph.prototype.getControlPoints = function (element, variables){
+MySceneGraph.prototype.getControlPoints = function(element, variables) {
 
-	var controlPoints = [];
+    var controlPoints = [];
 
-	var control = element.getElementsByTagName('controlpoint');
+    var control = element.getElementsByTagName('controlpoint');
 
-	for (var j = 0; j < control.length; j++) {
-		var x = this.reader.getFloat(control[j],variables[0]);
-		var y = this.reader.getFloat(control[j],variables[1]);
-		var z = this.reader.getFloat(control[j],variables[2]);
+    for (var j = 0; j < control.length; j++) {
+        var x = this.reader.getFloat(control[j], variables[0]);
+        var y = this.reader.getFloat(control[j], variables[1]);
+        var z = this.reader.getFloat(control[j], variables[2]);
 
-		controlPoints.push([x,y,z,1]);
-	}
+        controlPoints.push([x, y, z, 1]);
+    }
 
-	return controlPoints;
+    return controlPoints;
 }
