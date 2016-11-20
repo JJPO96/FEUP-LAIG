@@ -307,7 +307,7 @@
 
             <animation>
                 <!--animationref id="oiCircular"/-->
-                <animationref id="oi"/>
+                <animationref id="oiCircular"/>
             </animation>
 
             <materials>
