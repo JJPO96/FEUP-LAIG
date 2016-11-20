@@ -3,7 +3,7 @@ function MyChessboard(scene,du,dv,texture, c1,c2,cs,su = -1,sv = -1) {
     this.scene = scene;
 
     this.texture = texture;
-    this.plane = new Plane(this.scene,1,1, 100, 100);
+    this.plane = new MyPlane(this.scene,1,1, 100, 100);
 
     this.initBuffers();
 }
