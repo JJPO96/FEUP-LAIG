@@ -880,8 +880,8 @@ MySceneGraph.prototype.parserTorus = function(element) {
 //Loading of the patch from dsx
 MySceneGraph.prototype.parserPatch = function(element) {
     console.log("patch");
-    var oU = this.reader.getInteger(element, 'orderU'),
-    var oV = this.reader.getInteger(element, 'orderV'),
+    var oU = this.reader.getInteger(element, 'orderU');
+    var oV = this.reader.getInteger(element, 'orderV');
     var controlPoints = [];
 
     var testPoints = [	// U = 0
