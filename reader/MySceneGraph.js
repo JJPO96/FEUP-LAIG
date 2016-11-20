@@ -10,7 +10,7 @@ function MySceneGraph(filename, scene) {
     this.rgba = ['r', 'g', 'b', 'a'];
     this.xyzw = ['x', 'y', 'z', 'w'];
     this.xyz = ['x', 'y', 'z'];
-    
+
     this.allTagNames = ['scene', 'views', 'illumination', 'lights', 'textures', 'materials','transformations','primitives', 'components', 'animations'];
 
     this.sceneAtr;
@@ -38,7 +38,7 @@ function MySceneGraph(filename, scene) {
 
     this.primitivesList = {};
     this.primitivesIDs = [];
-    
+
     this.animationsList = {};
     this.animationsIDs = [];
 
@@ -166,7 +166,7 @@ MySceneGraph.prototype.onXMLError = function(message) {
 
 MySceneGraph.prototype.checkOrder = function(rootElement){
 
-	if(rootElement.children.length != 10){
+	if(rootElement.children.length < 9 || rootElement.children.length > 11){
 		console.error("Wrong number of tags");
 		return 1;
 	}
@@ -466,7 +466,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
                 material[j] = [];
                 for (var k = 0; k < this.rgba.length; k++) {
                     material[j][k] = att[0].getAttribute(this.rgba[k]);
-                   
+
                 }
 
             }
@@ -602,9 +602,21 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             case "torus":
                 primitive = this.parserTorus(primitiveChild);
                 break;
+<<<<<<< HEAD
             case "chessboard":
             	primitive = this.parserChessboard(primitiveChild);
             	break;
+=======
+            case "patch":
+                primitive = this.parserPatch(primitiveChild);
+                break;
+            case "plane":
+                primitive = this.parserPlane(primitiveChild);
+                break;
+            case "vehicle":
+                primitive = this.parserVehicle(primitiveChild);
+                break;
+>>>>>>> origin/master
 
         }
         this.primitivesIDs[i] = id;
@@ -625,7 +637,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 	}
 
 	var compLength = components[0].children.length;
-	
+
 	for(var i = 0; i < compLength; i++)
 	{
 		var component = components[0].children[i];
@@ -634,7 +646,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 
 		if(this.componentsList.hasOwnProperty(componentID))
 			return "component " +  componentID + " repeated";
-		
+
 		//----------------------------------------------------------
 		//----------------------TRANSFORMATION----------------------
 		//----------------------------------------------------------
@@ -657,7 +669,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 			for(var j = 0; j < transformation.children.length; j++)
 				transfList.push(this.getTransformationValues(transformation.children[j]));
 		}
-		
+
 		//-----------------------------------------------------
 		//----------------------ANIMATION----------------------
 		//-----------------------------------------------------
@@ -670,7 +682,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 			animationList[j] = this.reader.getString(animation[0].children[j], 'id');
 		}
 
-		//----------------------------------------------------	
+		//----------------------------------------------------
 		//----------------------MATERIAL----------------------
 		//----------------------------------------------------
 		var material = component.getElementsByTagName('materials');
@@ -688,7 +700,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 		//reads materialsIDs
 		for(var j = 0; j < materialLength; j++)
 			materialID[j] = this.reader.getString(material[0].children[j], 'id');
-		
+
 		//---------------------------------------------------
 		//----------------------TEXTURE----------------------
 		//---------------------------------------------------
@@ -698,7 +710,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 		}
 
 		texture = this.reader.getString(texture[0], 'id');
-		
+
 		//----------------------------------------------------
 		//----------------------CHILDREN----------------------
 		//----------------------------------------------------
@@ -858,6 +870,60 @@ MySceneGraph.prototype.parserTorus = function(element) {
 
 }
 
+//Loading of the patch from dsx
+MySceneGraph.prototype.parserPatch = function(element) {
+    console.log("patch");
+    var controlPoints = [	// U = 0
+      [ // V = 0..3;
+         [ -1.5, -1.5, 0.0, 1 ],
+         [ -2.0, -2.0, 2.0, 1 ],
+         [ -2.0,  2.0, 2.0, 1 ],
+         [ -1.5,  1.5, 0.0, 1 ]
+
+      ],
+      // U = 1
+      [ // V = 0..3
+         [ 0, 0, 3.0, 1 ],
+         [ 0, -2.0, 3.0, 1],
+         [ 0,  2.0, 3.0, 1 ],
+         [ 0,  0, 3.0, 1 ]
+      ],
+      // U = 2
+      [ // V = 0..3
+         [ 1.5, -1.5, 0.0, 1 ],
+         [ 2.0, -2.0, 2.0, 1 ],
+         [ 2.0,  2.0, 2.0, 1 ],
+         [ 1.5,  1.5, 0.0, 1 ]
+      ]
+    ];
+
+    return new MyPatch(this.scene,
+        this.reader.getInteger(element, 'orderU'),
+        this.reader.getInteger(element, 'orderV'),
+        this.reader.getInteger(element, 'partsU'),
+        this.reader.getInteger(element, 'partsV'),
+        controlPoints);
+
+}
+
+//Loading of the plane from dsx
+MySceneGraph.prototype.parserPlane = function(element) {
+    console.log("plane");
+    return new MyPlane(this.scene,
+        this.reader.getFloat(element, 'dimX'),
+        this.reader.getFloat(element, 'dimY'),
+        this.reader.getInteger(element, 'partsX'),
+        this.reader.getInteger(element, 'partsY'));
+
+}
+
+//Loading of the vehicle from dsx
+MySceneGraph.prototype.parserVehicle = function(element) {
+    console.log("vehicle");
+    return new MyVehicle(this.scene);
+
+}
+
 MySceneGraph.prototype.parseAnimations = function(variable){
 
 	var allElements = variable.getElementsByTagName('animations');
@@ -906,7 +972,7 @@ MySceneGraph.prototype.getControlPoints = function (element, variables){
 	var controlPoints = [];
 
 	var control = element.getElementsByTagName('controlpoint');
-	
+
 	/*for (var j = 0; j < control.length; j++) {
 		var x = this.reader.getFloat(control[j],variables[0]);
 		var y = this.reader.getFloat(control[j],variables[1]);
@@ -917,4 +983,3 @@ MySceneGraph.prototype.getControlPoints = function (element, variables){
 
 	return controlPoints;
 }
-	
