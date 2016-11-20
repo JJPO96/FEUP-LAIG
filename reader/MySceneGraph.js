@@ -602,11 +602,10 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             case "torus":
                 primitive = this.parserTorus(primitiveChild);
                 break;
-<<<<<<< HEAD
             case "chessboard":
             	primitive = this.parserChessboard(primitiveChild);
             	break;
-=======
+
             case "patch":
                 primitive = this.parserPatch(primitiveChild);
                 break;
@@ -616,7 +615,6 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             case "vehicle":
                 primitive = this.parserVehicle(primitiveChild);
                 break;
->>>>>>> origin/master
 
         }
         this.primitivesIDs[i] = id;
