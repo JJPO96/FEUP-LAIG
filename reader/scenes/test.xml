@@ -318,58 +318,77 @@
             <texture id="none"/>
 
             <children>
-                <componentref id="field"/>
-                <componentref id="tar"/>
                 <componentref id="stands"/>
                 <componentref id="walls"/>
                 <componentref id="goals"/>
                 <componentref id="lights"/>
-                <componentref id="ball"/>
+                <componentref id="plane"/>
+                <componentref id="patch"/>
+                <componentref id="vehicle"/>
             </children>
 
         </component>
 
-        <component id="field">
+        <component id="plane">
 
             <!-- bloco "transformation" obrigatorio -->
             <transformation>
-                <translate x="-10" y="0" z="-16"/>
-                <rotate axis="y" angle="-90"/>
-                <rotate axis="x" angle="-90"/>
+                <translate x="0" y="0.1" z="0"/>
             </transformation>
 
             <materials>
-                <material id="fieldMat"/>
-                <material id="m1"/>
+
+                <material id="ballMat"/>
 
             </materials>
 
-            <texture id="fieldTex"/>
+            <texture id="ballTex"/>
 
             <children>
-                <primitiveref id="fieldPrim"/>
+                <primitiveref id="planePrim"/>
             </children>
 
         </component>
 
-        <component id="tar">
+        <component id="patch">
 
             <!-- bloco "transformation" obrigatorio -->
             <transformation>
-                <translate x="-64" y="-0.1" z="-64"/>
-                <rotate axis="y" angle="-90"/>
+                <translate x="0" y="3" z="0"/>
+            </transformation>
+
+            <materials>
+
+                <material id="ballMat"/>
+
+            </materials>
+
+            <texture id="ballTex"/>
+
+            <children>
+                <primitiveref id="patchPrim"/>
+            </children>
+
+        </component>
+
+        <component id="vehicle">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="0" y="6" z="0"/>
                 <rotate axis="x" angle="-90"/>
             </transformation>
 
             <materials>
-                <material id="tarMat"/>
+
+                <material id="ballMat"/>
 
             </materials>
 
-            <texture id="tarTex"/>
+            <texture id="ballTex"/>
 
             <children>
-                <primitiveref id="tarPrim"/>
+                <primitiveref id="vehiclePrim"/>
             </children>
 
         </component>
@@ -948,28 +967,6 @@
 
             <children>
                 <primitiveref id="goalPostPrim"/>
-            </children>
-
-        </component>
-
-        <component id="ball">
-
-            <!-- bloco "transformation" obrigatorio -->
-            <transformation>
-                <translate x="0" y="0.1" z="0"/>
-                <scale x="0.2" y="0.2" z="0.2"/>
-            </transformation>
-
-            <materials>
-
-                <material id="ballMat"/>
-
-            </materials>
-
-            <texture id="ballTex"/>
-
-            <children>
-                <primitiveref id="ballPrim"/>
             </children>
 
         </component>
