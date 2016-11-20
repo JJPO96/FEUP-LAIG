@@ -10,6 +10,7 @@ function MySceneGraph(filename, scene) {
     this.rgba = ['r', 'g', 'b', 'a'];
     this.xyzw = ['x', 'y', 'z', 'w'];
     this.xyz = ['x', 'y', 'z'];
+    this.doublexyz = ['xx', 'yy', 'zz'];
 
     this.allTagNames = ['scene', 'views', 'illumination', 'lights', 'textures', 'materials','transformations','primitives', 'components', 'animations'];
 
@@ -605,7 +606,6 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             case "chessboard":
             	primitive = this.parserChessboard(primitiveChild);
             	break;
-
             case "patch":
                 primitive = this.parserPatch(primitiveChild);
                 break;
@@ -671,14 +671,14 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 		//-----------------------------------------------------
 		//----------------------ANIMATION----------------------
 		//-----------------------------------------------------
-		var animationList = [];
+		/*var animationList = [];
 
 		var animation = component.getElementsByTagName('animation');
 
 		if(animation.length != 0){
 		for(var j = 0; j < animation[0].children.length; j++)
 			animationList[j] = this.reader.getString(animation[0].children[j], 'id');
-		}
+		}*/
 
 		//----------------------------------------------------
 		//----------------------MATERIAL----------------------
@@ -732,6 +732,15 @@ MySceneGraph.prototype.parseComponents = function(rootElement) {
 
 		for(var j = 0; j < primitiveref.length; j++)
 			primitiveRefs[j] = this.reader.getString(primitiveref[j], 'id');
+
+		var animationList = [];
+
+		var animation = component.getElementsByTagName('animation');
+
+		if(animation.length != 0){
+		for(var j = 0; j < animation[0].children.length; j++)
+			animationList[j] = this.reader.getString(animation[0].children[j], 'id');
+		}
 
 
 		var component = new Component(this.scene, materialID, transformationID, transfList, texture, primitiveRefs, componentRefs, animationList);
@@ -825,7 +834,7 @@ MySceneGraph.prototype.getNvalues = function(rootElement, type){
 	return tmp;
 }
 
-MySceneGraph.prototype.parserChessBoard = function(element){
+MySceneGraph.prototype.parserChessboard = function(element){
 	var textureRef = this.reader.getString(element, 'textureref');
 	var texture = this.texturesList[textureRef];
 
@@ -838,10 +847,10 @@ MySceneGraph.prototype.parserChessBoard = function(element){
 	var c2 = this.getNvalues(element.getElementsByTagName('c2')[0], this.rgba);
 	var cs = this.getNvalues(element.getElementsByTagName('cs')[0], this.rgba);
 
-	/*console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
+	console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
 	console.log(c1);
 	console.log(c2);
-	console.log(cs);*/
+	console.log(cs);
 
 
 	return new MyChessboard(this.scene, du, dv, texture, su, sv, c1, c2, cs);
@@ -945,7 +954,7 @@ MySceneGraph.prototype.parseAnimations = function(variable){
 			case "linear":
 			controlPoints = this.getControlPoints(element, this.doublexyz);
 
-			//console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
+			console.log("id = " + id + " span= " + span + " type= " + type + " control0= " + controlPoints[0][0] +  " control1= " + controlPoints[0][1] +  " control2= " + controlPoints[0][2]);
 			this.animationsList[id] = new LinearAnimation(id, controlPoints, span, this.scene);
 
 			break;
@@ -971,13 +980,13 @@ MySceneGraph.prototype.getControlPoints = function (element, variables){
 
 	var control = element.getElementsByTagName('controlpoint');
 
-	/*for (var j = 0; j < control.length; j++) {
+	for (var j = 0; j < control.length; j++) {
 		var x = this.reader.getFloat(control[j],variables[0]);
 		var y = this.reader.getFloat(control[j],variables[1]);
 		var z = this.reader.getFloat(control[j],variables[2]);
 
 		controlPoints.push([x,y,z,1]);
-	}*/
+	}
 
 	return controlPoints;
 }

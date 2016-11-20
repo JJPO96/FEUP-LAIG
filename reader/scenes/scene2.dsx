@@ -140,16 +140,6 @@
    <terrain texture="TOP" heightmap="YES" />
   </primitive>
 
-	
-
-	<primitive id="planePrim">
-		<plane dimX="3" dimY="2" partsX="10" partsY="7" />
-	</primitive>
-
-	<primitive id="vehiclePrim">
-		<vehicle />
-	</primitive>
-
 
 </primitives>
 
@@ -174,8 +164,8 @@
 		            </transformation>
 
 					<animation>
-						<!--animationref id="oiCircular"/-->
-						<animationref id="oi"/>
+						
+						<animationref id="oiCircular"/>
 					</animation>
 
 		            <!-- declaracao obrigatoria de pelo menos um material; -->
@@ -186,7 +176,7 @@
 		            <!-- ultimo material da lista volta ao primeiro -->
 		            <materials>
 		                <material id="body" />
-
+					
 		            </materials>
 
 		            <!-- declaracao obrigatoria de texture -->
@@ -220,7 +210,7 @@
 		    <!-- demorar. Nesta versão do formato DSX, type pode ter -->
 		    <!-- o valor "linear" ou "circular"; na animacao circular -->
 		    <!-- os angulos sao expressos em graus  -->
-		   
+		    
 		    <animation id="oiCircular" span="3" type="circular" centerx="0" centery="0" centerz="0"
 		        radius="3" startang="0" rotang="90" />
 		</animations>
