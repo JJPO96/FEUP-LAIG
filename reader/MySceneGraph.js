@@ -880,7 +880,11 @@ MySceneGraph.prototype.parserTorus = function(element) {
 //Loading of the patch from dsx
 MySceneGraph.prototype.parserPatch = function(element) {
     console.log("patch");
-    var controlPoints = [	// U = 0
+    var oU = this.reader.getInteger(element, 'orderU'),
+    var oV = this.reader.getInteger(element, 'orderV'),
+    var controlPoints = [];
+
+    var testPoints = [	// U = 0
       [ // V = 0..3;
          [ -1.5, -1.5, 0.0, 1 ],
          [ -2.0, -2.0, 2.0, 1 ],
@@ -905,17 +909,16 @@ MySceneGraph.prototype.parserPatch = function(element) {
     ];
 
     return new MyPatch(this.scene,
-        this.reader.getInteger(element, 'orderU'),
-        this.reader.getInteger(element, 'orderV'),
+        oU,
+        oV,
         this.reader.getInteger(element, 'partsU'),
         this.reader.getInteger(element, 'partsV'),
-        controlPoints);
+        testPoints);
 
 }
 
 //Loading of the plane from dsx
 MySceneGraph.prototype.parserPlane = function(element) {
-    console.log("plane");
     return new MyPlane(this.scene,
         this.reader.getFloat(element, 'dimX'),
         this.reader.getFloat(element, 'dimY'),
@@ -926,7 +929,6 @@ MySceneGraph.prototype.parserPlane = function(element) {
 
 //Loading of the vehicle from dsx
 MySceneGraph.prototype.parserVehicle = function(element) {
-    console.log("vehicle");
     return new MyVehicle(this.scene);
 
 }
