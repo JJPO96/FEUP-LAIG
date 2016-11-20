@@ -602,6 +602,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             case "torus":
                 primitive = this.parserTorus(primitiveChild);
                 break;
+            case "chessboard":
+            	primitive = this.parserChessboard(primitiveChild);
+            	break;
 
         }
         this.primitivesIDs[i] = id;
@@ -795,6 +798,43 @@ MySceneGraph.prototype.parserCylinder = function(element) {
 		coord.stacks = this.reader.getInteger(element, 'stacks');
 
 		return new MyCylinder(this.scene,coord.base, coord.top, coord.height ,coord.slices, coord.stacks);
+
+}
+
+MySceneGraph.prototype.getNvalues = function(rootElement, type){
+
+	if(rootElement == null)
+	return "error geting values";
+
+	var tmp = [];
+
+	for(var i = 0; i< type.length; i++){
+		tmp[i] = this.reader.getFloat(rootElement,type[i]);
+	}
+
+	return tmp;
+}
+
+MySceneGraph.prototype.parserChessBoard = function(element){
+	var textureRef = this.reader.getString(element, 'textureref');
+	var texture = this.texturesList[textureRef];
+
+	var du = this.reader.getInteger(element, 'du');
+	var dv = this.reader.getInteger(element, 'dv');
+	var su = this.reader.getInteger(element, 'su');
+	var sv = this.reader.getInteger(element, 'sv');
+
+	var c1 = this.getNvalues(element.getElementsByTagName('c1')[0], this.rgba);
+	var c2 = this.getNvalues(element.getElementsByTagName('c2')[0], this.rgba);
+	var cs = this.getNvalues(element.getElementsByTagName('cs')[0], this.rgba);
+
+	/*console.log("texture= "+ textureRef + "  du= " + du + " dv = " + dv + " su= " + su + " sv = " + sv  );
+	console.log(c1);
+	console.log(c2);
+	console.log(cs);*/
+
+
+	return new MyChessboard(this.scene, du, dv, texture, su, sv, c1, c2, cs);
 
 }
 
