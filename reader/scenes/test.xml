@@ -305,10 +305,7 @@
                 <scale x="1" y="1" z="1"/>
             </transformation>
 
-            <animation>
-                <!--animationref id="oiCircular"/-->
-                <animationref id="oiCircular"/>
-            </animation>
+            
 
             <materials>
                 <material id="m1"/>
@@ -335,6 +332,8 @@
             <transformation>
                 <translate x="0" y="0.1" z="0"/>
             </transformation>
+			
+			
 
             <materials>
 
@@ -378,6 +377,11 @@
                 <translate x="0" y="6" z="0"/>
                 <rotate axis="x" angle="-90"/>
             </transformation>
+			
+			<animation>
+                <!--animationref id="oiCircular"/-->
+                <animationref id="oiCircular"/>
+            </animation>
 
             <materials>
 
@@ -1217,7 +1221,7 @@
 			<controlpoint xx="1" yy="0" zz="0" />
 			<controlpoint xx="1" yy="1" zz="1" />
 		</animation>
-        <animation id="oiCircular" span="30" type="circular" centerx="0" centery="0" centerz="0" radius="3" startang="0" rotang="90"/>
+        <animation id="oiCircular" span="3" type="circular" centerx="1" centery="0" centerz="1" radius="5" startang="60" rotang="360"/>
     </animations>
 
 </dsx>

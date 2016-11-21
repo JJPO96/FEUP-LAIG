@@ -1,5 +1,5 @@
 /**
- * Chessboard
+ * MyChessboard
  * @constructor
  */
 function MyChessboard(scene,du,dv,texture,su,sv,c1,c2,cs) {
