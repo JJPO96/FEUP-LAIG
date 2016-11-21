@@ -55,7 +55,7 @@ main=function()
 
 
  // var filename=getUrlVars()['file'] || "scenes/scene2.dsx";
-  var filename=getUrlVars()['file'] || "scenes/test.xml";
+  var filename=getUrlVars()['file'] || "scenes/testchess.dsx";
 
 
 	// create and load graph, and associate it to scene.
