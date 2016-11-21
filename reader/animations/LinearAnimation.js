@@ -7,13 +7,15 @@ function LinearAnimation(id, controlPoints, time, scene){
   this.intermediatePoint = 0;
   this.currentPoint = this.controlPoints[0];
   this.scene = scene;
-
   this.calculateVectors();
 }
 
 LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
+/*
+ * Calculate the vectors for the movement
+ */
 LinearAnimation.prototype.calculateVectors = function() {
     this.vectors = [];
 
@@ -33,6 +35,9 @@ LinearAnimation.prototype.calculateVectors = function() {
     }
 }
 
+/*
+ * Calculates the increment in each movement
+ */
 LinearAnimation.prototype.calculateIncrement = function (vector, time) {
     var inc = [];
     inc[0] = vector[0]/(this.scene.fps * time);
@@ -44,13 +49,37 @@ LinearAnimation.prototype.calculateIncrement = function (vector, time) {
     return inc;
 };
 
+/*
+ * Makes the animation
+ */
 LinearAnimation.prototype.animate = function() {
     var firstPoint = this.getTranslationMatrix(this.controlPoints[0][0], this.controlPoints[0][1], this.controlPoints[0][2]);
     this.scene.multMatrix(firstPoint);
 
+    var xf, xi, zf, zi;
+    if(this.currentControlPoint < this.controlPoints.length - 1){
+    xf = this.controlPoints[this.currentControlPoint + 1][0];
+    xi = this.controlPoints[this.currentControlPoint][0];
+    zf = this.controlPoints[this.currentControlPoint + 1][2];
+    zi = this.controlPoints[this.currentControlPoint][2];
+    }
+    else {
+    xf = this.controlPoints[this.controlPoints.length -1][0];
+    xi = this.controlPoints[this.controlPoints.length - 2][0];
+    zf = this.controlPoints[this.controlPoints.length - 1][2];
+    zi = this.controlPoints[this.controlPoints.length - 2][2];
+    }
+
+    var angle = Math.atan2(zf - zi, xf - xi);
+
+    var rot = this.getRotationMatrix("y", -angle);
+
+
+
     if(this.currentControlPoint >= this.controlPoints.length - 1)
     {
         this.scene.translate(this.currentPoint[0],this.currentPoint[1], this.currentPoint[2]);
+        this.scene.multMatrix(rot);
         return 1;
     }
 
@@ -62,6 +91,7 @@ LinearAnimation.prototype.animate = function() {
 
     this.scene.multMatrix(matrix);
     this.intermediatePoint++;
+    this.scene.multMatrix(rot);
 
     if(this.intermediatePoint > this.numAnimations){
         this.currentControlPoint++;

@@ -379,8 +379,7 @@
             </transformation>
 			
 			<animation>
-                <!--animationref id="oiCircular"/-->
-                <animationref id="oiCircular"/>
+               
             </animation>
 
             <materials>
@@ -1216,12 +1215,7 @@
         <!-- demorar. Nesta versão do formato DSX, type pode ter -->
         <!-- o valor "linear" ou "circular"; na animacao circular -->
         <!-- os angulos sao expressos em graus  -->
-		<animation id="oi" span="2" type="linear">
-			<controlpoint xx="0" yy="0" zz="0" />
-			<controlpoint xx="1" yy="0" zz="0" />
-			<controlpoint xx="1" yy="1" zz="1" />
-		</animation>
-        <animation id="oiCircular" span="3" type="circular" centerx="1" centery="0" centerz="1" radius="5" startang="60" rotang="360"/>
+		
     </animations>
 
 </dsx>

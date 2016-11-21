@@ -1,3 +1,6 @@
+/*
+ * function for the omni light
+ */
 function omniLight(id,enabled) {
   this.id = id;
   this.enabled = enabled;
@@ -7,6 +10,9 @@ function omniLight(id,enabled) {
   this.specular = []; // [r,g,b,a]
 }
 
+/*
+ * function for the spot light
+ */
 function spotLight(id,enabled) {
   this.id = id;
   this.enabled = enabled;

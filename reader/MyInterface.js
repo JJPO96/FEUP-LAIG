@@ -1,3 +1,7 @@
+/**
+ * MyInterface
+ * @constructor 
+ */
 function MyInterface() {
     CGFinterface.call(this);
 }
@@ -6,6 +10,9 @@ function MyInterface() {
 MyInterface.prototype = Object.create(CGFinterface.prototype);
 MyInterface.prototype.constructor = MyInterface;
 
+/*
+ * init of the interface
+ */
 MyInterface.prototype.init = function(application) {
 
     CGFinterface.prototype.init.call(this, application);
@@ -20,6 +27,9 @@ MyInterface.prototype.init = function(application) {
     return true;
 };
 
+/*
+ * adds a light to the menu
+ */
 MyInterface.prototype.addLight = function(type, i, id) {
     if (type == "omni") {
         this.omni.add(this.scene.lightsArray, i, this.scene.lightsArray[i]).name(id);
@@ -30,6 +40,9 @@ MyInterface.prototype.addLight = function(type, i, id) {
     }
 }
 
+/*
+ * reads the keys processed
+ */
 MyInterface.prototype.processKeyDown = function(event) {
     switch (event.keyCode) {
         case (77): //M

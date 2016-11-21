@@ -1,3 +1,8 @@
+/**
+ * XML Scene
+ * @param itf
+ * @returns
+ */
 function XMLscene(itf) {
     CGFscene.call(this);
     this.interface = itf;
@@ -10,7 +15,9 @@ function XMLscene(itf) {
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
-//Init func of the scene
+/**
+ * init of the scene
+ */
 XMLscene.prototype.init = function(application) {
 	CGFscene.prototype.init.call(this, application);
 
@@ -54,10 +61,16 @@ XMLscene.prototype.init = function(application) {
     
 };
 
+/**
+ * init of the cameras
+ */
 XMLscene.prototype.initCameras = function() {
 	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 };
 
+/**
+ * init of the lights
+ */
 XMLscene.prototype.initLights = function() {
 	this.setGlobalAmbientLight(0, 0 ,0, 1);
 
@@ -74,7 +87,10 @@ XMLscene.prototype.initLights = function() {
 
 };
 
-//Initialization of the data from Materials
+/**
+ * Initialization of the data from Materials
+ */
+
 XMLscene.prototype.initMaterials = function(){
     this.materialsList = this.graph.materialsList;
     this.materialsIDs = this.graph.materialsIDs;
@@ -112,11 +128,17 @@ XMLscene.prototype.initPrimitives = function () {
     this.primitivesIDs = this.graph.primitivesIDs;
 };
 
+/**
+ * Initalization of the data from Animations
+ */
 XMLscene.prototype.initAnimations = function () {
     this.animationsList = this.graph.animationsList;
     this.animationsIDs = this.graph.animationsIDs;
 };
 
+/**
+ * Updates the current time
+ */
 XMLscene.prototype.update = function(currTime) {
   console.log("Time: " + currTime);
 };

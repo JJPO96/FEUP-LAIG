@@ -10,6 +10,10 @@
 </transformation>
 */
 
+/**
+ * Transformation
+ * @constructor
+ */
 function Transformation(id){
   this.id = id;
   this.matrix = [[1,0,0,0],
@@ -24,6 +28,12 @@ function Transformation(id){
   };
 }
 
+/**
+ * Multiply Matrix m1 with m2
+ * @param m1 matrix
+ * @param m2 matrix
+ * @returns array with new matrix
+ */
 function MultiplyMatrix(m1,m2){
   var ret = [[0,0,0,0],
              [0,0,0,0],

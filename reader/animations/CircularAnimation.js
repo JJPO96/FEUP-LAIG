@@ -1,3 +1,5 @@
+
+
 function CircularAnimation(id,time, center, radius, startang, rotang, scene){
   this.init(id);
   this.time = time;
@@ -13,6 +15,9 @@ function CircularAnimation(id,time, center, radius, startang, rotang, scene){
 CircularAnimation.prototype = Object.create(Animation.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
+/*
+ * Calculate the values of the animation
+ */
 CircularAnimation.prototype.calculateValues = function()
 {
     var deg2Rad = Math.PI / 180;
@@ -22,6 +27,9 @@ CircularAnimation.prototype.calculateValues = function()
     this.startang = this.startang * deg2Rad;
 }
 
+/*
+ * Makes the animation
+ */
 CircularAnimation.prototype.animate = function(){
 
     var mat1 = this.getTranslationMatrix(Math.sin(this.angle) * this.radius, 0 , Math.cos(this.angle)*this.radius);
@@ -31,7 +39,7 @@ CircularAnimation.prototype.animate = function(){
     var mat3 = this.getTranslationMatrix(this.center[0], this.center[1], this.center[2]);
     this.scene.multMatrix(mat3);
 
-    if(this.angle > this.startang + this.rotang)
+    if(this.angle > this.startang + Math.abs(this.rotang))
         return 1;
 
     this.angle += this.incangle;

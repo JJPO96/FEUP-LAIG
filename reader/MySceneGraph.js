@@ -166,6 +166,9 @@ MySceneGraph.prototype.onXMLError = function(message) {
     this.loadedOk = false;
 };
 
+/*
+ * Checks the correct order of the dsx
+ */
 MySceneGraph.prototype.checkOrder = function(rootElement) {
 
     if (rootElement.children.length < 9 || rootElement.children.length > 11) {
@@ -817,6 +820,9 @@ MySceneGraph.prototype.parserCylinder = function(element) {
 
 }
 
+/*
+ * returns an array with the floats of the element received
+ */
 MySceneGraph.prototype.getNvalues = function(rootElement, type) {
 
     if (rootElement == null)
@@ -830,6 +836,10 @@ MySceneGraph.prototype.getNvalues = function(rootElement, type) {
 
     return tmp;
 }
+
+/*
+ * Parser to read the primitive chessboard
+ */
 
 MySceneGraph.prototype.parserChessboard = function(element) {
     var textureRef = this.reader.getString(element, 'textureref');
@@ -919,6 +929,9 @@ MySceneGraph.prototype.parserVehicle = function(element) {
 
 }
 
+/*
+ * Parser to read the animations
+ */
 MySceneGraph.prototype.parseAnimations = function(variable) {
 
     var allElements = variable.getElementsByTagName('animations');
@@ -960,6 +973,9 @@ MySceneGraph.prototype.parseAnimations = function(variable) {
     }
 }
 
+/*
+ * Parser to read the control points from linear animation
+ */
 MySceneGraph.prototype.getControlPoints = function(element, variables) {
 
     var controlPoints = [];

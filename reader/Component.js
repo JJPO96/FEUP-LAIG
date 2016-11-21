@@ -10,7 +10,9 @@ function Component(scene, materialListIDs, transformationsID, transformations, t
   this.currentAnimation = 0;
 }
 
-
+/*
+ * Function to change the material
+ */
 Component.prototype.changeMaterial = function () {
     if(this.materialIndex < this.materialListIDs.length - 1)
         this.materialIndex++;
