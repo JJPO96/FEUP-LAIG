@@ -143,6 +143,7 @@
         <texture id="lightPostTex" file="textures\\lightPost.jpg" length_s="1" length_t="1"/>
         <texture id="standTex" file="textures\\stand.jpg" length_s="1" length_t="1"/>
         <texture id="ballTex" file="textures\\ball.jpg" length_s="1" length_t="1"/>
+        <texture id="vehicleTex" file="textures\\vehicle.jpg" length_s="1" length_t="1"/>
         <texture id="tarTex" file="textures\\tar.jpg" length_s="1" length_t="1"/>
         <texture id="wallTex" file="textures\\wall.jpg" length_s="1" length_t="1"/>
 
@@ -305,7 +306,7 @@
                 <scale x="1" y="1" z="1"/>
             </transformation>
 
-            
+
 
             <materials>
                 <material id="m1"/>
@@ -332,8 +333,8 @@
             <transformation>
                 <translate x="0" y="0.1" z="0"/>
             </transformation>
-			
-			
+
+
 
             <materials>
 
@@ -377,9 +378,9 @@
                 <translate x="0" y="6" z="0"/>
                 <rotate axis="x" angle="-90"/>
             </transformation>
-			
+
 			<animation>
-               
+
             </animation>
 
             <materials>
@@ -388,7 +389,7 @@
 
             </materials>
 
-            <texture id="ballTex"/>
+            <texture id="vehicleTex"/>
 
             <children>
                 <primitiveref id="vehiclePrim"/>
@@ -1215,7 +1216,7 @@
         <!-- demorar. Nesta versão do formato DSX, type pode ter -->
         <!-- o valor "linear" ou "circular"; na animacao circular -->
         <!-- os angulos sao expressos em graus  -->
-		
+
     </animations>
 
 </dsx>
