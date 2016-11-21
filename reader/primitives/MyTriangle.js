@@ -1,4 +1,12 @@
-
+/**
+ * MyTriangle
+ * @constructor
+ * @param
+ * scene: XMLscene where the triangle will be created
+ * x1,y1,z1: coordinates of 1st vertice of the triangle
+ * x2,y2,z2: coordinates of 2nd vertice of the triangle
+ * x3,y3,z3: coordinates of 3rd vertice of the triangle
+ */
 function MyTriangle(scene,x1,y1,z1,x2,y2,z2,x3,y3,z3) {
 	CGFobject.call(this,scene);
 

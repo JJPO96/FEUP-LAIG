@@ -1,3 +1,12 @@
+/**
+ * MySphere
+ * @constructor
+ * @param
+ * scene: XMLscene where the sphere will be created
+ * radius: radius of the sphere
+ * slices: number of slices used to draw the sphere
+ * loops: number of loops used to draw the sphere
+ */
 function MySphere(scene, radius, slices, stacks) {
     CGFobject.call(this, scene);
 

@@ -1,3 +1,9 @@
+/**
+* MyVehicle
+* @constructor
+* @param
+* scene: XMLscene where the vehicle will be created
+*/
 function MyVehicle(scene) {
   this.scene = scene;
 

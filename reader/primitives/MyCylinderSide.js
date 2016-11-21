@@ -1,67 +1,74 @@
 /**
- * mycylinderside
+ * MyCylinderSide
  * @constructor
+ * @param
+ * scene: XMLscene where the cylinder will be created
+ * base: radius of the base of the cyllinder
+ * top: radius of the top of the cyllinder
+ * top: height of the cyllinder
+ * slices: number of slices used to draw the sphere
+ * loops: number of loops used to draw the sphere
  */
- function MyCylinderSide(scene, base ,top , height, slices, stacks) {
- 	CGFobject.call(this,scene);
-	
-	this.base = base;
-	this.top = top;
-	this.height = height;
-	this.slices = slices;
-	this.stacks = stacks;
+function MyCylinderSide(scene, base, top, height, slices, stacks) {
+    CGFobject.call(this, scene);
 
- 	this.initBuffers();
- };
+    this.base = base;
+    this.top = top;
+    this.height = height;
+    this.slices = slices;
+    this.stacks = stacks;
 
- MyCylinderSide.prototype = Object.create(CGFobject.prototype);
- MyCylinderSide.prototype.constructor = MyCylinderSide;
+    this.initBuffers();
+};
 
- MyCylinderSide.prototype.initBuffers = function() {
+MyCylinderSide.prototype = Object.create(CGFobject.prototype);
+MyCylinderSide.prototype.constructor = MyCylinderSide;
 
-	this.angulo = (Math.PI*2)/this.slices;
+MyCylinderSide.prototype.initBuffers = function() {
 
- 	this.vertices = [];
- 	this.indices = [];
- 	this.normals = [];
-	this.texCoords = [];
+    this.angulo = (Math.PI * 2) / this.slices;
 
-	var ang=0;
-	var x,y;
-	var z=0;
-	var radius = this.base;
-	var inc = (this.top - this.base)/this.stacks;
-	
-	for(k = 0; k <= this.stacks; k++){
-		this.vertices.push(this.base + k * inc, 0, z);
-		this.normals.push(1, 0, 0);
-		this.texCoords.push(0,k/this.stacks);	
-		ang=0;
-		for(i = 0; i < this.slices; i++){
-				
-				if(i!=(this.slices-1)){
-					ang+=this.angulo;
-					x = Math.cos(ang) * radius;
-					y = Math.sin(ang) * radius;
-					this.vertices.push(x, y, z);
-					this.normals.push(x, y, 0);
-					this.texCoords.push((i+1)/this.slices,k/this.stacks);
-				}
+    this.vertices = [];
+    this.indices = [];
+    this.normals = [];
+    this.texCoords = [];
 
-			if(k > 0){
-				if(i==(this.slices-1)){
-           			this.indices.push(((k-1)*this.slices)+i,((k-1)*this.slices),(k*this.slices)+i);
-					this.indices.push((k*this.slices)+i,((k-1)*this.slices),(k*this.slices));
-		  		}else{
-					this.indices.push(((k-1)*this.slices)+i,((k-1)*this.slices)+1+i,(k*this.slices)+i);
-					this.indices.push((k*this.slices)+i,((k-1)*this.slices)+1+i,(k*this.slices)+1+i);
-		  			}
-			}
-		}
-		radius += inc;
-		z += this.height/this.stacks;
-	}
+    var ang = 0;
+    var x, y;
+    var z = 0;
+    var radius = this.base;
+    var inc = (this.top - this.base) / this.stacks;
 
- 	this.primitiveType = this.scene.gl.TRIANGLES;
- 	this.initGLBuffers();
- };
+    for (k = 0; k <= this.stacks; k++) {
+        this.vertices.push(this.base + k * inc, 0, z);
+        this.normals.push(1, 0, 0);
+        this.texCoords.push(0, k / this.stacks);
+        ang = 0;
+        for (i = 0; i < this.slices; i++) {
+
+            if (i != (this.slices - 1)) {
+                ang += this.angulo;
+                x = Math.cos(ang) * radius;
+                y = Math.sin(ang) * radius;
+                this.vertices.push(x, y, z);
+                this.normals.push(x, y, 0);
+                this.texCoords.push((i + 1) / this.slices, k / this.stacks);
+            }
+
+            if (k > 0) {
+                if (i == (this.slices - 1)) {
+                    this.indices.push(((k - 1) * this.slices) + i, ((k - 1) * this.slices), (k * this.slices) + i);
+                    this.indices.push((k * this.slices) + i, ((k - 1) * this.slices), (k * this.slices));
+                } else {
+                    this.indices.push(((k - 1) * this.slices) + i, ((k - 1) * this.slices) + 1 + i, (k * this.slices) + i);
+                    this.indices.push((k * this.slices) + i, ((k - 1) * this.slices) + 1 + i, (k * this.slices) + 1 + i);
+                }
+            }
+        }
+        radius += inc;
+        z += this.height / this.stacks;
+    }
+
+    this.primitiveType = this.scene.gl.TRIANGLES;
+    this.initGLBuffers();
+};
