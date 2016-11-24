@@ -306,7 +306,7 @@
                 <scale x="1" y="1" z="1"/>
             </transformation>
 
-			
+
 
             <materials>
                 <material id="m1"/>
@@ -316,6 +316,8 @@
             <texture id="none"/>
 
             <children>
+                <componentref id="field"/>
+                <componentref id="tar"/>
                 <componentref id="stands"/>
                 <componentref id="walls"/>
                 <componentref id="goals"/>
@@ -324,6 +326,51 @@
                 <componentref id="patch"/>
                 <componentref id="vehicle"/>
             </children>
+
+        </component>
+
+        <component id="field">
+
+          <!-- bloco "transformation" obrigatorio -->
+          <transformation>
+            <translate x="-10" y="0" z="-16"/>
+            <rotate axis="y" angle="-90"/>
+            <rotate axis="x" angle="-90"/>
+          </transformation>
+
+          <materials>
+            <material id="fieldMat"/>
+    		<material id="m1"/>
+
+          </materials>
+
+          <texture id="fieldTex"/>
+
+          <children>
+            <primitiveref id="fieldPrim"/>
+          </children>
+
+        </component>
+
+        <component id="tar">
+
+          <!-- bloco "transformation" obrigatorio -->
+          <transformation>
+            <translate x="-64" y="-0.1" z="-64"/>
+            <rotate axis="y" angle="-90"/>
+            <rotate axis="x" angle="-90"/>
+          </transformation>
+
+          <materials>
+            <material id="tarMat"/>
+
+          </materials>
+
+          <texture id="tarTex"/>
+
+          <children>
+            <primitiveref id="tarPrim"/>
+          </children>
 
         </component>
 
@@ -376,12 +423,14 @@
             <!-- bloco "transformation" obrigatorio -->
             <transformation>
                 <translate x="0" y="6" z="0"/>
-                
+
             </transformation>
-			
+
 			<animation>
 				<animationref id="oi"/>
-				
+  			<animationref id="oiCircular"/>
+  				<animationref id="oi2"/>
+
 			</animation>
 
             <materials>
@@ -1218,16 +1267,25 @@
 		    <!-- o valor "linear" ou "circular"; na animacao circular -->
 		    <!-- os angulos sao expressos em graus  -->
 
-		    
-				
-			<animation id="oi" span="2" type="linear">
-				<controlpoint xx="0" yy="0" zz="0" />
+
+
+			<animation id="oi" span="7" type="linear">
+				    <controlpoint xx="0" yy="0" zz="0" />
 		        <controlpoint xx="0" yy="0" zz="16" />
-				<controlpoint xx="10" yy="0" zz="0" />
-				<controlpoint xx="0" yy="0" zz="-16" />
-				<controlpoint xx="-10" yy="0" zz="0" />
-				<controlpoint xx="0" yy="0" zz="0" />
+				    <controlpoint xx="10" yy="5" zz="0" />
+				    <controlpoint xx="0" yy="10" zz="-16" />
+				    <controlpoint xx="-10" yy="5" zz="0" />
+				    <controlpoint xx="0" yy="0" zz="16" />
 		    </animation>
+
+        <animation id="oi2" span="5" type="linear">
+  		        <controlpoint xx="0" yy="0" zz="16" />
+              <controlpoint xx="0" yy="0" zz="0" />
+  		    </animation>
+
+        <animation id="oiCircular" span="5" type="circular" centerx="0" centery="0" centerz="0"
+		        radius="32" startang="0" rotang="360" />
+    		</animations>
 	</animations>
 
 </dsx>
