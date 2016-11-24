@@ -1,3 +1,6 @@
+/*
+    LinearAnimation constructor
+*/
 function LinearAnimation(id, controlPoints, time, scene){
   this.init(id);
   this.controlPoints = controlPoints;
@@ -14,8 +17,8 @@ LinearAnimation.prototype = Object.create(Animation.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
 /*
- * Calculate the vectors for the movement
- */
+    Calculates movement vectors
+*/
 LinearAnimation.prototype.calculateVectors = function() {
     this.vectors = [];
 
@@ -36,8 +39,8 @@ LinearAnimation.prototype.calculateVectors = function() {
 }
 
 /*
- * Calculates the increment in each movement
- */
+    Calculates the value of the increment for each interaction
+*/
 LinearAnimation.prototype.calculateIncrement = function (vector, time) {
     var inc = [];
     inc[0] = vector[0]/(this.scene.fps * time);
@@ -49,30 +52,28 @@ LinearAnimation.prototype.calculateIncrement = function (vector, time) {
     return inc;
 };
 
+
 /*
- * Makes the animation
- */
+    Animates the scene according to the LinearAnimation
+*/
 LinearAnimation.prototype.animate = function() {
     var firstPoint = this.getTranslationMatrix(this.controlPoints[0][0], this.controlPoints[0][1], this.controlPoints[0][2]);
     this.scene.multMatrix(firstPoint);
 
     var xf, xi, zf, zi;
+    var angle;
     if(this.currentControlPoint < this.controlPoints.length - 1){
     xf = this.controlPoints[this.currentControlPoint + 1][0];
     xi = this.controlPoints[this.currentControlPoint][0];
     zf = this.controlPoints[this.currentControlPoint + 1][2];
     zi = this.controlPoints[this.currentControlPoint][2];
+    angle = Math.atan2( xf - xi,zf - zi);
     }
     else {
-    xf = this.controlPoints[this.controlPoints.length -1][0];
-    xi = this.controlPoints[this.controlPoints.length - 2][0];
-    zf = this.controlPoints[this.controlPoints.length - 1][2];
-    zi = this.controlPoints[this.controlPoints.length - 2][2];
+    angle = Math.atan2(this.vectors[this.vectors.length-1][0], this.vectors[this.vectors.length-1][2]);
     }
 
-    var angle = Math.atan2(zf - zi, xf - xi);
-
-    var rot = this.getRotationMatrix("y", -angle);
+    var rot = this.getRotationMatrix("y", angle);
 
 
 
@@ -97,8 +98,6 @@ LinearAnimation.prototype.animate = function() {
         this.currentControlPoint++;
         this.intermediatePoint = 0;
     }
-
-
 
     return 0;
 }
