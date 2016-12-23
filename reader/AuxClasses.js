@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 function SceneAtr(root, axis_length) {
     this.root = root;
@@ -14,6 +14,14 @@ function Illumination(doublesided, local) {
     this.local = local;
     this.ambient; // [r,g,b,a]
     this.background; // [r,g,b,a]
+}
+
+/*
+ * class coord2D
+ */
+function coord2D(x, y) {
+    this.x = x;
+    this.y = y;
 }
 
 /*

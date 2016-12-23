@@ -35,6 +35,7 @@ serialInclude(['../lib/CGF.js',
                'animations/Animation.js',
                'animations/LinearAnimation.js',
                'animations/CircularAnimation.js',
+               'gameParser/auxFunctions.js',
 
 main=function()
 {
@@ -42,7 +43,7 @@ main=function()
     var app = new CGFapplication(document.body);
     var myInterface = new MyInterface();
     var myScene = new XMLscene(myInterface);
-
+    getAvaiPos(new coord2D(0,0), 0b111111111)
     app.init();
 
     app.setScene(myScene);
@@ -55,8 +56,8 @@ main=function()
 
 
     var filename=getUrlVars()['file'] || "scenes/primitives.dsx";
- //     var filename=getUrlVars()['file'] || "scenes/testchess.dsx";
- //   var filename=getUrlVars()['file'] || "scenes/animations.dsx";  
+ // var filename=getUrlVars()['file'] || "scenes/testchess.dsx";
+ // var filename=getUrlVars()['file'] || "scenes/animations.dsx";
 
 
 	// create and load graph, and associate it to scene.

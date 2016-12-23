@@ -51,14 +51,14 @@ XMLscene.prototype.init = function(application) {
 
     this.lightsStatus =[];
     this.lightsNames = [];
-    
+
     this.animationsList = {};
     this.animationsIDs = [];
-    
+
     this.fps = 60;
     var updatePeriod = 1000/this.fps;
     this.setUpdatePeriod(updatePeriod);
-    
+
 };
 
 /**
@@ -140,7 +140,7 @@ XMLscene.prototype.initAnimations = function () {
  * Updates the current time
  */
 XMLscene.prototype.update = function(currTime) {
-  console.log("Time: " + currTime);
+  
 };
 
 //Function of display of the scene
@@ -192,7 +192,7 @@ XMLscene.prototype.onGraphLoaded = function() {
     this.initPrimitives();
     this.initTextures();
     this.initTransformations();
-	
+
     this.initComponents();
     this.initAnimations();
     this.axis = new CGFaxis(this, this.graph.axis_length);
