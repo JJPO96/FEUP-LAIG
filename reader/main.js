@@ -32,6 +32,7 @@ serialInclude(['../lib/CGF.js',
                'primitives/MyPlane.js',
                'primitives/MyVehicle.js',
                'primitives/MyChessboard.js',
+               'primitives/TrippplesBoard.js',
                'animations/Animation.js',
                'animations/LinearAnimation.js',
                'animations/CircularAnimation.js',
@@ -49,6 +50,7 @@ main=function()
     app.setScene(myScene);
     app.setInterface(myInterface);
 
+
     myInterface.setActiveCamera(myScene.camera);
 
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
@@ -65,7 +67,7 @@ main=function()
 	var myGraph = new MySceneGraph(filename, myScene);
 
 	// start
-    app.run();
+  app.run();
 }
 
 ]);

@@ -34,6 +34,8 @@ XMLscene.prototype.init = function(application) {
 
 	this.axis = new CGFaxis(this);
 
+  this.board = new TrippplesBoard(this,[]);
+
 	this.currentCamera = 0;
 	this.cameras = [];
 
@@ -140,7 +142,7 @@ XMLscene.prototype.initAnimations = function () {
  * Updates the current time
  */
 XMLscene.prototype.update = function(currTime) {
-  
+
 };
 
 //Function of display of the scene
@@ -163,12 +165,13 @@ XMLscene.prototype.display = function() {
 
 	// Draw axis
 	this.axis.display();
-
+    this.board.display();
+/*
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
 		this.displayGraph(this.graph.root, null, null);
-	};
+	};*/
 }
 
 //Function to intialize everything
