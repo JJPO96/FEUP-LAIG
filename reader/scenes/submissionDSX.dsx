@@ -25,22 +25,12 @@
     <!-- a vista muda para a proxima da lista; da -->
     <!-- ultima vista da lista volta 'a primeira -->
     <perspective id="p1" near="0.1" far="500" angle="90">
-      <from x="0" y="20" z="60"/>
+      <from x="2" y="2" z="0"/>
       <to x="0" y="0" z="0"/>
     </perspective>
 
     <perspective id="p2" near="0.1" far="500" angle="90">
       <from x="0.5" y="0.5" z="0.5"/>
-      <to x="0" y="0" z="0"/>
-    </perspective>
-
-    <perspective id="p3" near="0.1" far="500" angle="45">
-      <from x="30" y="20" z="0"/>
-      <to x="0" y="0" z="0"/>
-    </perspective>
-
-    <perspective id="p4" near="0.1" far="500" angle="45">
-      <from x="30" y="20" z="60"/>
       <to x="0" y="0" z="0"/>
     </perspective>
 
@@ -206,7 +196,7 @@
       <specular r="0.05" g="0.05" b="0.05" a="1"/>
       <shininess value="0.05"/>
     </material>
-	
+
 
 
   </materials>
@@ -282,7 +272,7 @@
       <transformation>
         <scale x="1" y="1" z="1"/>
       </transformation>
-	  
+
 	  <animation>
 		<!--animationref id="oiCircular"/-->
 		<animationref id="oi"/>
@@ -319,7 +309,7 @@
       <materials>
         <material id="fieldMat"/>
 		<material id="m1"/>
-	
+
       </materials>
 
       <texture id="fieldTex"/>
@@ -341,7 +331,7 @@
 
       <materials>
         <material id="tarMat"/>
-		
+
       </materials>
 
       <texture id="tarTex"/>
@@ -361,7 +351,7 @@
 
       <materials>
         <material id="tarMat"/>
-		
+
       </materials>
 
       <texture id="wallTex"/>
@@ -411,7 +401,7 @@
 
       <materials>
         <material id="inherit"/>
-		
+
       </materials>
 
       <texture id="inherit"/>
@@ -939,9 +929,9 @@
       </transformation>
 
       <materials>
-	  
+
         <material id="ballMat"/>
-		
+
       </materials>
 
       <texture id="ballTex"/>
@@ -1186,7 +1176,7 @@
     </component>
 
   </components>
-  
+
   <animations>
 		    <!-- podem existir zero ou mais nós "animation" -->
 		    <!-- span é o tempo, em segundos, que a animação deve -->

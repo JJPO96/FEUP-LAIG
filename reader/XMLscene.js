@@ -148,7 +148,6 @@ XMLscene.prototype.update = function(currTime) {
 //Function of display of the scene
 XMLscene.prototype.display = function() {
 	// ---- BEGIN Background, camera and axis setup
-
 	// Clear image and depth buffer everytime we update the scene
 	this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 	this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -164,8 +163,8 @@ XMLscene.prototype.display = function() {
 	this.updateLights();
 
 	// Draw axis
+  this.board.display();
 	this.axis.display();
-    this.board.display();
 /*
 	if (this.graph.loadedOk)
 	{

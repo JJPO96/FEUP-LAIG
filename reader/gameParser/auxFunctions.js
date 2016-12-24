@@ -116,7 +116,7 @@ function changeTo(type, value) {
 }
 
 
-function getTexture(binaryPiece) {
-    var piece = changeTo(10,binaryPiece)
-    console.log(piece);
+function getTexturePath(binaryPiece) {
+    var piece = changeTo(10, binaryPiece)
+    return "textures/boardPieces/" + piece + ".png";
 }
