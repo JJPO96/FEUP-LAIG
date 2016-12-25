@@ -12,10 +12,12 @@
  * c2: color 2
  * cs: color of the selected square
  */
-function TrippplesBoard(scene, pieces) {
+function TrippplesBoard(scene, pieces, ambient) {
     CGFobject.call(this, scene);
     this.scene = scene;
     this.pieces = pieces;
+    //REMOVER
+    this.pieces = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8]]
     this.quad = new MyPlane(this.scene, 1, 1, 10, 10),
     this.bottom = new MyPlane(this.scene, 8, 8, 10, 10);
     this.side = new MyPlane(this.scene, 8, 0.5, 10, 10);
@@ -32,19 +34,25 @@ function TrippplesBoard(scene, pieces) {
     this.boardQuad.setSpecular(0.2, 0.2, 0.2, 1);
     this.boardQuad.setShininess(120);
 
-    this.sideWood = new CGFappearance(this.scene);
-    this.sideWood.setAmbient(0.3, 0.3, 0.3, 1);
-    this.sideWood.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.sideWood.setSpecular(0.2, 0.2, 0.2, 1);
-    this.sideWood.setShininess(120);
-    this.sideWood.loadTexture("textures/boardPieces/woodSide.png");
+    this.sideBoard = new CGFappearance(this.scene);
+    this.sideBoard.setAmbient(0.3, 0.3, 0.3, 1);
+    this.sideBoard.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.sideBoard.setSpecular(0.2, 0.2, 0.2, 1);
+    this.sideBoard.setShininess(120);
+    if (ambient == 0)
+      this.sideBoard.loadTexture("textures/boardPieces/woodSide.png");
+    else if (ambient == 1)
+      this.sideBoard.loadTexture("textures/boardPieces/marbleSide.png");
 
-    this.bottomWood = new CGFappearance(this.scene);
-    this.bottomWood.setAmbient(0.3, 0.3, 0.3, 1);
-    this.bottomWood.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.bottomWood.setSpecular(0.2, 0.2, 0.2, 1);
-    this.bottomWood.setShininess(120);
-    this.bottomWood.loadTexture("textures/boardPieces/woodBottom.png");
+
+    this.bottomBoard = new CGFappearance(this.scene);
+    this.bottomBoard.setAmbient(0.3, 0.3, 0.3, 1);
+    this.bottomBoard.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.bottomBoard.setSpecular(0.2, 0.2, 0.2, 1);
+    this.bottomBoard.setShininess(120);if (ambient == 0)
+      this.bottomBoard.loadTexture("textures/boardPieces/woodBottom.png");
+    else if (ambient == 1)
+      this.bottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
     this.piecesText = this.loadPiecesText(this.pieces);
     console.log(this.piecesText);
@@ -65,7 +73,7 @@ TrippplesBoard.prototype.loadPiecesText = function() {
       tempApp.setDiffuse(0.2, 0.2, 0.2, 1);
       tempApp.setSpecular(0.2, 0.2, 0.2, 1);
       tempApp.setShininess(120);
-      tempApp.loadTexture("textures/boardPieces/" + (22+i+j) + ".png");
+      tempApp.loadTexture("textures/boardPieces/" + this.pieces[i][j] + ".png");
       ret[i][j] = tempApp;
     }
   }
@@ -74,13 +82,13 @@ TrippplesBoard.prototype.loadPiecesText = function() {
 
 TrippplesBoard.prototype.display = function() {
     this.scene.pushMatrix();
-    this.bottomWood.apply();
+    this.bottomBoard.apply();
     this.scene.rotate(Math.PI / 2, 1, 0, 0);
     this.bottom.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.sideWood.apply();
+    this.sideBoard.apply();
     this.scene.translate(0, 0.25, 4);
     this.side.display();
     this.scene.popMatrix();
