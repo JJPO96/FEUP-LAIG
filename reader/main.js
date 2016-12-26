@@ -33,11 +33,12 @@ serialInclude(['../lib/CGF.js',
                'primitives/MyVehicle.js',
                'primitives/MyChessboard.js',
                'primitives/TrippplesBoard.js',
+               'primitives/MyPiece.js',
                'animations/Animation.js',
                'animations/LinearAnimation.js',
                'animations/CircularAnimation.js',
                'gameParser/auxFunctions.js',
-			   'gameParser/connection/client.js',
+			         'gameParser/connection/client.js',
                'trippples/trippples.js',
 
 main=function()
