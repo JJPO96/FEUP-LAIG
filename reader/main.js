@@ -37,6 +37,8 @@ serialInclude(['../lib/CGF.js',
                'animations/LinearAnimation.js',
                'animations/CircularAnimation.js',
                'gameParser/auxFunctions.js',
+			   'gameParser/connection/client.js',
+               'trippples/trippples.js',
 
 main=function()
 {
