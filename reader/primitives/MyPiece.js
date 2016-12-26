@@ -10,6 +10,7 @@ function MyPiece(scene, coord, appearence, pickID) {
     this.app = appearence;
     this.pickID = pickID;
     this.body = new MyTorus(this.scene,0.15,0.2,30,30);
+    this.type = "piece";
 
     this.texture = new CGFappearance(this.scene);
     this.texture.setAmbient(0.3, 0.3, 0.3, 1);
@@ -19,13 +20,18 @@ function MyPiece(scene, coord, appearence, pickID) {
     if (appearence == 0) {
       this.texture.loadTexture("textures/boardPieces/pieceBlue.png");
     }else if (appearence == 1) {
-      this.texture.loadTexture("textures/boardPieces/pieceRed.png");      
+      this.texture.loadTexture("textures/boardPieces/pieceRed.png");
     }
 
 };
 
 MyPiece.prototype = Object.create(CGFnurbsObject.prototype);
 MyPiece.prototype.constructor = MyPiece;
+
+MyPiece.prototype.movePiece = function(x,y) {
+  this.coord.x = x;
+  this.coord.y = y;
+}
 
 MyPiece.prototype.display = function() {
   this.scene.registerForPick(this.pickID,this);
