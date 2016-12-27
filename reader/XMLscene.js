@@ -19,31 +19,31 @@ XMLscene.prototype.constructor = XMLscene;
  * init of the scene
  */
 XMLscene.prototype.init = function(application) {
-	CGFscene.prototype.init.call(this, application);
-  this.setPickEnabled(true);
-	this.initCameras();
-	this.initLights();
+    CGFscene.prototype.init.call(this, application);
+    this.setPickEnabled(true);
+    this.initCameras();
+    this.initLights();
 
-	this.enableTextures(true);
+    this.enableTextures(true);
 
-	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
-	this.gl.clearDepth(100.0);
-	this.gl.enable(this.gl.DEPTH_TEST);
-	this.gl.enable(this.gl.CULL_FACE);
-	this.gl.depthFunc(this.gl.LEQUAL);
+    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    this.gl.clearDepth(100.0);
+    this.gl.enable(this.gl.DEPTH_TEST);
+    this.gl.enable(this.gl.CULL_FACE);
+    this.gl.depthFunc(this.gl.LEQUAL);
 
-	this.axis = new CGFaxis(this);
+    this.axis = new CGFaxis(this);
 
-  this.board = new TrippplesBoard(this,[],1);
+    this.board = new TrippplesBoard(this, [], 1);
 
-	this.currentCamera = 0;
-	this.cameras = [];
+    this.currentCamera = 0;
+    this.cameras = [];
 
-	this.materialsList = {};
+    this.materialsList = {};
     this.materialsIDs = []
 
     this.texturesList = {};
-	this.texturesID = [];
+    this.texturesID = [];
 
     this.transformationsList = {};
     this.transformationsIDs = [];
@@ -51,14 +51,14 @@ XMLscene.prototype.init = function(application) {
     this.componentsList = {};
     this.componentsIDs = [];
 
-    this.lightsStatus =[];
+    this.lightsStatus = [];
     this.lightsNames = [];
 
     this.animationsList = {};
     this.animationsIDs = [];
 
     this.fps = 60;
-    var updatePeriod = 1000/this.fps;
+    var updatePeriod = 1000 / this.fps;
     this.setUpdatePeriod(updatePeriod);
 
 };
@@ -67,42 +67,46 @@ XMLscene.prototype.init = function(application) {
  * init of the cameras
  */
 XMLscene.prototype.initCameras = function() {
-	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 };
 
-XMLscene.prototype.logPicking = function ()
-{
-	if (this.pickMode == false) {
-		if (this.pickResults != null && this.pickResults.length > 0) {
-			for (var i=0; i< this.pickResults.length; i++) {
-				var obj = this.pickResults[i][0];
-				if (obj)
-				{
-					var customId = this.pickResults[i][1];
-          console.log(obj.type);
-					console.log("Picked object: " + obj + ", with pick id " + customId);
-				}
-			}
-			this.pickResults.splice(0,this.pickResults.length);
-		}
-	}
+XMLscene.prototype.logPicking = function() {
+    if (this.pickMode == false) {
+        if (this.pickResults != null && this.pickResults.length > 0) {
+            for (var i = 0; i < this.pickResults.length; i++) {
+                var obj = this.pickResults[i][0];
+                if (obj) {
+                    var customId = this.pickResults[i][1];
+                    if (obj.type == "piece1") {
+                        console.log(obj.coord);
+                        this.board.highlightTiles(getAvaiPos(new coord2D(obj.coord.x, obj.coord.y), changeTo(2, this.board.pieces[obj.coord.x][obj.coord.y])));
+                    } else if (obj.type == "piece2") {
+                        this.board.highlightTiles(getAvaiPos(new coord2D(this.board.piece2.coord.x, this.board.piece2.coord.y), changeTo(2, this.board.pieces[this.board.piece1.coord.x][this.board.piece1.coord.y])));
+                    }
+                    console.log("pick id " + customId);
+                    console.log(this.board.piece2);
+                }
+            }
+            this.pickResults.splice(0, this.pickResults.length);
+        }
+    }
 }
 
 /**
  * init of the lights
  */
 XMLscene.prototype.initLights = function() {
-	this.setGlobalAmbientLight(0, 0 ,0, 1);
+    this.setGlobalAmbientLight(0, 0, 0, 1);
 
-	this.setGlobalAmbientLight(0.5,0.5,0.5, 1.0);
+    this.setGlobalAmbientLight(0.5, 0.5, 0.5, 1.0);
 
-	// Positions for four lights
-	this.lights[0].setPosition(4, 6, 1, 1);
-	this.lights[0].setVisible(true); // show marker on light position (different from enabled)
-	this.lights[0].setAmbient(0, 0, 0, 1);
-	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[0].setSpecular(10, 10,0 ,1);
-	this.lights[0].enable();
+    // Positions for four lights
+    this.lights[0].setPosition(4, 6, 1, 1);
+    this.lights[0].setVisible(true); // show marker on light position (different from enabled)
+    this.lights[0].setAmbient(0, 0, 0, 1);
+    this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.lights[0].setSpecular(10, 10, 0, 1);
+    this.lights[0].enable();
 
 
 };
@@ -111,24 +115,24 @@ XMLscene.prototype.initLights = function() {
  * Initialization of the data from Materials
  */
 
-XMLscene.prototype.initMaterials = function(){
+XMLscene.prototype.initMaterials = function() {
     this.materialsList = this.graph.materialsList;
     this.materialsIDs = this.graph.materialsIDs;
 
 }
 
 //Initialization of the data from Textures
-XMLscene.prototype.initTextures = function (){
+XMLscene.prototype.initTextures = function() {
     this.texturesList = this.graph.texturesList;
     this.texturesID = this.graph.texturesID;
 
 
-    if(this.texturesID.length > 0)
+    if (this.texturesID.length > 0)
         this.enableTextures(true);
 }
 
 //Initialization of the data from Transformations
-XMLscene.prototype.initTransformations = function(){
+XMLscene.prototype.initTransformations = function() {
 
     this.transformationsList = this.graph.transformationList;
     this.transformationsIDs = this.graph.transformationIDs;
@@ -136,14 +140,14 @@ XMLscene.prototype.initTransformations = function(){
 }
 
 //Initialization of the data from Components
-XMLscene.prototype.initComponents = function(){
+XMLscene.prototype.initComponents = function() {
     this.componentsList = this.graph.componentsList;
     this.componentsIDs = this.graph.componentsIDs;
 
 }
 
 //Initialization of the data from Primitives
-XMLscene.prototype.initPrimitives = function () {
+XMLscene.prototype.initPrimitives = function() {
     this.primitives = this.graph.primitivesList;
     this.primitivesIDs = this.graph.primitivesIDs;
 };
@@ -151,7 +155,7 @@ XMLscene.prototype.initPrimitives = function () {
 /**
  * Initalization of the data from Animations
  */
-XMLscene.prototype.initAnimations = function () {
+XMLscene.prototype.initAnimations = function() {
     this.animationsList = this.graph.animationsList;
     this.animationsIDs = this.graph.animationsIDs;
 };
@@ -165,33 +169,33 @@ XMLscene.prototype.update = function(currTime) {
 
 //Function of display of the scene
 XMLscene.prototype.display = function() {
-  this.clearPickRegistration();
-  // ---- BEGIN Background, camera and axis setup
-	// Clear image and depth buffer everytime we update the scene
-	this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-	this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+    this.clearPickRegistration();
+    // ---- BEGIN Background, camera and axis setup
+    // Clear image and depth buffer everytime we update the scene
+    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-  this.logPicking();
+    this.logPicking();
 
-	// Initialize Model-View matrix as identity (no transformation)
-	this.updateProjectionMatrix();
-	this.loadIdentity();
+    // Initialize Model-View matrix as identity (no transformation)
+    this.updateProjectionMatrix();
+    this.loadIdentity();
 
-	// Apply transformations corresponding to the camera position relative to the origin
-	this.applyViewMatrix();
+    // Apply transformations corresponding to the camera position relative to the origin
+    this.applyViewMatrix();
 
-	// Update all lights used
-	this.updateLights();
+    // Update all lights used
+    this.updateLights();
 
-	// Draw axis
-  this.board.display();
-	this.axis.display();
-/*
-	if (this.graph.loadedOk)
-	{
-		this.lights[0].update();
-		this.displayGraph(this.graph.root, null, null);
-	};*/
+    // Draw axis
+    this.board.display();
+    this.axis.display();
+    /*
+    	if (this.graph.loadedOk)
+    	{
+    		this.lights[0].update();
+    		this.displayGraph(this.graph.root, null, null);
+    	};*/
 }
 
 //Function to intialize everything
@@ -223,17 +227,17 @@ XMLscene.prototype.onGraphLoaded = function() {
 };
 
 //Function to update the different views from dsx by pressing 'v'
-XMLscene.prototype.updateView = function () {
-  this.camera = this.graph.views.perspectives[this.viewIndex].camera;
-  this.interface.setActiveCamera(this.graph.views.perspectives[this.viewIndex].camera);
+XMLscene.prototype.updateView = function() {
+    this.camera = this.graph.views.perspectives[this.viewIndex].camera;
+    this.interface.setActiveCamera(this.graph.views.perspectives[this.viewIndex].camera);
 
-  this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+    this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
 
 };
 
 //Function to update the different materials from dsx by pressing 'm'
-XMLscene.prototype.updateMaterial = function(){
-    for(var i = 0;  i < this.componentsIDs.length; i++){
+XMLscene.prototype.updateMaterial = function() {
+    for (var i = 0; i < this.componentsIDs.length; i++) {
         this.componentsList[this.componentsIDs[i]].updateMaterial();
     }
 }
@@ -288,105 +292,104 @@ XMLscene.prototype.initDSXLights = function() {
 };
 
 //Function to update the state ON or OFF from lights
-XMLscene.prototype.updateLights = function () {
+XMLscene.prototype.updateLights = function() {
 
-  for (var i = 0; i < this.lightsArray.length; i++) {
-    if(this.lightsArray[i])
-      this.lights[i].enable();
-    else
-      this.lights[i].disable();
-  }
+    for (var i = 0; i < this.lightsArray.length; i++) {
+        if (this.lightsArray[i])
+            this.lights[i].enable();
+        else
+            this.lights[i].disable();
+    }
 
-  for (var i = 0; i < this.lights.length; i++)
-    this.lights[i].update();
+    for (var i = 0; i < this.lights.length; i++)
+        this.lights[i].update();
 
 }
 
 //Function of the graph where the scene is created
-XMLscene.prototype.displayGraph = function(root, material, texture)
-{
-  var node;
-  var mat;
-	var text;
+XMLscene.prototype.displayGraph = function(root, material, texture) {
+    var node;
+    var mat;
+    var text;
 
 
-	node = this.componentsList[root];
+    node = this.componentsList[root];
 
-	//transformations
-	this.pushMatrix();
+    //transformations
+    this.pushMatrix();
 
-	if(node.materialListIDs[0] == 'inherit')
-			mat = material;
-	else
-      mat = this.materialsList[node.materialListIDs[node.materialIndex]];
+    if (node.materialListIDs[0] == 'inherit')
+        mat = material;
+    else
+        mat = this.materialsList[node.materialListIDs[node.materialIndex]];
 
-	//textures
-	text = this.texturesList[node.texture];
-	switch(node.texture){
-			case "none":
-				 text = null;
-			break;
-			case "inherit":
-				 text = texture;
-			break;
-	}
+    //textures
+    text = this.texturesList[node.texture];
+    switch (node.texture) {
+        case "none":
+            text = null;
+            break;
+        case "inherit":
+            text = texture;
+            break;
+    }
 
-    if(node.transformationsID != null)
+    if (node.transformationsID != null)
         this.applyTransformations(this.transformationsList[node.transformationsID]);
     else
         this.applyTransformations(node.transformations);
 
 
-    if(node.currentAnimation < node.animationList.length){
+    if (node.currentAnimation < node.animationList.length) {
         var animation = this.animationsList[node.animationList[node.currentAnimation]];
-        if(animation.animate() == 1 && node.currentAnimation + 1 < node.animationList.length)
+        if (animation.animate() == 1 && node.currentAnimation + 1 < node.animationList.length)
             node.currentAnimation++;
     }
-    for(var i = 0; i < node.primitivesRefs.length; i++){
-      if(this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle){
-      var  s = this.texturesList[node.texture + "s"];
-      var  t = this.texturesList[node.texture + "t"];
-        if(s  > 1 && t > 1){
-            this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
-            mat.setTextureWrap('REPEAT', 'REPEAT');
+    for (var i = 0; i < node.primitivesRefs.length; i++) {
+        if (this.primitives[node.primitivesRefs[i]] instanceof MyTriangle || this.primitives[node.primitivesRefs[i]] instanceof MyRectangle) {
+            var s = this.texturesList[node.texture + "s"];
+            var t = this.texturesList[node.texture + "t"];
+            if (s > 1 && t > 1) {
+                this.primitives[node.primitivesRefs[i]].updateTexCoords(s, t);
+                mat.setTextureWrap('REPEAT', 'REPEAT');
+            }
         }
-      }
 
-      mat.setTexture(text);
-      mat.apply();
+        mat.setTexture(text);
+        mat.apply();
 
 
-      this.primitives[node.primitivesRefs[i]].display();
+        this.primitives[node.primitivesRefs[i]].display();
     }
 
-	for(var i = 0 ; i < node.componentRefs.length; i++ ){
+    for (var i = 0; i < node.componentRefs.length; i++) {
         var childID = node.componentRefs[i];
-	    this.displayGraph(childID, mat, text);
+        this.displayGraph(childID, mat, text);
 
-}
-	this.popMatrix();
+    }
+    this.popMatrix();
 
 }
 
 
 //Function to appy the transformations in each node
-XMLscene.prototype.applyTransformations = function(transformations){
-	for(var i = 0; i < transformations.length; i++){
+XMLscene.prototype.applyTransformations = function(transformations) {
+    for (var i = 0; i < transformations.length; i++) {
         var transf = transformations[i];
 
-        switch(transf.type){
+        switch (transf.type) {
             case "rotate":
-            this.rotate(transf.angle * Math.PI / 180,
-                        transf.axis == "x" ? 1 : 0,
-                        transf.axis == "y" ? 1 : 0,
-                        transf.axis == "z" ? 1 : 0);
-            break;
+                this.rotate(transf.angle * Math.PI / 180,
+                    transf.axis == "x" ? 1 : 0,
+                    transf.axis == "y" ? 1 : 0,
+                    transf.axis == "z" ? 1 : 0);
+                break;
             case "translate":
-            this.translate(transf.x, transf.y, transf.z);
-            break;
+                this.translate(transf.x, transf.y, transf.z);
+                break;
             case "scale":
-            this.scale(transf.x, transf.y, transf.z);
-            break;
+                this.scale(transf.x, transf.y, transf.z);
+                break;
         }
     }
 }

@@ -19,7 +19,7 @@ function TrippplesBoard(scene, pieces, ambient) {
     //REMOVER
     this.pieces = [
         [1, 2, 3, 4, 5, 6, 7, 8],
-        [1, 2, 3, 4, 5, 6, 7, 8],
+        [9, 10, 11, 12, 13, 14, 15, 16],
         [1, 2, 3, 4, 5, 6, 7, 8],
         [1, 2, 3, 4, 5, 6, 7, 8],
         [1, 2, 3, 4, 5, 6, 7, 8],
@@ -35,19 +35,19 @@ function TrippplesBoard(scene, pieces, ambient) {
     this.defaultApp.setAmbient(0.3, 0.3, 0.3, 1);
     this.defaultApp.setDiffuse(0.2, 0.2, 0.2, 1);
     this.defaultApp.setSpecular(0.2, 0.2, 0.2, 1);
-    this.defaultApp.setShininess(120);
+    this.defaultApp.setShininess(20);
 
     this.boardQuad = new CGFappearance(this.scene);
     this.boardQuad.setAmbient(0.3, 0.3, 0.3, 1);
     this.boardQuad.setDiffuse(0.2, 0.2, 0.2, 1);
     this.boardQuad.setSpecular(0.2, 0.2, 0.2, 1);
-    this.boardQuad.setShininess(120);
+    this.boardQuad.setShininess(20);
 
     this.sideBoard = new CGFappearance(this.scene);
     this.sideBoard.setAmbient(0.3, 0.3, 0.3, 1);
     this.sideBoard.setDiffuse(0.2, 0.2, 0.2, 1);
     this.sideBoard.setSpecular(0.2, 0.2, 0.2, 1);
-    this.sideBoard.setShininess(120);
+    this.sideBoard.setShininess(20);
     if (ambient == 0)
         this.sideBoard.loadTexture("textures/boardPieces/woodSide.png");
     else if (ambient == 1)
@@ -65,7 +65,7 @@ function TrippplesBoard(scene, pieces, ambient) {
         this.bottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
     this.piecesText = this.loadPiecesText(this.pieces);
-    this.piece1 = new MyPiece(this.scene, new coord2D(1, 1), 0, 101);
+    this.piece1 = new MyPiece(this.scene, new coord2D(1, 2), 0, 101);
     this.piece2 = new MyPiece(this.scene, new coord2D(4, 2), 1, 102);
 };
 
@@ -80,15 +80,30 @@ TrippplesBoard.prototype.loadPiecesText = function() {
         ret[i] = new Array(8);
         for (var j = 0; j < ret.length; j++) {
             var tempApp = new CGFappearance(this.scene);
-            tempApp.setAmbient(0.3, 0.3, 0.3, 1);
-            tempApp.setDiffuse(0.2, 0.2, 0.2, 1);
-            tempApp.setSpecular(0.2, 0.2, 0.2, 1);
+            tempApp.setAmbient(0, 0, 0, 1);
+            tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
+            tempApp.setSpecular(0.5, 0.5, 0.5, 1);
             tempApp.setShininess(120);
             tempApp.loadTexture("textures/boardPieces/" + this.pieces[i][j] + ".png");
             ret[i][j] = tempApp;
         }
     }
     return ret;
+}
+
+TrippplesBoard.prototype.highlightTiles = function(tiles){
+  for (var i = 0; i < tiles.length; i++) {
+    var tempX = tiles[i].x;
+    var tempY = tiles[i].y;
+
+    var tempApp = new CGFappearance(this.scene);
+    tempApp.setAmbient(0.5, 0.5, 0.5, 1);
+    tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
+    tempApp.setSpecular(0.5, 0.5, 0.5, 1);
+    tempApp.setShininess(120);
+    tempApp.loadTexture("textures/boardPieces/" + this.pieces[tempX][tempY] + ".png");
+    this.piecesText[tempY][tempX] = tempApp;
+  }
 }
 
 TrippplesBoard.prototype.display = function() {
@@ -131,14 +146,12 @@ TrippplesBoard.prototype.display = function() {
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0.5, 0);
-    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-    var pickID = 0;
     for (var i = 0; i < 8; i++) {
         for (var j = 0; j < 8; j++) {
             this.scene.pushMatrix();
-            this.scene.translate(-3.5 + i, -3.5 + j, 0);
-            this.scene.registerForPick(pickID, this);
-            pickID++;
+            this.scene.translate(-3.5 + i, 0, -3.5 + j);
+            this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+            this.scene.registerForPick(i*8+j, this);
             this.piecesText[j][i].apply();
             this.quad.display();
             this.scene.popMatrix();
