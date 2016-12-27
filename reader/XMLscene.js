@@ -38,9 +38,6 @@ XMLscene.prototype.init = function(application) {
 
     this.trippples = new Trippples(this, 1);
 
-    console.log(this.trippples.getPrologBoard());
-
-
     this.currentCamera = 0;
     this.cameras = [];
 

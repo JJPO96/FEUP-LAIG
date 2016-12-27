@@ -30,10 +30,10 @@ Trippples.prototype.getPrologBoard = function(){
   });  
 };
 
-Trippples.prototype.getPlayerPosition = function(){
+Trippples.prototype.getPlayerPosition = function(player){
     var game = this;
 
-  this.client.getPrologRequest("board", function(data) {
+  this.client.getPrologRequest(player, function(data) {
     game.board = data.target.responseText;
   });  
 };
