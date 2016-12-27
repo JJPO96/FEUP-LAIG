@@ -127,6 +127,5 @@ function getTexturePath(binaryPiece) {
 function getTileCoords(int) {
     var x = int % 8;
     var y = Math.floor(int / 8);
-
     return new coord2D(x, y);
 }

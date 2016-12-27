@@ -34,9 +34,10 @@ XMLscene.prototype.init = function(application) {
 
     this.axis = new CGFaxis(this);
 
-    this.board = new TrippplesBoard(this, [], 1);
-
     this.trippples = new Trippples(this, 1);
+    this.trippples.getPrologBoard();
+    this.board = new TrippplesBoard(this, 1);
+
 
     this.currentCamera = 0;
     this.cameras = [];

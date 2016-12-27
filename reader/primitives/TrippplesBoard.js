@@ -12,10 +12,11 @@
  * c2: color 2
  * cs: color of the selected square
  */
-function TrippplesBoard(scene, pieces, ambient) {
+function TrippplesBoard(scene, ambient) {
     CGFobject.call(this, scene);
     this.scene = scene;
-    this.pieces = pieces;
+  //  this.pieces = this.scene.trippples.board;
+
     this.lastPlay = 2;
     //REMOVER
     this.pieces = [
@@ -142,8 +143,8 @@ TrippplesBoard.prototype.makePlay = function() {
                         this.tempCh = changeTo(2, this.pieces[this.piece1.coord.x][this.piece1.coord.y]);
                         this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh));
                         this.lastPlay = 2;
-                    } else if (obj.type != "piece1" && obj.type != "piece2") {
-                      console.log(getTileCoords(customId));
+                    } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64)) {
+
                     }
                     console.log("pick id " + customId);
                 }
