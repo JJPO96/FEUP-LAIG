@@ -1,5 +1,5 @@
 function getAvaiPos(currentPos, piece) {
-
+    console.log(changeTo(10,piece));
     ret = [];
     if ((piece & 0b100000000) == 0b100000000)
         ret.push(new coord2D(currentPos.y - 1, currentPos.x + 1));
@@ -29,7 +29,7 @@ function getAvaiPos(currentPos, piece) {
         ret.push(new coord2D(currentPos.y + 1, currentPos.x - 1));
 
     ret = remCoordInv(ret);
-
+  
     return ret;
 }
 

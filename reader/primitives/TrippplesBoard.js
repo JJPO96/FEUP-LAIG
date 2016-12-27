@@ -18,18 +18,18 @@ function TrippplesBoard(scene, pieces, ambient) {
     this.pieces = pieces;
     //REMOVER
     this.pieces = [
-        [1, 2, 3, 4, 5, 6, 7, 8],
-        [9, 10, 11, 12, 13, 14, 15, 16],
-        [1, 2, 3, 4, 5, 6, 7, 8],
-        [1, 2, 3, 4, 5, 6, 7, 8],
-        [1, 2, 3, 4, 5, 6, 7, 8],
-        [1, 2, 3, 4, 5, 6, 7, 8],
-        [1, 2, 3, 4, 5, 6, 7, 8],
-        [1, 2, 3, 4, 5, 6, 7, 8]
+        [2, 5, 6, 7, 8, 9, 10, 3],
+        [11, 12, 13, 14, 15, 16, 17, 18],
+        [19, 20, 21, 22, 23, 24, 25, 26],
+        [27, 28, 29, 0, 30, 44, 31, 32],
+        [33, 34, 35, 0, 0, 36, 37, 38],
+        [39, 40, 41, 42, 43, 0, 45, 46],
+        [47, 48, 49, 50, 51, 52, 53, 54],
+        [4, 55, 56, 57, 58, 59, 60, 1]
     ]
     this.quad = new MyPlane(this.scene, 1, 1, 10, 10),
-        this.bottom = new MyPlane(this.scene, 8, 8, 10, 10);
-    this.side = new MyPlane(this.scene, 8, 0.5, 10, 10);
+        this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
+    this.side = new MyPlane(this.scene, 9, 0.5, 10, 10);
 
     this.defaultApp = new CGFappearance(this.scene);
     this.defaultApp.setAmbient(0.3, 0.3, 0.3, 1);
@@ -91,75 +91,112 @@ TrippplesBoard.prototype.loadPiecesText = function() {
     return ret;
 }
 
-TrippplesBoard.prototype.highlightTiles = function(tiles){
-  for (var i = 0; i < tiles.length; i++) {
-    var tempX = tiles[i].x;
-    var tempY = tiles[i].y;
+TrippplesBoard.prototype.highlightTiles = function(tiles) {
+    for (var i = 0; i < tiles.length; i++) {
+        var tempX = tiles[i].x;
+        var tempY = tiles[i].y;
 
-    var tempApp = new CGFappearance(this.scene);
-    tempApp.setAmbient(0.5, 0.5, 0.5, 1);
-    tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
-    tempApp.setSpecular(0.5, 0.5, 0.5, 1);
-    tempApp.setShininess(120);
-    tempApp.loadTexture("textures/boardPieces/" + this.pieces[tempX][tempY] + ".png");
-    this.piecesText[tempY][tempX] = tempApp;
-  }
+        var tempApp = new CGFappearance(this.scene);
+        tempApp.setAmbient(0.5, 0.5, 0.5, 1);
+        tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
+        tempApp.setSpecular(0.5, 0.5, 0.5, 1);
+        tempApp.setShininess(120);
+        tempApp.loadTexture("textures/boardPieces/" + this.pieces[tempY][tempX] + ".png");
+        this.piecesText[tempY][tempX] = tempApp;
+    }
 }
 
-TrippplesBoard.prototype.display = function() {
-    this.scene.pushMatrix();
-    this.scene.registerForPick(200, this);
-    this.bottomBoard.apply();
-    this.scene.rotate(Math.PI / 2, 1, 0, 0);
-    this.bottom.display();
-    this.scene.popMatrix();
+TrippplesBoard.prototype.makePlay =
 
-    this.scene.pushMatrix();
-    this.sideBoard.apply();
-    this.scene.registerForPick(200, this);
-    this.scene.translate(0, 0.25, 4);
-    this.side.display();
-    this.scene.popMatrix();
+    TrippplesBoard.prototype.display = function() {
+        this.scene.pushMatrix();
+        this.scene.registerForPick(200, this);
+        this.bottomBoard.apply();
+        this.scene.rotate(Math.PI / 2, 1, 0, 0);
+        this.bottom.display();
+        this.scene.popMatrix();
+        //sides
+        this.scene.pushMatrix();
+        this.sideBoard.apply();
+        this.scene.registerForPick(200, this);
+        this.scene.translate(0, 0.25, 4.5);
+        this.side.display();
+        this.scene.popMatrix();
 
-    this.scene.pushMatrix();
-    this.scene.rotate(Math.PI / 2, 0, 1, 0);
-    this.scene.registerForPick(200, this);
-    this.scene.translate(0, 0.25, 4);
-    this.side.display();
-    this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI / 2, 0, 1, 0);
+        this.scene.registerForPick(200, this);
+        this.scene.translate(0, 0.25, 4.5);
+        this.side.display();
+        this.scene.popMatrix();
 
-    this.scene.pushMatrix();
-    this.scene.rotate(Math.PI, 0, 1, 0);
-    this.scene.registerForPick(200, this);
-    this.scene.translate(0, 0.25, 4);
-    this.side.display();
-    this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI, 0, 1, 0);
+        this.scene.registerForPick(200, this);
+        this.scene.translate(0, 0.25, 4.5);
+        this.side.display();
+        this.scene.popMatrix();
 
-    this.scene.pushMatrix();
-    this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-    this.scene.registerForPick(200, this);
-    this.scene.translate(0, 0.25, 4);
-    this.side.display();
-    this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+        this.scene.registerForPick(200, this);
+        this.scene.translate(0, 0.25, 4.5);
+        this.side.display();
+        this.scene.popMatrix();
+        //top sides
+        this.scene.pushMatrix();
+        this.sideBoard.apply();
+        this.scene.registerForPick(200, this);
+        this.scene.translate(0, 0.5, 4.25);
+        this.scene.rotate(-Math.PI/2,1, 0, 0);
+        this.side.display();
+        this.scene.popMatrix();
 
-    this.defaultApp.apply();
+        this.scene.pushMatrix();
+        this.sideBoard.apply();
+        this.scene.rotate(Math.PI / 2, 0, 1, 0);
+        this.scene.registerForPick(200, this);
+        this.scene.translate(0, 0.5, 4.25);
+        this.scene.rotate(-Math.PI/2,1, 0, 0);
+        this.side.display();
+        this.scene.popMatrix();
 
-    this.scene.pushMatrix();
-    this.scene.translate(0, 0.5, 0);
-    for (var i = 0; i < 8; i++) {
-        for (var j = 0; j < 8; j++) {
-            this.scene.pushMatrix();
-            this.scene.translate(-3.5 + i, 0, -3.5 + j);
-            this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-            this.scene.registerForPick(i*8+j, this);
-            this.piecesText[j][i].apply();
-            this.quad.display();
-            this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.sideBoard.apply();
+        this.scene.rotate(Math.PI, 0, 1, 0);
+        this.scene.registerForPick(200, this);
+        this.scene.translate(0, 0.5, 4.25);
+        this.scene.rotate(-Math.PI/2,1, 0, 0);
+        this.side.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.sideBoard.apply();
+        this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+        this.scene.registerForPick(200, this);
+        this.scene.translate(0, 0.5, 4.25);
+        this.scene.rotate(-Math.PI/2,1, 0, 0);
+        this.side.display();
+        this.scene.popMatrix();
+
+        this.defaultApp.apply();
+
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0.5, 0);
+        for (var i = 0; i < 8; i++) {
+            for (var j = 0; j < 8; j++) {
+                this.scene.pushMatrix();
+                this.scene.translate(-3.5 + i, 0, -3.5 + j);
+                this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+                this.scene.registerForPick(i * 8 + j, this);
+                this.piecesText[j][i].apply();
+                this.quad.display();
+                this.scene.popMatrix();
+            }
         }
-    }
-    this.scene.popMatrix();
+        this.scene.popMatrix();
 
-    this.piece1.display();
-    this.piece2.display();
+        this.piece1.display();
+        this.piece2.display();
 
-};
+    };
