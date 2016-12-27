@@ -16,6 +16,7 @@ function TrippplesBoard(scene, pieces, ambient) {
     CGFobject.call(this, scene);
     this.scene = scene;
     this.pieces = pieces;
+    this.lastPlay = 2;
     //REMOVER
     this.pieces = [
         [2, 5, 6, 7, 8, 9, 10, 3],
@@ -65,8 +66,8 @@ function TrippplesBoard(scene, pieces, ambient) {
         this.bottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
     this.piecesText = this.loadPiecesText(this.pieces);
-    this.piece1 = new MyPiece(this.scene, new coord2D(1, 2), 0, 101);
-    this.piece2 = new MyPiece(this.scene, new coord2D(4, 2), 1, 102);
+    this.piece1 = new MyPiece(this.scene, new coord2D(0, 7), 0, 101);
+    this.piece2 = new MyPiece(this.scene, new coord2D(7, 7), 1, 102);
 };
 
 
@@ -106,97 +107,141 @@ TrippplesBoard.prototype.highlightTiles = function(tiles) {
     }
 }
 
-TrippplesBoard.prototype.makePlay =
+TrippplesBoard.prototype.restoreTiles = function(tiles) {
+    for (var i = 0; i < tiles.length; i++) {
+        var tempX = tiles[i].x;
+        var tempY = tiles[i].y;
 
-    TrippplesBoard.prototype.display = function() {
-        this.scene.pushMatrix();
-        this.scene.registerForPick(200, this);
-        this.bottomBoard.apply();
-        this.scene.rotate(Math.PI / 2, 1, 0, 0);
-        this.bottom.display();
-        this.scene.popMatrix();
-        //sides
-        this.scene.pushMatrix();
-        this.sideBoard.apply();
-        this.scene.registerForPick(200, this);
-        this.scene.translate(0, 0.25, 4.5);
-        this.side.display();
-        this.scene.popMatrix();
+        var tempApp = new CGFappearance(this.scene);
+        tempApp.setAmbient(0, 0, 0, 1);
+        tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
+        tempApp.setSpecular(0.5, 0.5, 0.5, 1);
+        tempApp.setShininess(120);
+        tempApp.loadTexture("textures/boardPieces/" + this.pieces[tempY][tempX] + ".png");
+        this.piecesText[tempY][tempX] = tempApp;
+    }
+}
 
-        this.scene.pushMatrix();
-        this.scene.rotate(Math.PI / 2, 0, 1, 0);
-        this.scene.registerForPick(200, this);
-        this.scene.translate(0, 0.25, 4.5);
-        this.side.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.scene.rotate(Math.PI, 0, 1, 0);
-        this.scene.registerForPick(200, this);
-        this.scene.translate(0, 0.25, 4.5);
-        this.side.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-        this.scene.registerForPick(200, this);
-        this.scene.translate(0, 0.25, 4.5);
-        this.side.display();
-        this.scene.popMatrix();
-        //top sides
-        this.scene.pushMatrix();
-        this.sideBoard.apply();
-        this.scene.registerForPick(200, this);
-        this.scene.translate(0, 0.5, 4.25);
-        this.scene.rotate(-Math.PI/2,1, 0, 0);
-        this.side.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.sideBoard.apply();
-        this.scene.rotate(Math.PI / 2, 0, 1, 0);
-        this.scene.registerForPick(200, this);
-        this.scene.translate(0, 0.5, 4.25);
-        this.scene.rotate(-Math.PI/2,1, 0, 0);
-        this.side.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.sideBoard.apply();
-        this.scene.rotate(Math.PI, 0, 1, 0);
-        this.scene.registerForPick(200, this);
-        this.scene.translate(0, 0.5, 4.25);
-        this.scene.rotate(-Math.PI/2,1, 0, 0);
-        this.side.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.sideBoard.apply();
-        this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-        this.scene.registerForPick(200, this);
-        this.scene.translate(0, 0.5, 4.25);
-        this.scene.rotate(-Math.PI/2,1, 0, 0);
-        this.side.display();
-        this.scene.popMatrix();
-
-        this.defaultApp.apply();
-
-        this.scene.pushMatrix();
-        this.scene.translate(0, 0.5, 0);
-        for (var i = 0; i < 8; i++) {
-            for (var j = 0; j < 8; j++) {
-                this.scene.pushMatrix();
-                this.scene.translate(-3.5 + i, 0, -3.5 + j);
-                this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-                this.scene.registerForPick(i * 8 + j, this);
-                this.piecesText[j][i].apply();
-                this.quad.display();
-                this.scene.popMatrix();
+TrippplesBoard.prototype.makePlay = function() {
+    this.tempCoord;
+    this.tempCh;
+    if (this.scene.pickMode == false) {
+        if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
+            for (var i = 0; i < this.scene.pickResults.length; i++) {
+                var obj = this.scene.pickResults[i][0];
+                if (obj) {
+                    var customId = this.scene.pickResults[i][1];
+                    if (obj.type == "piece1" && this.lastPlay == 2) {
+                        this.tempCoord = new coord2D(this.piece1.coord.x, this.piece1.coord.y);
+                        this.tempCh = changeTo(2, this.pieces[this.piece2.coord.x][this.piece2.coord.y]);
+                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh));
+                      //  this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh));
+                        this.lastPlay = 1;
+                    } else if (obj.type == "piece2" && this.lastPlay == 1) {
+                        this.tempCoord = new coord2D(this.piece2.coord.x, this.piece2.coord.y);
+                        this.tempCh = changeTo(2, this.pieces[this.piece1.coord.x][this.piece1.coord.y]);
+                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh));
+                        this.lastPlay = 2;
+                    } else if (obj.type != "piece1" && obj.type != "piece2") {
+                      console.log(getTileCoords(customId));
+                    }
+                    console.log("pick id " + customId);
+                }
             }
+            this.scene.pickResults.splice(0, this.scene.pickResults.length);
         }
-        this.scene.popMatrix();
+    }
+}
 
-        this.piece1.display();
-        this.piece2.display();
+TrippplesBoard.prototype.display = function() {
+    this.scene.pushMatrix();
+    this.scene.registerForPick(200, this);
+    this.bottomBoard.apply();
+    this.scene.rotate(Math.PI / 2, 1, 0, 0);
+    this.bottom.display();
+    this.scene.popMatrix();
+    //sides
+    this.scene.pushMatrix();
+    this.sideBoard.apply();
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.25, 4.5);
+    this.side.display();
+    this.scene.popMatrix();
 
-    };
+    this.scene.pushMatrix();
+    this.scene.rotate(Math.PI / 2, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.25, 4.5);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(Math.PI, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.25, 4.5);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.25, 4.5);
+    this.side.display();
+    this.scene.popMatrix();
+    //top sides
+    this.scene.pushMatrix();
+    this.sideBoard.apply();
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.5, 4.25);
+    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.sideBoard.apply();
+    this.scene.rotate(Math.PI / 2, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.5, 4.25);
+    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.sideBoard.apply();
+    this.scene.rotate(Math.PI, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.5, 4.25);
+    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.sideBoard.apply();
+    this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.5, 4.25);
+    this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.defaultApp.apply();
+
+    this.scene.pushMatrix();
+    this.scene.translate(0, 0.5, 0);
+    for (var i = 0; i < 8; i++) {
+        for (var j = 0; j < 8; j++) {
+            this.scene.pushMatrix();
+            this.scene.translate(-3.5 + i, 0, -3.5 + j);
+            this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+            this.scene.registerForPick(i * 8 + j, this);
+            this.piecesText[j][i].apply();
+            this.quad.display();
+            this.scene.popMatrix();
+        }
+    }
+    this.scene.popMatrix();
+
+    this.piece1.display();
+    this.piece2.display();
+
+};

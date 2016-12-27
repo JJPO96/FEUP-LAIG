@@ -76,25 +76,7 @@ XMLscene.prototype.initCameras = function() {
 };
 
 XMLscene.prototype.logPicking = function() {
-    if (this.pickMode == false) {
-        if (this.pickResults != null && this.pickResults.length > 0) {
-            for (var i = 0; i < this.pickResults.length; i++) {
-                var obj = this.pickResults[i][0];
-                if (obj) {
-                    var customId = this.pickResults[i][1];
-                    if (obj.type == "piece1") {
-                        console.log(obj.coord);
-                        this.board.highlightTiles(getAvaiPos(new coord2D(this.board.piece1.coord.x, this.board.piece1.coord.y), changeTo(2, this.board.pieces[this.board.piece2.coord.x][this.board.piece2.coord.y])));
-                    } else if (obj.type == "piece2") {
-                        this.board.highlightTiles(getAvaiPos(new coord2D(this.board.piece2.coord.x, this.board.piece2.coord.y), changeTo(2, this.board.pieces[this.board.piece1.coord.x][this.board.piece1.coord.y])));
-                    }
-                    console.log("pick id " + customId);
-                    console.log(this.board.piece2);
-                }
-            }
-            this.pickResults.splice(0, this.pickResults.length);
-        }
-    }
+    this.board.makePlay();
 }
 
 /**

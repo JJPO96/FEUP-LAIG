@@ -1,5 +1,4 @@
 function getAvaiPos(currentPos, piece) {
-    console.log(changeTo(10,piece));
     ret = [];
     if ((piece & 0b100000000) == 0b100000000)
         ret.push(new coord2D(currentPos.y - 1, currentPos.x + 1));
@@ -29,14 +28,13 @@ function getAvaiPos(currentPos, piece) {
         ret.push(new coord2D(currentPos.y + 1, currentPos.x - 1));
 
     ret = remCoordInv(ret);
-  
     return ret;
 }
 
 function remCoordInv(array) {
     var ret = [];
     for (var i = 0; i < array.length; i++) {
-        if (array[i].x >= 0 && array[i].x <= 8 && 0 <= array[i].y >= 0 && array[i].y <= 8)
+        if (array[i].x >= 0 && array[i].x < 8 && array[i].y >= 0 && array[i].y < 8)
             ret.push(array[i]);
     }
     return ret;
@@ -44,6 +42,11 @@ function remCoordInv(array) {
 
 function changeTo(type, value) {
     var testes = [
+        [0, 0b111101111],
+        [1, 0b111101111],
+        [2, 0b111101111],
+        [3, 0b111101111],
+        [4, 0b111101111],
         [5, 0b010000110],
         [6, 0b001101000],
         [7, 0b010101000],
@@ -119,4 +122,11 @@ function changeTo(type, value) {
 function getTexturePath(binaryPiece) {
     var piece = changeTo(10, binaryPiece)
     return "textures/boardPieces/" + piece + ".png";
+}
+
+function getTileCoords(int) {
+    var x = int % 8;
+    var y = Math.floor(int / 8);
+
+    return new coord2D(x, y);
 }
