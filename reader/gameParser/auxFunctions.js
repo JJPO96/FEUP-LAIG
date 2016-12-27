@@ -29,7 +29,7 @@ function getAvaiPos(currentPos, piece) {
         ret.push(new coord2D(currentPos.y + 1, currentPos.x - 1));
 
     ret = remCoordInv(ret);
-    console.log(ret);
+  
     return ret;
 }
 
