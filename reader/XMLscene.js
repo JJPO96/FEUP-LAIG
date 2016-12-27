@@ -36,6 +36,11 @@ XMLscene.prototype.init = function(application) {
 
     this.board = new TrippplesBoard(this, [], 1);
 
+    this.trippples = new Trippples(this, 1);
+    
+    console.log(this.trippples.getPrologBoard()); 
+    
+
     this.currentCamera = 0;
     this.cameras = [];
 
@@ -195,7 +200,7 @@ XMLscene.prototype.display = function() {
     	{
     		this.lights[0].update();
     		this.displayGraph(this.graph.root, null, null);
-    	};*/
+    	};*/      
 }
 
 //Function to intialize everything
