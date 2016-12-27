@@ -15,8 +15,10 @@
 function TrippplesBoard(scene, ambient) {
     CGFobject.call(this, scene);
     this.scene = scene;
-  //  this.pieces = this.scene.trippples.board;
 
+    this.move = true;
+  /*  this.pieces = this.scene.trippples.board;
+    console.log(this.pieces);*/
     this.lastPlay = 2;
     //REMOVER
     this.pieces = [
@@ -28,7 +30,7 @@ function TrippplesBoard(scene, ambient) {
         [39, 40, 41, 42, 43, 0, 45, 46],
         [47, 48, 49, 50, 51, 52, 53, 54],
         [4, 55, 56, 57, 58, 59, 60, 1]
-    ]
+    ];
     this.quad = new MyPlane(this.scene, 1, 1, 10, 10),
         this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
     this.side = new MyPlane(this.scene, 9, 0.5, 10, 10);
@@ -130,21 +132,32 @@ TrippplesBoard.prototype.makePlay = function() {
         if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
             for (var i = 0; i < this.scene.pickResults.length; i++) {
                 var obj = this.scene.pickResults[i][0];
+                console.log(this.move);
                 if (obj) {
                     var customId = this.scene.pickResults[i][1];
-                    if (obj.type == "piece1" && this.lastPlay == 2) {
+                    if (obj.type == "piece1" && this.lastPlay == 2 && this.move) {
                         this.tempCoord = new coord2D(this.piece1.coord.x, this.piece1.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece2.coord.x][this.piece2.coord.y]);
                         this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh));
-                      //  this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh));
                         this.lastPlay = 1;
-                    } else if (obj.type == "piece2" && this.lastPlay == 1) {
+                        this.move = false;
+                    } else if (obj.type == "piece2" && this.lastPlay == 1 && this.move) {
                         this.tempCoord = new coord2D(this.piece2.coord.x, this.piece2.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece1.coord.x][this.piece1.coord.y]);
                         this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh));
                         this.lastPlay = 2;
-                    } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64)) {
-
+                        this.move = false;
+                    } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64) && !(this.move)) {
+                        var tempArr = getAvaiPos(this.tempCoord,this.tempCh);
+                        if (isIn(getTileCoords(customId),tempArr)) {
+                          if (this.lastPlay == 1) {
+                            this.piece1.movePiece(getTileCoords(customId).x,getTileCoords(customId).y);
+                          }else if (this.lastPlay == 2) {
+                            this.piece2.movePiece(getTileCoords(customId).x,getTileCoords(customId).y);
+                          }
+                          this.move = true;
+                          this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh));
+                        }
                     }
                     console.log("pick id " + customId);
                 }

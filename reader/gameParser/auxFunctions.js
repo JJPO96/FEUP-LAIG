@@ -42,11 +42,11 @@ function remCoordInv(array) {
 
 function changeTo(type, value) {
     var testes = [
-        [0, 0b111101111],
+        [0, 0b000000000],
         [1, 0b111101111],
         [2, 0b111101111],
-        [3, 0b111101111],
-        [4, 0b111101111],
+        [3, 0b000000000],
+        [4, 0b000000000],
         [5, 0b010000110],
         [6, 0b001101000],
         [7, 0b010101000],
@@ -128,4 +128,12 @@ function getTileCoords(int) {
     var x = int % 8;
     var y = Math.floor(int / 8);
     return new coord2D(x, y);
+}
+
+function isIn(coord,coordArray) {
+  for (var i = 0; i < coordArray.length; i++) {
+    if (coord.x == coordArray[i].y && coord.y == coordArray[i].x)
+      return true;
+  }
+  return false;
 }
