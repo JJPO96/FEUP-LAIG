@@ -37,9 +37,9 @@ XMLscene.prototype.init = function(application) {
     this.board = new TrippplesBoard(this, [], 1);
 
     this.trippples = new Trippples(this, 1);
-    
-    console.log(this.trippples.getPrologBoard()); 
-    
+
+    console.log(this.trippples.getPrologBoard());
+
 
     this.currentCamera = 0;
     this.cameras = [];
@@ -84,7 +84,7 @@ XMLscene.prototype.logPicking = function() {
                     var customId = this.pickResults[i][1];
                     if (obj.type == "piece1") {
                         console.log(obj.coord);
-                        this.board.highlightTiles(getAvaiPos(new coord2D(obj.coord.x, obj.coord.y), changeTo(2, this.board.pieces[obj.coord.x][obj.coord.y])));
+                        this.board.highlightTiles(getAvaiPos(new coord2D(this.board.piece1.coord.x, this.board.piece1.coord.y), changeTo(2, this.board.pieces[this.board.piece2.coord.x][this.board.piece2.coord.y])));
                     } else if (obj.type == "piece2") {
                         this.board.highlightTiles(getAvaiPos(new coord2D(this.board.piece2.coord.x, this.board.piece2.coord.y), changeTo(2, this.board.pieces[this.board.piece1.coord.x][this.board.piece1.coord.y])));
                     }
@@ -200,7 +200,7 @@ XMLscene.prototype.display = function() {
     	{
     		this.lights[0].update();
     		this.displayGraph(this.graph.root, null, null);
-    	};*/      
+    	};*/
 }
 
 //Function to intialize everything
