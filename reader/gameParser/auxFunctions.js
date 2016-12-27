@@ -1,4 +1,4 @@
-function getAvaiPos(currentPos, piece) {
+function getAvaiPos(currentPos, piece, tiles) {
     ret = [];
     if ((piece & 0b100000000) == 0b100000000)
         ret.push(new coord2D(currentPos.y - 1, currentPos.x + 1));
@@ -27,15 +27,22 @@ function getAvaiPos(currentPos, piece) {
     if ((piece & 0b000000001) == 0b000000001)
         ret.push(new coord2D(currentPos.y + 1, currentPos.x - 1));
 
-    ret = remCoordInv(ret);
+    ret = remCoordInv(ret, tiles);
     return ret;
 }
 
-function remCoordInv(array) {
+function remCoordInv(array, tiles) {
     var ret = [];
     for (var i = 0; i < array.length; i++) {
-        if (array[i].x >= 0 && array[i].x < 8 && array[i].y >= 0 && array[i].y < 8)
-            ret.push(array[i]);
+        if (array[i].x >= 0 && array[i].x < 8 && array[i].y >= 0 && array[i].y < 8){
+          if (typeof tiles === 'undefined') {
+              ret.push(array[i]);
+          }else if (true) {
+              if(tiles[array[i].y][array[i].x] != 0)
+                ret.push(array[i]);
+          }
+        }
+
     }
     return ret;
 }
@@ -45,8 +52,8 @@ function changeTo(type, value) {
         [0, 0b000000000],
         [1, 0b111101111],
         [2, 0b111101111],
-        [3, 0b000000000],
-        [4, 0b000000000],
+        [3, 0b111101111],
+        [4, 0b111101111],
         [5, 0b010000110],
         [6, 0b001101000],
         [7, 0b010101000],
@@ -130,10 +137,10 @@ function getTileCoords(int) {
     return new coord2D(x, y);
 }
 
-function isIn(coord,coordArray) {
-  for (var i = 0; i < coordArray.length; i++) {
-    if (coord.x == coordArray[i].y && coord.y == coordArray[i].x)
-      return true;
-  }
-  return false;
+function isIn(coord, coordArray) {
+    for (var i = 0; i < coordArray.length; i++) {
+        if (coord.x == coordArray[i].y && coord.y == coordArray[i].x)
+            return true;
+    }
+    return false;
 }

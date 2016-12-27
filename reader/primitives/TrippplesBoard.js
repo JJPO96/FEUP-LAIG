@@ -17,22 +17,11 @@ function TrippplesBoard(scene, ambient) {
     this.scene = scene;
 
     this.move = true;
-  /*  this.pieces = this.scene.trippples.board;
-    console.log(this.pieces);*/
+    this.pieces = this.scene.trippples.board;
+    console.log(this.pieces);
     this.lastPlay = 2;
-    //REMOVER
-    this.pieces = [
-        [2, 5, 6, 7, 8, 9, 10, 3],
-        [11, 12, 13, 14, 15, 16, 17, 18],
-        [19, 20, 21, 22, 23, 24, 25, 26],
-        [27, 28, 29, 0, 30, 44, 31, 32],
-        [33, 34, 35, 0, 0, 36, 37, 38],
-        [39, 40, 41, 42, 43, 0, 45, 46],
-        [47, 48, 49, 50, 51, 52, 53, 54],
-        [4, 55, 56, 57, 58, 59, 60, 1]
-    ];
     this.quad = new MyPlane(this.scene, 1, 1, 10, 10),
-        this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
+    this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
     this.side = new MyPlane(this.scene, 9, 0.5, 10, 10);
 
     this.defaultApp = new CGFappearance(this.scene);
@@ -138,17 +127,17 @@ TrippplesBoard.prototype.makePlay = function() {
                     if (obj.type == "piece1" && this.lastPlay == 2 && this.move) {
                         this.tempCoord = new coord2D(this.piece1.coord.x, this.piece1.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece2.coord.x][this.piece2.coord.y]);
-                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh));
+                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh,this.pieces));
                         this.lastPlay = 1;
                         this.move = false;
                     } else if (obj.type == "piece2" && this.lastPlay == 1 && this.move) {
                         this.tempCoord = new coord2D(this.piece2.coord.x, this.piece2.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece1.coord.x][this.piece1.coord.y]);
-                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh));
+                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh,this.pieces));
                         this.lastPlay = 2;
                         this.move = false;
                     } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64) && !(this.move)) {
-                        var tempArr = getAvaiPos(this.tempCoord,this.tempCh);
+                        var tempArr = getAvaiPos(this.tempCoord,this.tempCh,this.pieces);
                         if (isIn(getTileCoords(customId),tempArr)) {
                           if (this.lastPlay == 1) {
                             this.piece1.movePiece(getTileCoords(customId).x,getTileCoords(customId).y);
@@ -156,7 +145,7 @@ TrippplesBoard.prototype.makePlay = function() {
                             this.piece2.movePiece(getTileCoords(customId).x,getTileCoords(customId).y);
                           }
                           this.move = true;
-                          this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh));
+                          this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh,this.pieces));
                         }
                     }
                     console.log("pick id " + customId);
