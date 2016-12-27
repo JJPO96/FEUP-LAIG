@@ -141,8 +141,14 @@ TrippplesBoard.prototype.makePlay = function() {
                         if (isIn(getTileCoords(customId),tempArr)) {
                           if (this.lastPlay == 1) {
                             this.piece1.movePiece(getTileCoords(customId).x,getTileCoords(customId).y);
+                            if (this.piece1.coord.x == 0 && this.piece1.coord.y == 0) {
+                              console.log("PLAYER 1 WINS!!");
+                            }
                           }else if (this.lastPlay == 2) {
                             this.piece2.movePiece(getTileCoords(customId).x,getTileCoords(customId).y);
+                            if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
+                              console.log("PLAYER 2 WINS!!");
+                            }
                           }
                           this.move = true;
                           this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh,this.pieces));

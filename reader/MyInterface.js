@@ -1,6 +1,6 @@
 /**
  * MyInterface
- * @constructor 
+ * @constructor
  */
 function MyInterface() {
     CGFinterface.call(this);
@@ -52,4 +52,8 @@ MyInterface.prototype.processKeyDown = function(event) {
             this.scene.updateView();
             break;
     };
+};
+
+MyInterface.prototype.processMouseDown = function(event) {
+    
 };
