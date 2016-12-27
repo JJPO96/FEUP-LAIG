@@ -26,7 +26,8 @@ Trippples.prototype.getPrologBoard = function(){
     var game = this;
 
   this.client.getPrologRequest("board", function(data) {
-    game.board = data.target.responseText;
+      var result = data.target.responseText;
+      game.board = result.split(',');
   });  
 };
 
@@ -34,6 +35,6 @@ Trippples.prototype.getPlayerPosition = function(player){
     var game = this;
 
   this.client.getPrologRequest(player, function(data) {
-    game.board = data.target.responseText;
+    game.player1= data.target.responseText;
   });  
 };
