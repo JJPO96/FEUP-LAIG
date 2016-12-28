@@ -1,3 +1,11 @@
+
+// There are 4 different modes of game:
+// - Mode 1: Human vs Human
+// - Mode 2: Human vs Computer lvl Begginer
+// - Mode 3: Human vs Computer lvl Advanced
+// - Mode 4: Computer vs Computer
+// In mode Human vs Computer, Human will be player 1 and Computer player 2
+
 /**
  * Trippples
  * @param scene
@@ -9,8 +17,10 @@ function Trippples(scene, mode){
 
   this.client = new Client();
   this.board;
-  this.player1 = {line: 9, col: 9};
-  this.player2 = {line: 3, col: 1};
+  this.player1 = {line: 1, col: 1};
+  this.player2 = {line: 8, col: 1};
+  this.gameStatus = 0;
+  this.canMove = 0;
 }
 
 Trippples.prototype.constructor = Trippples;
@@ -39,6 +49,36 @@ Trippples.prototype.updatePlayer= function(player, line, col){
 
     this.client.getPrologRequest("updatePlayer("+player+","+line+","+col+")", function(data) {});  
 };
+
+// Moves player
+Trippples.prototype.movePlayer= function(player, line, col, mode){
+    var game = this;
+
+    this.client.getPrologRequest("movePlayer("+player+","+line+","+col+","+mode+")", function(data) {});  
+};
+
+// Verifies is the game can to an end
+// 0 - Not finished
+// 1 - Player 1 wins
+// 2 - Player 2 wins
+// 3 - Tie
+Trippples.prototype.isGameOver = function(player1, player2){
+    var game = this;
+
+    this.client.getPrologRequest("gameover("+player1+","+player2+")", function(data) {
+      game.canMove = data.target.responseText;
+    });  
+};
+
+// Verifies if a player can move: 1 true, 0 false
+Trippples.prototype.playerCanMove = function(player1, player2){
+    var game = this;
+
+    this.client.getPrologRequest("canmove("+player1+","+player2+")", function(data) {
+      game.canMove = data.target.responseText;
+    });  
+};
+
 
 // Returns players position
 Trippples.prototype.getPlayerPosition = function(player){

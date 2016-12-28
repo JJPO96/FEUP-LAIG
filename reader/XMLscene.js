@@ -38,6 +38,11 @@ XMLscene.prototype.init = function(application) {
 
     this.trippples.init();
 
+    /*this.trippples.updatePlayer(1, 2, 2);
+    this.trippples.updatePlayer(2, 2, 2);
+    this.trippples.playerCanMove(1, 2);
+    console.log(this.trippples.canMove);
+    
     //this.trippples.getPrologBoard();
     //console.log(this.trippples.board);
     //console.log(this.trippples.board);
@@ -47,11 +52,11 @@ XMLscene.prototype.init = function(application) {
     /*this.trippples.getPlayerPosition("1");
     console.log(this.trippples.player1["line"]);
     console.log(this.trippples.player1["col"]);
-    this.trippples.updatePlayer(1, 2, 2);
+    this.trippples.movePlayer(1, 2, 2, 1);
     this.trippples.getPlayerPosition("1");
     console.log(this.trippples.player1["line"]);
     console.log(this.trippples.player1["col"]);
-    this.trippples.resetPlayersPosition(); */
+    /*this.trippples.resetPlayersPosition(); */
 
 
 

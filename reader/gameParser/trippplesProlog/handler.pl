@@ -25,10 +25,35 @@ parse_input(updatePlayer(Player, Line, Col), Success):-
 	updatePlayer(Player, Line, Col),
 	Success is 1.
 
-% Resets board and players position
-parse_input(resetgame, Success):-
-	resetPlayersPosition,
-	defaultBoard(NewBoard),
-	retract(startingBoard(_)),
-	assert(startingBoard(NewBoard)),
+% Moves player
+parse_input(movePlayer(Player, Line, Col, Mode), Success):-
+	
 	Success is 1.
+
+% Verifies is the game can to an end
+% 0 - Not finished
+% 1 - Player 1 wins
+% 2 - Player 2 wins
+% 3 - Tie
+parse_input(gameover(_, _), Success):-
+	gameOver(Winner), !,
+	Success is Winner.
+
+parse_input(gameover(P1, P2), Success):-
+	startingBoard(T),
+	isGameTied(T, P1, P2), !,
+	Success is 3.
+
+parse_input(gameover(_, _), Success):-
+	Success is 0.
+
+% Verifies if a player can move
+parse_input(canmove(player1, player2), Success):-
+	startingBoard(T),
+	canMove(T, player1, player2), !,
+	Success is 1.
+
+parse_input(canmove(_, _), Success):-
+	Success is 0.
+
+
