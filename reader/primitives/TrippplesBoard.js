@@ -17,11 +17,12 @@ function TrippplesBoard(scene, ambient) {
     this.scene = scene;
 
     this.move = true;
+    this.ambient = ambient;
     this.pieces = this.scene.trippples.board;
     console.log(this.pieces);
     this.lastPlay = 2;
     this.quad = new MyPlane(this.scene, 1, 1, 10, 10),
-    this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
+        this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
     this.side = new MyPlane(this.scene, 9, 0.5, 10, 10);
 
     this.defaultApp = new CGFappearance(this.scene);
@@ -36,26 +37,34 @@ function TrippplesBoard(scene, ambient) {
     this.boardQuad.setSpecular(0.2, 0.2, 0.2, 1);
     this.boardQuad.setShininess(20);
 
-    this.sideBoard = new CGFappearance(this.scene);
-    this.sideBoard.setAmbient(0.3, 0.3, 0.3, 1);
-    this.sideBoard.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.sideBoard.setSpecular(0.2, 0.2, 0.2, 1);
-    this.sideBoard.setShininess(20);
-    if (ambient == 0)
-        this.sideBoard.loadTexture("textures/boardPieces/woodSide.png");
-    else if (ambient == 1)
-        this.sideBoard.loadTexture("textures/boardPieces/marbleSide.png");
+    this.woodSideBoard = new CGFappearance(this.scene);
+    this.woodSideBoard.setAmbient(0.3, 0.3, 0.3, 1);
+    this.woodSideBoard.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.woodSideBoard.setSpecular(0.2, 0.2, 0.2, 1);
+    this.woodSideBoard.setShininess(20);
+    this.woodSideBoard.loadTexture("textures/boardPieces/woodSide.png");
+
+    this.woodBottomBoard = new CGFappearance(this.scene);
+    this.woodBottomBoard.setAmbient(0.3, 0.3, 0.3, 1);
+    this.woodBottomBoard.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.woodBottomBoard.setSpecular(0.2, 0.2, 0.2, 1);
+    this.woodBottomBoard.setShininess(120);
+    this.woodBottomBoard.loadTexture("textures/boardPieces/woodBottom.png");
+
+    this.marbleSideBoard = new CGFappearance(this.scene);
+    this.marbleSideBoard.setAmbient(0.3, 0.3, 0.3, 1);
+    this.marbleSideBoard.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.marbleSideBoard.setSpecular(0.2, 0.2, 0.2, 1);
+    this.marbleSideBoard.setShininess(20);
+    this.marbleSideBoard.loadTexture("textures/boardPieces/marbleSide.png");
 
 
-    this.bottomBoard = new CGFappearance(this.scene);
-    this.bottomBoard.setAmbient(0.3, 0.3, 0.3, 1);
-    this.bottomBoard.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.bottomBoard.setSpecular(0.2, 0.2, 0.2, 1);
-    this.bottomBoard.setShininess(120);
-    if (ambient == 0)
-        this.bottomBoard.loadTexture("textures/boardPieces/woodBottom.png");
-    else if (ambient == 1)
-        this.bottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
+    this.marbleBottomBoard = new CGFappearance(this.scene);
+    this.marbleBottomBoard.setAmbient(0.3, 0.3, 0.3, 1);
+    this.marbleBottomBoard.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.marbleBottomBoard.setSpecular(0.2, 0.2, 0.2, 1);
+    this.marbleBottomBoard.setShininess(120);
+    this.marbleBottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
     this.piecesText = this.loadPiecesText(this.pieces);
     this.piece1 = new MyPiece(this.scene, new coord2D(0, 7), 0, 101);
@@ -127,31 +136,32 @@ TrippplesBoard.prototype.makePlay = function() {
                     if (obj.type == "piece1" && this.lastPlay == 2 && this.move) {
                         this.tempCoord = new coord2D(this.piece1.coord.x, this.piece1.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece2.coord.x][this.piece2.coord.y]);
-                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh,this.pieces));
+                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
                         this.lastPlay = 1;
                         this.move = false;
                     } else if (obj.type == "piece2" && this.lastPlay == 1 && this.move) {
                         this.tempCoord = new coord2D(this.piece2.coord.x, this.piece2.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece1.coord.x][this.piece1.coord.y]);
-                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh,this.pieces));
+                        this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
                         this.lastPlay = 2;
                         this.move = false;
                     } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64) && !(this.move)) {
-                        var tempArr = getAvaiPos(this.tempCoord,this.tempCh,this.pieces);
-                        if (isIn(getTileCoords(customId),tempArr)) {
-                          if (this.lastPlay == 1) {
-                            this.piece1.movePiece(getTileCoords(customId).x,getTileCoords(customId).y);
-                            if (this.piece1.coord.x == 0 && this.piece1.coord.y == 0) {
-                              console.log("PLAYER 1 WINS!!");
+                        var tempArr = getAvaiPos(this.tempCoord, this.tempCh, this.pieces);
+                        if (isIn(getTileCoords(customId), tempArr)) {
+                            if (this.lastPlay == 1) {
+                                this.piece1.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
+                                if (this.piece1.coord.x == 0 && this.piece1.coord.y == 0) {
+                                    console.log("PLAYER 1 WINS!!");
+                                }
+                            } else if (this.lastPlay == 2) {
+                                this.piece2.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
+                                if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
+                                    console.log("PLAYER 2 WINS!!");
+                                }
                             }
-                          }else if (this.lastPlay == 2) {
-                            this.piece2.movePiece(getTileCoords(customId).x,getTileCoords(customId).y);
-                            if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
-                              console.log("PLAYER 2 WINS!!");
-                            }
-                          }
-                          this.move = true;
-                          this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh,this.pieces));
+                            this.move = true;
+                            this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
+                            this.scene.updateView();
                         }
                     }
                     console.log("pick id " + customId);
@@ -165,13 +175,21 @@ TrippplesBoard.prototype.makePlay = function() {
 TrippplesBoard.prototype.display = function() {
     this.scene.pushMatrix();
     this.scene.registerForPick(200, this);
-    this.bottomBoard.apply();
+    if (this.ambient == 0) {
+        this.woodBottomBoard.apply();
+    } else if (this.ambient == 1) {
+        this.marbleBottomBoard.apply();
+    }
     this.scene.rotate(Math.PI / 2, 1, 0, 0);
     this.bottom.display();
     this.scene.popMatrix();
     //sides
     this.scene.pushMatrix();
-    this.sideBoard.apply();
+    if (this.ambient == 0) {
+        this.woodSideBoard.apply();
+    } else if (this.ambient == 1) {
+        this.marbleSideBoard.apply();
+    }
     this.scene.registerForPick(200, this);
     this.scene.translate(0, 0.25, 4.5);
     this.side.display();
@@ -199,7 +217,6 @@ TrippplesBoard.prototype.display = function() {
     this.scene.popMatrix();
     //top sides
     this.scene.pushMatrix();
-    this.sideBoard.apply();
     this.scene.registerForPick(200, this);
     this.scene.translate(0, 0.5, 4.25);
     this.scene.rotate(-Math.PI / 2, 1, 0, 0);
@@ -207,7 +224,6 @@ TrippplesBoard.prototype.display = function() {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.sideBoard.apply();
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
     this.scene.registerForPick(200, this);
     this.scene.translate(0, 0.5, 4.25);
@@ -216,7 +232,6 @@ TrippplesBoard.prototype.display = function() {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.sideBoard.apply();
     this.scene.rotate(Math.PI, 0, 1, 0);
     this.scene.registerForPick(200, this);
     this.scene.translate(0, 0.5, 4.25);
@@ -225,7 +240,6 @@ TrippplesBoard.prototype.display = function() {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.sideBoard.apply();
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
     this.scene.registerForPick(200, this);
     this.scene.translate(0, 0.5, 4.25);
