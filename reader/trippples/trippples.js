@@ -58,10 +58,3 @@ Trippples.prototype.getPlayerPosition = function(player){
         }        
     });  
 };
-
-// Resets players position
-Trippples.prototype.resetPlayersPosition = function(){
-    var game = this;
-
-    this.client.getPrologRequest("resetgame", function(data) {});  
-};

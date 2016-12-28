@@ -36,8 +36,7 @@ XMLscene.prototype.init = function(application) {
 
     this.trippples = new Trippples(this, 1);
 
-    //this.trippples.init();
-    //console.log(this.trippples.board);
+    this.trippples.init();
     
     //this.trippples.getPrologBoard();
     //console.log(this.trippples.board);
