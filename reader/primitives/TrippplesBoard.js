@@ -12,17 +12,20 @@
  * c2: color 2
  * cs: color of the selected square
  */
-function TrippplesBoard(scene, ambient) {
+function TrippplesBoard(scene) {
     CGFobject.call(this, scene);
     this.scene = scene;
 
     this.move = true;
-    this.ambient = ambient;
+    this.ambient = 'Wood';
+    this.restart = function() {
+        this.restartBoard();
+    };
     this.pieces = this.scene.trippples.board;
     console.log(this.pieces);
     this.lastPlay = 2;
     this.quad = new MyPlane(this.scene, 1, 1, 10, 10),
-        this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
+    this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
     this.side = new MyPlane(this.scene, 9, 0.5, 10, 10);
 
     this.defaultApp = new CGFappearance(this.scene);
@@ -74,6 +77,18 @@ function TrippplesBoard(scene, ambient) {
 
 TrippplesBoard.prototype = Object.create(CGFobject.prototype);
 TrippplesBoard.prototype.constructor = TrippplesBoard;
+
+TrippplesBoard.prototype.restartBoard = function() {
+  this.move = true;
+  this.ambient = 'Wood';
+  this.scene.trippples.init();
+  this.pieces = this.scene.trippples.board;
+  this.lastPlay = 2;
+
+  this.piecesText = this.loadPiecesText(this.pieces);
+  this.piece1 = new MyPiece(this.scene, new coord2D(0, 7), 0, 101);
+  this.piece2 = new MyPiece(this.scene, new coord2D(7, 7), 1, 102);
+}
 
 TrippplesBoard.prototype.loadPiecesText = function() {
     var ret = new Array(8);
@@ -175,9 +190,9 @@ TrippplesBoard.prototype.makePlay = function() {
 TrippplesBoard.prototype.display = function() {
     this.scene.pushMatrix();
     this.scene.registerForPick(200, this);
-    if (this.ambient == 0) {
+    if (this.ambient == 'Wood') {
         this.woodBottomBoard.apply();
-    } else if (this.ambient == 1) {
+    } else if (this.ambient == 'Marble') {
         this.marbleBottomBoard.apply();
     }
     this.scene.rotate(Math.PI / 2, 1, 0, 0);
@@ -185,9 +200,9 @@ TrippplesBoard.prototype.display = function() {
     this.scene.popMatrix();
     //sides
     this.scene.pushMatrix();
-    if (this.ambient == 0) {
+    if (this.ambient == 'Wood') {
         this.woodSideBoard.apply();
-    } else if (this.ambient == 1) {
+    } else if (this.ambient == 'Marble') {
         this.marbleSideBoard.apply();
     }
     this.scene.registerForPick(200, this);

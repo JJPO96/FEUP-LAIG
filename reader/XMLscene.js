@@ -37,7 +37,7 @@ XMLscene.prototype.init = function(application) {
     this.trippples = new Trippples(this, 1);
 
     this.trippples.init();
-    
+
     //this.trippples.getPrologBoard();
     //console.log(this.trippples.board);
     //console.log(this.trippples.board);
@@ -56,7 +56,7 @@ XMLscene.prototype.init = function(application) {
 
 
 
-    this.board = new TrippplesBoard(this, 1);
+    this.board = new TrippplesBoard(this);
 
 
     this.currentCamera = 0;

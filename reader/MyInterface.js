@@ -24,6 +24,10 @@ MyInterface.prototype.init = function(application) {
     this.omni = this.gui.addFolder("Omni Lights");
 
 
+    this.gui.add(this.scene.board, 'ambient', ['Wood','Marble']);
+
+    this.gui.add(this.scene.board, 'restart');
+
     return true;
 };
 
@@ -55,5 +59,5 @@ MyInterface.prototype.processKeyDown = function(event) {
 };
 
 MyInterface.prototype.processMouseDown = function(event) {
-    
+
 };
