@@ -35,7 +35,28 @@ XMLscene.prototype.init = function(application) {
     this.axis = new CGFaxis(this);
 
     this.trippples = new Trippples(this, 1);
-    this.trippples.getPrologBoard();
+
+    //this.trippples.init();
+    //console.log(this.trippples.board);
+    
+    //this.trippples.getPrologBoard();
+    //console.log(this.trippples.board);
+    //console.log(this.trippples.board);
+    // Retornar posição de um player - player1 e player2
+
+
+    /*this.trippples.getPlayerPosition("1");
+    console.log(this.trippples.player1["line"]);
+    console.log(this.trippples.player1["col"]);
+    this.trippples.updatePlayer(1, 2, 2);
+    this.trippples.getPlayerPosition("1");
+    console.log(this.trippples.player1["line"]);
+    console.log(this.trippples.player1["col"]);
+    this.trippples.resetPlayersPosition(); */
+
+
+
+
     this.board = new TrippplesBoard(this, 1);
 
 

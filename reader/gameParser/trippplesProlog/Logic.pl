@@ -1,6 +1,17 @@
 :- dynamic player/5.
+:- dynamic startingBoard/1.
 
 %%%%%%%%%% Game boards %%%%%%%%%%
+
+defaultBoard([[2, -1, -1, -1, -1, -1, -1, 3],
+       [-1, -1, -1, -1, -1, -1, -1, -1],
+       [-1, -1, -1, -1, -1, -1, -1, -1],
+       [-1, -1, -1, -1, -1, -1, -1, -1],
+       [-1, -1, -1, -1, -1, -1, -1, -1],
+       [-1, -1, -1, -1, -1, -1, -1, -1],
+       [-1, -1, -1, -1, -1, -1, -1, -1],
+       [4, -1, -1, -1, -1, -1, -1, 1]]).
+
 startingBoard([[2, -1, -1, -1, -1, -1, -1, 3],
        [-1, -1, -1, -1, -1, -1, -1, -1],
        [-1, -1, -1, -1, -1, -1, -1, -1],
@@ -73,7 +84,18 @@ generateRandomBoard(Mode, T, Tile, Board):-
 
 generateRandomBoard(Mode, _, _, Board):-
 	setBlankCells(-1, Board, NewBoard),
-	startGame(Mode, NewBoard).	
+	startGame(Mode, NewBoard).
+
+generateBoard(Mode, T, Tile, Board):-
+	Tile < 61,
+	random(1, 9, Line),	
+	random(1, 9, Col),
+	getCell(T, Line, Col, Element), 
+	NewLine is Line-1,
+	NewCol is Col-1, !,	
+	setNewCell(Mode, T, NewLine, NewCol, Tile, Element, Board).
+
+generateBoard(_, _, _, Board).	
 
 % Predicate to place a new tile in the board
 setNewBoardCell(Mode, NewT, Line, Col, Tile, Element, _):-
@@ -92,6 +114,25 @@ setNewBoardCell(Mode, NewT, Line, Col, Tile, Element, Board):-
 setNewBoardCell(Mode, NewT, _, _, Tile, Element, Board):-
 	Element =\= -1,
 	generateRandomBoard(Mode, NewT, Tile, Board).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+setNewCell(Mode, NewT, Line, Col, Tile, Element, Board):-
+	Element =:= -1,
+	setCell(Line, Col, NewT, Tile, Board),
+	NewTile is Tile+1,
+	NewTile =:= 61,
+	generateBoard(Mode, _, NewTile, Board), !.
+
+setNewCell(Mode, NewT, Line, Col, Tile, Element, NewBoard):-
+	Element =:= -1,
+	setCell(Line, Col, NewT, Tile, Board),
+	NewTile is Tile+1,
+	generateBoard(Mode, Board, NewTile, NewBoard), !.
+
+setNewCell(Mode, NewT, _, _, Tile, Element, Board):-
+	Element =\= -1,
+	generateBoard(Mode, NewT, Tile, Board).
+
 
 %%%%%%%%%% Predicates to update the game cycle %%%%%%%%%%
 % Player 1 makes the first play in the game
