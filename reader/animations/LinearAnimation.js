@@ -43,11 +43,11 @@ LinearAnimation.prototype.calculateVectors = function() {
 */
 LinearAnimation.prototype.calculateIncrement = function (vector, time) {
     var inc = [];
-    inc[0] = vector[0]/(this.scene.fps * time);
-    inc[1] = vector[1]/(this.scene.fps * time);
-    inc[2] = vector[2]/(this.scene.fps * time);
+    inc[0] = vector[0]/(time);
+    inc[1] = vector[1]/(time);
+    inc[2] = vector[2]/(time);
 
-    this.numAnimations = this.scene.fps * time;
+    this.numAnimations = time;
 
     return inc;
 };

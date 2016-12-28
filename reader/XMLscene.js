@@ -87,8 +87,7 @@ XMLscene.prototype.init = function(application) {
     this.animationsList = {};
     this.animationsIDs = [];
 
-    this.fps = 60;
-    var updatePeriod = 1000 / this.fps;
+    var updatePeriod = 1000;
     this.setUpdatePeriod(updatePeriod);
 
 };
@@ -207,7 +206,7 @@ XMLscene.prototype.display = function() {
     this.scale(0.5,0.5,0.5);
     this.rotate(Math.PI/2,0,1,0);
     this.translate(0,0,13);
-    //this.timer.display();
+    this.timer.display();
     this.popMatrix();
     /*
     	if (this.graph.loadedOk)

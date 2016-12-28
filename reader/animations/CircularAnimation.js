@@ -28,7 +28,7 @@ CircularAnimation.prototype.constructor = CircularAnimation;
 CircularAnimation.prototype.calculateValues = function()
 {
     var deg2Rad = Math.PI / 180;
-    this.incangle = (this.rotang * deg2Rad) / (this.scene.fps * this.time);
+    this.incangle = (this.rotang * deg2Rad) / (this.time);
     this.angle = this.startang *deg2Rad;
     this.rotang = this.rotang * deg2Rad;
     this.startang = this.startang * deg2Rad;

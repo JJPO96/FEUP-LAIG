@@ -23,7 +23,7 @@ Timer.prototype = Object.create(CGFobject.prototype);
 Timer.prototype.constructor = Timer;
 
 Timer.prototype.update = function(time){
-  console.log(time);
+  //console.log(time);
 }
 
 Timer.prototype.display = function() {
