@@ -70,8 +70,8 @@ function TrippplesBoard(scene) {
     this.marbleBottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
     this.piecesText = this.loadPiecesText(this.pieces);
-    this.piece1 = new MyPiece(this.scene, new coord2D(0, 7), 0, 101);
-    this.piece2 = new MyPiece(this.scene, new coord2D(7, 7), 1, 102);
+    this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
+    this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
 };
 
 
@@ -86,8 +86,8 @@ TrippplesBoard.prototype.restartBoard = function() {
   this.lastPlay = 2;
 
   this.piecesText = this.loadPiecesText(this.pieces);
-  this.piece1 = new MyPiece(this.scene, new coord2D(0, 7), 0, 101);
-  this.piece2 = new MyPiece(this.scene, new coord2D(7, 7), 1, 102);
+  this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
+  this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
 }
 
 TrippplesBoard.prototype.loadPiecesText = function() {
@@ -165,7 +165,7 @@ TrippplesBoard.prototype.makePlay = function() {
                         if (isIn(getTileCoords(customId), tempArr)) {
                             if (this.lastPlay == 1) {
                                 this.piece1.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
-                                if (this.piece1.coord.x == 0 && this.piece1.coord.y == 0) {
+                                if (this.piece1.coord.x == 7 && this.piece1.coord.y == 7) {
                                     console.log("PLAYER 1 WINS!!");
                                 }
                             } else if (this.lastPlay == 2) {

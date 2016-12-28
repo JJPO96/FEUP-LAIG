@@ -36,13 +36,15 @@ XMLscene.prototype.init = function(application) {
 
     this.trippples = new Trippples(this, 1);
 
+    this.timer = new Timer(this);
+
     this.trippples.init();
 
     /*this.trippples.updatePlayer(1, 2, 2);
     this.trippples.updatePlayer(2, 2, 2);
     this.trippples.playerCanMove(1, 2);
     console.log(this.trippples.canMove);
-    
+
     //this.trippples.getPrologBoard();
     //console.log(this.trippples.board);
     //console.log(this.trippples.board);
@@ -174,7 +176,7 @@ XMLscene.prototype.initAnimations = function() {
  * Updates the current time
  */
 XMLscene.prototype.update = function(currTime) {
-
+  this.timer.update(currTime);
 };
 
 //Function of display of the scene
@@ -198,8 +200,15 @@ XMLscene.prototype.display = function() {
     this.updateLights();
 
     // Draw axis
-    this.board.display();
     this.axis.display();
+
+    this.board.display();
+    this.pushMatrix();
+    this.scale(0.5,0.5,0.5);
+    this.rotate(Math.PI/2,0,1,0);
+    this.translate(0,0,13);
+    //this.timer.display();
+    this.popMatrix();
     /*
     	if (this.graph.loadedOk)
     	{
