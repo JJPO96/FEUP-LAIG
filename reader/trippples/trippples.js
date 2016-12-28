@@ -47,14 +47,66 @@ Trippples.prototype.getPrologBoard = function(){
 Trippples.prototype.updatePlayer= function(player, line, col){
     var game = this;
 
-    this.client.getPrologRequest("updatePlayer("+player+","+line+","+col+")", function(data) {});  
+    this.client.getPrologRequest("updatePlayer("+player+","+line+","+col+")", function(data) {
+        var result = JSON.parse(data.target.responseText);
+
+        if (player == "1"){
+            game.player1['line'] = result[0];
+            game.player1['col'] = result[1];
+        }
+        
+        else { // Player 2
+            game.player2['line'] = result[0];
+            game.player2['col'] = result[1];
+        } 
+    });  
 };
 
-// Moves player
-Trippples.prototype.movePlayer= function(player, line, col, mode){
+// Moves computer player. Player must be always player 1 in mode 4 to use this function
+// Use only for first move
+Trippples.prototype.compFirstMove= function(player){
     var game = this;
 
-    this.client.getPrologRequest("movePlayer("+player+","+line+","+col+","+mode+")", function(data) {});  
+    this.client.getPrologRequest("compFirstMove("+player+","+4+")", function(data) {
+        var result = JSON.parse(data.target.responseText);
+
+        if (player == "1"){
+            game.player1['line'] = result[0];
+            game.player1['col'] = result[1];
+        }
+        
+        else { // Player 2
+            game.player2['line'] = result[0];
+            game.player2['col'] = result[1];
+        } 
+    });  
+};
+
+// Moves the player (computer)
+// There are 4 different modes of game:
+// - Mode 2: Human vs Computer lvl Begginer
+// - Mode 3: Human vs Computer lvl Advanced
+// - Mode 4: Computer vs Computer
+// In mode Human vs Computer, Human will be player 1 and Computer player 2
+// Example: trippples.moveCompPlayer(2, 1, 2) // In Mode 2 and 3, player1 must be always 2 and
+// player2 must be 1
+// In mode 4 (comp vs comp) player1 and player 2 can be both 1 or 2
+Trippples.prototype.moveCompPlayer= function(player1, player2, mode){
+    var game = this;
+
+    this.client.getPrologRequest("moveComp("+player1+","+player2+","+mode+")", function(data) {
+        var result = JSON.parse(data.target.responseText);
+
+        if (player == "1"){
+            game.player1['line'] = result[0];
+            game.player1['col'] = result[1];
+        }
+        
+        else { // Player 2
+            game.player2['line'] = result[0];
+            game.player2['col'] = result[1];
+        } 
+    });  
 };
 
 // Verifies is the game can to an end
@@ -66,7 +118,8 @@ Trippples.prototype.isGameOver = function(player1, player2){
     var game = this;
 
     this.client.getPrologRequest("gameover("+player1+","+player2+")", function(data) {
-      game.canMove = data.target.responseText;
+    
+      game.gameStatus = data.target.responseText;
     });  
 };
 

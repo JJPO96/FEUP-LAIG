@@ -213,14 +213,10 @@ movePlayer(T, P1, P2, Mode):-
 %%%%%%%%%% Generates a play for the computer %%%%%%%%%
 generateCompPlay(T, P1, P2, Mode):-
 	Mode =\= 3,											% Computer level Begginer
-	format('Computer ~w is preparing a move! ~n', [P1]),
-	pressAnyKeyToContinue,
 	generateCompRandomPlay(T, P1, P2, Mode).
 
 generateCompPlay(T, P1, P2, Mode):-
 	Mode =:= 3,											% Computer level Advanced
-	format('Computer ~w is preparing a move! ~n', [P1]),
-	pressAnyKeyToContinue,
 	generateCompAIPlay(T, P1, P2, Mode).
 
 %%%%%%%%%% Generates a random play for the computer %%%%%%%%%
