@@ -17,6 +17,7 @@ function TrippplesBoard(scene) {
     this.scene = scene;
 
     this.move = true;
+    this.movePC = true;
     this.player1won = false;
     this.player2won = false;
 
@@ -45,13 +46,13 @@ function TrippplesBoard(scene) {
     };
 
     this.newGame = function() {
-        this.restartBoard();
         this.scene.trippples.init();
         this.currentDifficulty = this.difficulty;
         this.currentMode = this.mode;
         this.displayDifficulty = this.currentDifficulty;
         this.displayMode = this.currentMode;
         this.pieces = this.scene.trippples.board;
+        this.restartBoard();
     };
 
     this.pieces = this.scene.trippples.board;
@@ -118,13 +119,17 @@ TrippplesBoard.prototype.constructor = TrippplesBoard;
 
 TrippplesBoard.prototype.restartBoard = function() {
     this.move = true;
+    this.movePC = true;
     this.ambient = 'Wood';
     this.lastPlay = 2;
     this.player1won = false;
     this.player2won = false;
+    this.p1log = [];
+    this.p2log = [];
 
     this.piecesText = this.loadPiecesText(this.pieces);
     this.timer.time = 0;
+    this.timer.score = 0;
     this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
     this.p1log = [];
     this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
@@ -218,16 +223,34 @@ TrippplesBoard.prototype.makePlay = function() {
                         this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
                         this.lastPlay = 1;
                         this.move = false;
-                    } else if (obj.type == "piece2" && this.lastPlay == 1 && this.move) {
+                        this.movePC = true;
+                    } else if (obj.type == "piece2" && this.lastPlay == 1 && this.move && this.currentMode == "Human vs Human") {
                         this.tempCoord = new coord2D(this.piece2.coord.x, this.piece2.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece1.coord.x][this.piece1.coord.y]);
                         this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
                         this.lastPlay = 2;
                         this.move = false;
+                    } else if (this.currentMode == "Human vs PC" && this.currentDifficulty == "Easy" && this.lastPlay == 1 && this.move && this.movePC) {
+                        this.timer.updateScore(this.p1log.length);
+                        this.scene.trippples.moveCompPlayer(2, 1, 2);
+                        console.log(this.scene.trippples.player2);
+                        this.piece2.movePiece(this.scene.trippples.player2.line-1, this.scene.trippples.player2.col-1);
+                        /*  this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
+                          if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
+                              this.player2won = true;
+                              this.timer.stop = true;
+                          }*/
+                        this.scene.updateView();
+                        this.lastPlay = 2;
+                        this.movePC = false;
+                    } else if (this.currentMode == "Human vs PC" && this.currentDifficulty == "Hard" && this.lastPlay == 1 && this.move) {
+                        this.scene.trippples.moveCompPlayer(2, 1, 3);
+                        this.lastPlay = 1;
                     } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64) && !(this.move)) {
                         var tempArr = getAvaiPos(this.tempCoord, this.tempCh, this.pieces);
                         if (isIn(getTileCoords(customId), tempArr)) {
                             if (this.lastPlay == 1) {
+                                this.scene.trippples.updatePlayer(1, getTileCoords(customId).y + 1, getTileCoords(customId).x + 1);
                                 this.piece1.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
                                 this.p1log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                                 if (this.piece1.coord.x == 7 && this.piece1.coord.y == 7) {
@@ -236,6 +259,7 @@ TrippplesBoard.prototype.makePlay = function() {
                                 }
                                 this.timer.updateScore(this.p2log.length);
                             } else if (this.lastPlay == 2) {
+                                this.scene.trippples.updatePlayer(2, getTileCoords(customId).y + 1, getTileCoords(customId).x + 1);
                                 this.piece2.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
                                 this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                                 if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
@@ -250,10 +274,6 @@ TrippplesBoard.prototype.makePlay = function() {
                         }
                     }
                     console.log("pick id " + customId);
-                    console.log("Player 1 log");
-                    console.log(this.p1log);
-                    console.log("Player 2 log");
-                    console.log(this.p2log);
                 }
             }
             this.scene.pickResults.splice(0, this.scene.pickResults.length);
@@ -381,7 +401,6 @@ TrippplesBoard.prototype.display = function() {
     this.piece1.display();
     this.piece2.display();
 
-    console.log(this.scene.interface.gui);
     for (var i in this.scene.interface.gui.__controllers) {
         this.scene.interface.gui.__controllers[i].updateDisplay();
     }

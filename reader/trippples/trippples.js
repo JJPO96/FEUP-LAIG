@@ -40,7 +40,7 @@ Trippples.prototype.getPrologBoard = function(){
 
     this.client.getPrologRequest("board", function(data) {
       game.board = JSON.parse(data.target.responseText);
-    });  
+    });
 };
 
 // Updates player position
@@ -54,12 +54,12 @@ Trippples.prototype.updatePlayer= function(player, line, col){
             game.player1['line'] = result[0];
             game.player1['col'] = result[1];
         }
-        
+
         else { // Player 2
             game.player2['line'] = result[0];
             game.player2['col'] = result[1];
-        } 
-    });  
+        }
+    });
 };
 
 // Moves computer player. Player must be always player 1 in mode 4 to use this function
@@ -74,12 +74,12 @@ Trippples.prototype.compFirstMove= function(player){
             game.player1['line'] = result[0];
             game.player1['col'] = result[1];
         }
-        
+
         else { // Player 2
             game.player2['line'] = result[0];
             game.player2['col'] = result[1];
-        } 
-    });  
+        }
+    });
 };
 
 // Moves the player (computer)
@@ -97,16 +97,16 @@ Trippples.prototype.moveCompPlayer= function(player1, player2, mode){
     this.client.getPrologRequest("moveComp("+player1+","+player2+","+mode+")", function(data) {
         var result = JSON.parse(data.target.responseText);
 
-        if (player == "1"){
+        if (player1 == "1"){
             game.player1['line'] = result[0];
             game.player1['col'] = result[1];
         }
-        
+
         else { // Player 2
             game.player2['line'] = result[0];
             game.player2['col'] = result[1];
-        } 
-    });  
+        }
+    });
 };
 
 // Verifies is the game can to an end
@@ -118,9 +118,9 @@ Trippples.prototype.isGameOver = function(player1, player2){
     var game = this;
 
     this.client.getPrologRequest("gameover("+player1+","+player2+")", function(data) {
-    
+
       game.gameStatus = data.target.responseText;
-    });  
+    });
 };
 
 // Verifies if a player can move: 1 true, 0 false
@@ -129,7 +129,7 @@ Trippples.prototype.playerCanMove = function(player1, player2){
 
     this.client.getPrologRequest("canmove("+player1+","+player2+")", function(data) {
       game.canMove = data.target.responseText;
-    });  
+    });
 };
 
 
@@ -144,10 +144,10 @@ Trippples.prototype.getPlayerPosition = function(player){
             game.player1['line'] = result[0];
             game.player1['col'] = result[1];
         }
-        
+
         else { // Player 2
             game.player2['line'] = result[0];
             game.player2['col'] = result[1];
-        }        
-    });  
+        }
+    });
 };
