@@ -36,7 +36,7 @@ XMLscene.prototype.init = function(application) {
 
     this.trippples = new Trippples(this, 1);
 
-    this.timer = new Timer(this);
+
 
     this.trippples.init();
 
@@ -86,8 +86,8 @@ XMLscene.prototype.init = function(application) {
 
     this.animationsList = {};
     this.animationsIDs = [];
-
-    var updatePeriod = 1000;
+    this.fps = 60;
+    var updatePeriod = 1000/this.fps;
     this.setUpdatePeriod(updatePeriod);
 
 };
@@ -175,7 +175,7 @@ XMLscene.prototype.initAnimations = function() {
  * Updates the current time
  */
 XMLscene.prototype.update = function(currTime) {
-  this.timer.update(currTime);
+  this.board.timer.update(currTime);
 };
 
 //Function of display of the scene
@@ -202,18 +202,13 @@ XMLscene.prototype.display = function() {
     this.axis.display();
 
     this.board.display();
-    this.pushMatrix();
-    this.scale(0.5,0.5,0.5);
-    this.rotate(Math.PI/2,0,1,0);
-    this.translate(0,0,13);
-    this.timer.display();
-    this.popMatrix();
-    /*
+
+
     	if (this.graph.loadedOk)
     	{
     		this.lights[0].update();
-    		this.displayGraph(this.graph.root, null, null);
-    	};*/
+    	//	this.displayGraph(this.graph.root, null, null);
+    	};
 }
 
 //Function to intialize everything

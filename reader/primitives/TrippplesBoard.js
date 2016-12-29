@@ -17,16 +17,22 @@ function TrippplesBoard(scene) {
     this.scene = scene;
 
     this.move = true;
+    this.player1won = false;
+    this.player2won = false;
     this.ambient = 'Wood';
     this.restart = function() {
         this.restartBoard();
     };
+
     this.pieces = this.scene.trippples.board;
-    console.log(this.pieces);
     this.lastPlay = 2;
+    this.piecesText = this.loadPiecesText(this.pieces);
+    this.timerText = this.loadTimerText();
+
     this.quad = new MyPlane(this.scene, 1, 1, 10, 10),
-    this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
+        this.bottom = new MyPlane(this.scene, 9, 9, 10, 10);
     this.side = new MyPlane(this.scene, 9, 0.5, 10, 10);
+    this.timer = new Timer(this.scene, this.timerText);
 
     this.defaultApp = new CGFappearance(this.scene);
     this.defaultApp.setAmbient(0.3, 0.3, 0.3, 1);
@@ -69,7 +75,6 @@ function TrippplesBoard(scene) {
     this.marbleBottomBoard.setShininess(120);
     this.marbleBottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
-    this.piecesText = this.loadPiecesText(this.pieces);
     this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
     this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
 };
@@ -79,15 +84,18 @@ TrippplesBoard.prototype = Object.create(CGFobject.prototype);
 TrippplesBoard.prototype.constructor = TrippplesBoard;
 
 TrippplesBoard.prototype.restartBoard = function() {
-  this.move = true;
-  this.ambient = 'Wood';
-  this.scene.trippples.init();
-  this.pieces = this.scene.trippples.board;
-  this.lastPlay = 2;
+    this.move = true;
+    this.ambient = 'Wood';
+    this.scene.trippples.init();
+    this.pieces = this.scene.trippples.board;
+    this.lastPlay = 2;
+    this.player1won = false;
+    this.player2won = false;
 
-  this.piecesText = this.loadPiecesText(this.pieces);
-  this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
-  this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
+    this.piecesText = this.loadPiecesText(this.pieces);
+    this.timer.time = 0;
+    this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
+    this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
 }
 
 TrippplesBoard.prototype.loadPiecesText = function() {
@@ -105,6 +113,30 @@ TrippplesBoard.prototype.loadPiecesText = function() {
             ret[i][j] = tempApp;
         }
     }
+    return ret;
+}
+
+TrippplesBoard.prototype.loadTimerText = function() {
+    var ret = new Array(11);
+    var x = 0;
+    for (var i = 0; i < ret.length-1; i++) {
+        var tempApp = new CGFappearance(this.scene);
+        tempApp.setAmbient(0, 0, 0, 1);
+        tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
+        tempApp.setSpecular(0.5, 0.5, 0.5, 1);
+        tempApp.setShininess(120);
+        tempApp.loadTexture("textures/boardPieces/timer" + i + ".png");
+        ret[i] = tempApp;
+    }
+
+    var tempApp = new CGFappearance(this.scene);
+    tempApp.setAmbient(0, 0, 0, 1);
+    tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
+    tempApp.setSpecular(0.5, 0.5, 0.5, 1);
+    tempApp.setShininess(120);
+    tempApp.loadTexture("textures/boardPieces/timerDots.png");
+    ret[10] = tempApp;
+
     return ret;
 }
 
@@ -145,7 +177,6 @@ TrippplesBoard.prototype.makePlay = function() {
         if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
             for (var i = 0; i < this.scene.pickResults.length; i++) {
                 var obj = this.scene.pickResults[i][0];
-                console.log(this.move);
                 if (obj) {
                     var customId = this.scene.pickResults[i][1];
                     if (obj.type == "piece1" && this.lastPlay == 2 && this.move) {
@@ -166,11 +197,15 @@ TrippplesBoard.prototype.makePlay = function() {
                             if (this.lastPlay == 1) {
                                 this.piece1.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
                                 if (this.piece1.coord.x == 7 && this.piece1.coord.y == 7) {
+                                    this.player1won = true;
+                                    this.timer.stop = true;
                                     console.log("PLAYER 1 WINS!!");
                                 }
                             } else if (this.lastPlay == 2) {
                                 this.piece2.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
                                 if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
+                                    this.player2won = true;
+                                    this.timer.stop = true;
                                     console.log("PLAYER 2 WINS!!");
                                 }
                             }
@@ -264,19 +299,44 @@ TrippplesBoard.prototype.display = function() {
 
     this.defaultApp.apply();
 
-    this.scene.pushMatrix();
-    this.scene.translate(0, 0.5, 0);
-    for (var i = 0; i < 8; i++) {
-        for (var j = 0; j < 8; j++) {
-            this.scene.pushMatrix();
-            this.scene.translate(-3.5 + i, 0, -3.5 + j);
-            this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-            this.scene.registerForPick(i * 8 + j, this);
-            this.piecesText[j][i].apply();
-            this.quad.display();
-            this.scene.popMatrix();
+    if (this.player1won) {
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0.5, 0);
+        this.scene.scale(8, 0, 8);
+        this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+        this.piece1.texture.apply();
+        this.quad.display();
+        this.scene.popMatrix();
+    } else if (this.player2won) {
+      this.scene.pushMatrix();
+      this.scene.translate(0, 0.5, 0);
+      this.scene.scale(8, 0, 8);
+      this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+      this.piece2.texture.apply();
+      this.quad.display();
+      this.scene.popMatrix();
+    } else {
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0.5, 0);
+        for (var i = 0; i < 8; i++) {
+            for (var j = 0; j < 8; j++) {
+                this.scene.pushMatrix();
+                this.scene.translate(-3.5 + i, 0, -3.5 + j);
+                this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+                this.scene.registerForPick(i * 8 + j, this);
+                this.piecesText[j][i].apply();
+                this.quad.display();
+                this.scene.popMatrix();
+            }
         }
+        this.scene.popMatrix();
     }
+
+    this.scene.pushMatrix();
+    this.scene.scale(0.5, 0.5, 0.5);
+    this.scene.rotate(Math.PI / 2, 0, 1, 0);
+    this.scene.translate(0, 0, 13);
+    this.timer.display();
     this.scene.popMatrix();
 
     this.piece1.display();
