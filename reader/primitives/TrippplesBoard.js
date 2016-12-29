@@ -41,38 +41,38 @@ function TrippplesBoard(scene) {
     this.defaultApp.setShininess(20);
 
     this.boardQuad = new CGFappearance(this.scene);
-    this.boardQuad.setAmbient(0.3, 0.3, 0.3, 1);
-    this.boardQuad.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.boardQuad.setSpecular(0.2, 0.2, 0.2, 1);
-    this.boardQuad.setShininess(20);
+    this.boardQuad.setAmbient(0, 0, 0, 1);
+    this.boardQuad.setDiffuse(0.6, 0.6, 0.6, 1);
+    this.boardQuad.setSpecular(0.6, 0.6, 0.6, 1);
+    this.boardQuad.setShininess(100);
 
     this.woodSideBoard = new CGFappearance(this.scene);
-    this.woodSideBoard.setAmbient(0.3, 0.3, 0.3, 1);
-    this.woodSideBoard.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.woodSideBoard.setSpecular(0.2, 0.2, 0.2, 1);
+    this.woodSideBoard.setAmbient(0, 0, 0, 1);
+    this.woodSideBoard.setDiffuse(0.5, 0.3, 0.1, 1);
+    this.woodSideBoard.setSpecular(0.5, 0.3, 0.1, 1);
     this.woodSideBoard.setShininess(20);
     this.woodSideBoard.loadTexture("textures/boardPieces/woodSide.png");
 
     this.woodBottomBoard = new CGFappearance(this.scene);
-    this.woodBottomBoard.setAmbient(0.3, 0.3, 0.3, 1);
-    this.woodBottomBoard.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.woodBottomBoard.setSpecular(0.2, 0.2, 0.2, 1);
-    this.woodBottomBoard.setShininess(120);
+    this.woodBottomBoard.setAmbient(0, 0, 0, 1);
+    this.woodBottomBoard.setDiffuse(0.5, 0.3, 0.1, 1);
+    this.woodBottomBoard.setSpecular(0.5, 0.3, 0.1, 1);
+    this.woodBottomBoard.setShininess(20);
     this.woodBottomBoard.loadTexture("textures/boardPieces/woodBottom.png");
 
     this.marbleSideBoard = new CGFappearance(this.scene);
-    this.marbleSideBoard.setAmbient(0.3, 0.3, 0.3, 1);
+    this.marbleSideBoard.setAmbient(0, 0, 0, 1);
     this.marbleSideBoard.setDiffuse(0.2, 0.2, 0.2, 1);
     this.marbleSideBoard.setSpecular(0.2, 0.2, 0.2, 1);
-    this.marbleSideBoard.setShininess(20);
+    this.marbleSideBoard.setShininess(50);
     this.marbleSideBoard.loadTexture("textures/boardPieces/marbleSide.png");
 
 
     this.marbleBottomBoard = new CGFappearance(this.scene);
-    this.marbleBottomBoard.setAmbient(0.3, 0.3, 0.3, 1);
+    this.marbleBottomBoard.setAmbient(0, 0, 0, 1);
     this.marbleBottomBoard.setDiffuse(0.2, 0.2, 0.2, 1);
     this.marbleBottomBoard.setSpecular(0.2, 0.2, 0.2, 1);
-    this.marbleBottomBoard.setShininess(120);
+    this.marbleBottomBoard.setShininess(50);
     this.marbleBottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
     this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
