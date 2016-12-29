@@ -19,14 +19,38 @@ function TrippplesBoard(scene) {
     this.move = true;
     this.player1won = false;
     this.player2won = false;
+
     this.ambient = 'Wood';
+    this.difficulty = 'Easy';
+    this.mode = 'Human vs Human';
+    this.currentDifficulty = 'Easy';
+    this.currentMode = 'Human vs Human';
+    this.displayDifficulty = this.currentDifficulty;
+    this.displayMode = this.currentMode;
+
     this.restart = function() {
+
+    };
+
+    this.undo = function() {
+
+    };
+
+    this.restart = function() {
+        this.difficulty = this.currentDifficulty;
+        this.mode = this.currentMode;
+        this.displayDifficulty = this.currentDifficulty;
+        this.displayMode = this.currentMode;
         this.restartBoard();
     };
 
     this.newGame = function() {
         this.restartBoard();
         this.scene.trippples.init();
+        this.currentDifficulty = this.difficulty;
+        this.currentMode = this.mode;
+        this.displayDifficulty = this.currentDifficulty;
+        this.displayMode = this.currentMode;
         this.pieces = this.scene.trippples.board;
     };
 
@@ -128,7 +152,7 @@ TrippplesBoard.prototype.loadPiecesText = function() {
 TrippplesBoard.prototype.loadTimerText = function() {
     var ret = new Array(11);
     var x = 0;
-    for (var i = 0; i < ret.length-1; i++) {
+    for (var i = 0; i < ret.length - 1; i++) {
         var tempApp = new CGFappearance(this.scene);
         tempApp.setAmbient(0, 0, 0, 1);
         tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
@@ -209,23 +233,24 @@ TrippplesBoard.prototype.makePlay = function() {
                                 if (this.piece1.coord.x == 7 && this.piece1.coord.y == 7) {
                                     this.player1won = true;
                                     this.timer.stop = true;
-                                    console.log("PLAYER 1 WINS!!");
                                 }
+                                this.timer.updateScore(this.p2log.length);
                             } else if (this.lastPlay == 2) {
                                 this.piece2.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
                                 this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                                 if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
                                     this.player2won = true;
                                     this.timer.stop = true;
-                                    console.log("PLAYER 2 WINS!!");
                                 }
+                                this.timer.updateScore(this.p1log.length);
                             }
                             this.move = true;
                             this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
                             this.scene.updateView();
                         }
                     }
-                    console.log("pick id " + customId);console.log("Player 1 log");
+                    console.log("pick id " + customId);
+                    console.log("Player 1 log");
                     console.log(this.p1log);
                     console.log("Player 2 log");
                     console.log(this.p2log);
@@ -322,13 +347,13 @@ TrippplesBoard.prototype.display = function() {
         this.quad.display();
         this.scene.popMatrix();
     } else if (this.player2won) {
-      this.scene.pushMatrix();
-      this.scene.translate(0, 0.5, 0);
-      this.scene.scale(8, 0, 8);
-      this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-      this.piece2.texture.apply();
-      this.quad.display();
-      this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0.5, 0);
+        this.scene.scale(8, 0, 8);
+        this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+        this.piece2.texture.apply();
+        this.quad.display();
+        this.scene.popMatrix();
     } else {
         this.scene.pushMatrix();
         this.scene.translate(0, 0.5, 0);
@@ -355,5 +380,10 @@ TrippplesBoard.prototype.display = function() {
 
     this.piece1.display();
     this.piece2.display();
+
+    console.log(this.scene.interface.gui);
+    for (var i in this.scene.interface.gui.__controllers) {
+        this.scene.interface.gui.__controllers[i].updateDisplay();
+    }
 
 };

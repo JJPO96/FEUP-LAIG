@@ -15,8 +15,11 @@ function Timer(scene, texts) {
     this.texts = texts;
     this.stop = false;
     this.time = 0;
+    this.score = 0;
 
     this.scene = scene;
+    this.clockOffset = 2.5;
+    this.scoreOffset = 4.5;
 
     this.side = new MyPlane(this.scene, 12, 4, 2, 2);
     this.timerNum = new MyPlane(this.scene, 2, 3, 2, 2);
@@ -35,13 +38,17 @@ Timer.prototype.update = function(time) {
     }
 }
 
+Timer.prototype.updateScore = function(score){
+  this.score = score;
+}
+
 Timer.prototype.display = function() {
     //un number
     var time = Math.floor(this.time);
     this.scene.pushMatrix();
     this.texts[(time%60)%10].apply();
     this.scene.rotate(Math.PI, 0, 1, 0);
-    this.scene.translate(1.9, 2 * Math.cos(Math.PI / 6) + 0.015, 2 * Math.sin(Math.PI / 6));
+    this.scene.translate(this.clockOffset+1.9, 2 * Math.cos(Math.PI / 6) + 0.015, 2 * Math.sin(Math.PI / 6));
     this.scene.rotate(-Math.PI / 6, 1, 0, 0);
     this.scene.rotate(Math.PI, 0, 0, 1);
     this.timerNum.display();
@@ -52,7 +59,7 @@ Timer.prototype.display = function() {
     this.scene.pushMatrix();
     this.texts[(Math.floor((time%60)/10)%10)].apply();
     this.scene.rotate(Math.PI, 0, 1, 0);
-    this.scene.translate(0, 2 * Math.cos(Math.PI / 6) + 0.015, 2 * Math.sin(Math.PI / 6));
+    this.scene.translate(this.clockOffset+0, 2 * Math.cos(Math.PI / 6) + 0.015, 2 * Math.sin(Math.PI / 6));
     this.scene.rotate(-Math.PI / 6, 1, 0, 0);
     this.scene.rotate(Math.PI, 0, 0, 1);
     this.timerNum.display();
@@ -63,7 +70,7 @@ Timer.prototype.display = function() {
     this.scene.pushMatrix();
     this.texts[10].apply();
     this.scene.rotate(Math.PI, 0, 1, 0);
-    this.scene.translate(-1.1, 2 * Math.cos(Math.PI / 6) + 0.01, 2 * Math.sin(Math.PI / 6));
+    this.scene.translate(this.clockOffset-1.1, 2 * Math.cos(Math.PI / 6) + 0.01, 2 * Math.sin(Math.PI / 6));
     this.scene.rotate(-Math.PI / 6, 1, 0, 0);
     this.scene.rotate(Math.PI, 0, 0, 1);
     this.timerNum.display();
@@ -74,7 +81,29 @@ Timer.prototype.display = function() {
     this.scene.pushMatrix();
     this.texts[(Math.floor(time/60)%10)].apply();
     this.scene.rotate(Math.PI, 0, 1, 0);
-    this.scene.translate(-2.3, 2 * Math.cos(Math.PI / 6) + 0.015, 2 * Math.sin(Math.PI / 6));
+    this.scene.translate(this.clockOffset-2.3, 2 * Math.cos(Math.PI / 6) + 0.015, 2 * Math.sin(Math.PI / 6));
+    this.scene.rotate(-Math.PI / 6, 1, 0, 0);
+    this.scene.rotate(Math.PI, 0, 0, 1);
+    this.timerNum.display();
+    this.scene.popMatrix();
+
+    //score un number
+    var time = Math.floor(this.time);
+    this.scene.pushMatrix();
+    this.texts[(this.score%60)%10].apply();
+    this.scene.rotate(Math.PI, 0, 1, 0);
+    this.scene.translate(-this.scoreOffset+1.9, 2 * Math.cos(Math.PI / 6) + 0.015, 2 * Math.sin(Math.PI / 6));
+    this.scene.rotate(-Math.PI / 6, 1, 0, 0);
+    this.scene.rotate(Math.PI, 0, 0, 1);
+    this.timerNum.display();
+    this.scene.popMatrix();
+
+
+    //score dec number
+    this.scene.pushMatrix();
+    this.texts[(Math.floor((this.score%60)/10)%10)].apply();
+    this.scene.rotate(Math.PI, 0, 1, 0);
+    this.scene.translate(-this.scoreOffset+0, 2 * Math.cos(Math.PI / 6) + 0.015, 2 * Math.sin(Math.PI / 6));
     this.scene.rotate(-Math.PI / 6, 1, 0, 0);
     this.scene.rotate(Math.PI, 0, 0, 1);
     this.timerNum.display();

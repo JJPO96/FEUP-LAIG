@@ -24,11 +24,21 @@ MyInterface.prototype.init = function(application) {
     this.omni = this.gui.addFolder("Omni Lights");
 
 
-    this.gui.add(this.scene.board, 'ambient', ['Wood', 'Marble']);
+    this.gui.add(this.scene.board, 'ambient', ['Wood', 'Marble']).name("Select Ambient");
 
-    this.gui.add(this.scene.board, 'restart');
+    this.gui.add(this.scene.board, 'undo').name("Undo");
 
-    this.gui.add(this.scene.board, 'newGame');
+    this.gui.add(this.scene.board, 'displayDifficulty').name("Current Difficulty");
+
+    this.gui.add(this.scene.board, 'displayMode').name("Current Mode");
+
+    this.gui.add(this.scene.board, 'restart').name("Restart");
+
+    this.gui.add(this.scene.board, 'difficulty', ['Easy', 'Hard']).name("New Game Difficulty");
+
+    this.gui.add(this.scene.board, 'mode', ['Human vs Human', 'Human vs PC', 'PC vs PC']).name("New Game Mode");
+
+    this.gui.add(this.scene.board, 'newGame').name("New Game");
 
     return true;
 };
