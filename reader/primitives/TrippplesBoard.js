@@ -24,6 +24,12 @@ function TrippplesBoard(scene) {
         this.restartBoard();
     };
 
+    this.newGame = function() {
+        this.restartBoard();
+        this.scene.trippples.init();
+        this.pieces = this.scene.trippples.board;
+    };
+
     this.pieces = this.scene.trippples.board;
     this.lastPlay = 2;
     this.piecesText = this.loadPiecesText(this.pieces);
@@ -76,7 +82,10 @@ function TrippplesBoard(scene) {
     this.marbleBottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
     this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
+    this.p1log = [];
+
     this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
+    this.p2log = [];
 };
 
 
@@ -86,8 +95,6 @@ TrippplesBoard.prototype.constructor = TrippplesBoard;
 TrippplesBoard.prototype.restartBoard = function() {
     this.move = true;
     this.ambient = 'Wood';
-    this.scene.trippples.init();
-    this.pieces = this.scene.trippples.board;
     this.lastPlay = 2;
     this.player1won = false;
     this.player2won = false;
@@ -95,7 +102,9 @@ TrippplesBoard.prototype.restartBoard = function() {
     this.piecesText = this.loadPiecesText(this.pieces);
     this.timer.time = 0;
     this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
+    this.p1log = [];
     this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
+    this.p2log = [];
 }
 
 TrippplesBoard.prototype.loadPiecesText = function() {
@@ -146,7 +155,7 @@ TrippplesBoard.prototype.highlightTiles = function(tiles) {
         var tempY = tiles[i].y;
 
         var tempApp = new CGFappearance(this.scene);
-        tempApp.setAmbient(0.5, 0.5, 0.5, 1);
+        tempApp.setAmbient(0.2, 0.2, 0.2, 1);
         tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
         tempApp.setSpecular(0.5, 0.5, 0.5, 1);
         tempApp.setShininess(120);
@@ -196,6 +205,7 @@ TrippplesBoard.prototype.makePlay = function() {
                         if (isIn(getTileCoords(customId), tempArr)) {
                             if (this.lastPlay == 1) {
                                 this.piece1.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
+                                this.p1log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                                 if (this.piece1.coord.x == 7 && this.piece1.coord.y == 7) {
                                     this.player1won = true;
                                     this.timer.stop = true;
@@ -203,6 +213,7 @@ TrippplesBoard.prototype.makePlay = function() {
                                 }
                             } else if (this.lastPlay == 2) {
                                 this.piece2.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
+                                this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                                 if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
                                     this.player2won = true;
                                     this.timer.stop = true;
@@ -214,7 +225,10 @@ TrippplesBoard.prototype.makePlay = function() {
                             this.scene.updateView();
                         }
                     }
-                    console.log("pick id " + customId);
+                    console.log("pick id " + customId);console.log("Player 1 log");
+                    console.log(this.p1log);
+                    console.log("Player 2 log");
+                    console.log(this.p2log);
                 }
             }
             this.scene.pickResults.splice(0, this.scene.pickResults.length);
