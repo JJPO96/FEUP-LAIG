@@ -1,0 +1,22 @@
+Criação da cena de jogo (4.5 valores):
+✔ Tabuleiro @done(2016-12-29 02:07)
+✔ Aspeto geral @done(2016-12-29 02:19)
+✔ Jogabilidade, interação, criatividade @done(2016-12-29 02:19)
+Peças (4.5 valores):
+ ✔ Modelação @done(2016-12-29 02:36) @project(Peças (4.5 valores))
+ ☐ Movimento e animação por imagens chave.
+Visualização (3 valores):
+ ✔ Iluminação @done(2016-12-29 02:07) @project(Visualização (3 valores)
+ ✔ Ambientes de jogo @done(2016-12-29 02:07) @project(Visualização (3 valores)
+Funcionalidades genéricas do jogo (2.5 valores):
+ ☐ Nível de dificuldade
+ ☐ Tipo de jogo
+ ☐ Undo
+ ☐ Rotação da câmara entre pontos de vista pré-definidos
+Outras Funcionalidades (1.5 valores):
+ ☐ Marcador
+ ☐ Filme do jogo
+ ✔ Medição do tempo de jogo @done(2016-12-29 02:07) @project(Outras Funcionalidades (1.5 valores)
+Software (4 valores):
+ ✔ Estrutura e parametrização @done(2016-12-29 02:19) @project(Software (4 valores)
+ ☐ Interligação com Programação em Lógica

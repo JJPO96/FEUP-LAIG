@@ -22,7 +22,8 @@ function Timer(scene, texts) {
     this.timerNum = new MyPlane(this.scene, 2, 3, 2, 2);
     this.bottom = new MyPlane(this.scene, 12, 8 * Math.sin(Math.PI / 6), 2, 2);
     this.triangle = new MyTriangle(this.scene, 6, 0, 4 * Math.sin(Math.PI / 6), 6, 0, -4 * Math.sin(Math.PI / 6), 6, 4 * Math.cos(Math.PI / 6), 0);
-    this.support = new MyCylinder(this.scene,);
+    this.support1 = new MyCylinder(this.scene,0.25,0.25,1.5,30,30);
+    this.support2 = new MyCylinder(this.scene,0.25,0.25,6.5,30,30);
 };
 
 Timer.prototype = Object.create(CGFobject.prototype);
@@ -118,5 +119,33 @@ Timer.prototype.display = function() {
     this.scene.pushMatrix();
     this.scene.rotate(Math.PI, 0, 1, 0);
     this.triangle.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(3,0,0);
+    this.scene.rotate(Math.PI/2,1,0,0);
+    this.texts[10].apply();
+    this.support1.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(3,-1.5,0.25);
+    this.scene.rotate(Math.PI,0,1,0);
+    this.texts[10].apply();
+    this.support2.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(-3,0,0);
+    this.scene.rotate(Math.PI/2,1,0,0);
+    this.texts[10].apply();
+    this.support1.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(-3,-1.5,0.25);
+    this.scene.rotate(Math.PI,0,1,0);
+    this.texts[10].apply();
+    this.support2.display();
     this.scene.popMatrix();
 };
