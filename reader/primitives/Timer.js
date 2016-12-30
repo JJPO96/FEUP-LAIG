@@ -27,6 +27,13 @@ function Timer(scene, texts) {
     this.triangle = new MyTriangle(this.scene, 6, 0, 4 * Math.sin(Math.PI / 6), 6, 0, -4 * Math.sin(Math.PI / 6), 6, 4 * Math.cos(Math.PI / 6), 0);
     this.support1 = new MyCylinder(this.scene,0.25,0.25,1.5,30,30);
     this.support2 = new MyCylinder(this.scene,0.25,0.25,6.5,30,30);
+
+    this.alumText = new CGFappearance(this.scene);
+    this.alumText.setAmbient(0, 0, 0, 1);
+    this.alumText.setDiffuse(0.5, 0.5, 0.5, 1);
+    this.alumText.setSpecular(0.5, 0.5, 0.5, 1);
+    this.alumText.setShininess(120);
+    this.alumText.loadTexture("textures/boardPieces/alumText.png");
 };
 
 Timer.prototype = Object.create(CGFobject.prototype);
@@ -153,28 +160,29 @@ Timer.prototype.display = function() {
     this.scene.pushMatrix();
     this.scene.translate(3,0,0);
     this.scene.rotate(Math.PI/2,1,0,0);
-    this.texts[10].apply();
+    this.alumText.apply();
     this.support1.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(3,-1.5,0.25);
     this.scene.rotate(Math.PI,0,1,0);
-    this.texts[10].apply();
+    this.alumText.apply();
     this.support2.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(-3,0,0);
     this.scene.rotate(Math.PI/2,1,0,0);
-    this.texts[10].apply();
+    this.alumText.apply();
     this.support1.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(-3,-1.5,0.25);
     this.scene.rotate(Math.PI,0,1,0);
-    this.texts[10].apply();
     this.support2.display();
     this.scene.popMatrix();
+
+    this.scene.board.defaultApp.apply();
 };
