@@ -65,7 +65,7 @@ XMLscene.prototype.init = function(application) {
     this.animationsList = {};
     this.animationsIDs = [];
     this.fps = 60;
-    this.cameraTime = 0;
+    this.cameraInc = 0;
     var updatePeriod = 1000 / this.fps;
     this.setUpdatePeriod(updatePeriod);
 };
@@ -235,102 +235,22 @@ XMLscene.prototype.updateMaterial = function() {
 
 //Function to update the different materials from dsx by pressing 'm'
 XMLscene.prototype.updateCamera = function(time) {
-  /*console.log(this.cameraTime);
-  console.log(this.camInd);*/
-  if (!this.cameraReady && this.board.move && this.board.lastPlay == 1) {
-    //console.log("asdasd");
-    this.cameraTime += 25;
-    var i = 180 * (this.cameraTime / (this.camAnimDur * 1000));
-    //console.log(i);
-    this.interface.activeCamera.setPosition(vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10, - 12 * Math.cos(i * (Math.PI / 180))));
-    if (this.cameraTime >= (this.camAnimDur * 1000)) {
+  if (!this.cameraReady && this.board.move/* && this.board.lastPlay == 1*/) {
+    this.cameraInc += 25;
+    var i = 180 * (this.cameraInc / (this.camAnimDur * 1000));
+
+    if (this.board.lastPlay == 1) {
+      this.interface.activeCamera.setPosition(vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10, - 12 * Math.cos(i * (Math.PI / 180))));
+    }else   if (this.board.lastPlay == 2) {
+        this.interface.activeCamera.setPosition(vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10,12 * Math.cos(i * (Math.PI / 180))));
+      }
+
+
+    if (this.cameraInc >= (this.camAnimDur * 1000)) {
       this.cameraReady = true;
-      this.cameraTime = 0;
-    }
-  }else if (!this.cameraReady && this.board.move && this.board.lastPlay == 2) {
-    //console.log("asdasd");
-    this.cameraTime += 25;
-    var i = 180 * (this.cameraTime / (this.camAnimDur * 1000));
-    //console.log(i);
-    this.interface.activeCamera.setPosition(vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10, 12 * Math.cos(i * (Math.PI / 180))));
-    if (this.cameraTime >= (this.camAnimDur * 1000)) {
-      this.cameraReady = true;
-      this.cameraTime = 0;
+      this.cameraInc = 0;
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*if (cam == 0) {
-      if (this.camInd == 1) {
-          this.camera = this.graph.cam1;
-          this.interface.setActiveCamera(this.camera);
-          this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
-          this.camInd = 2;
-      } else if (this.camInd == 2) {
-          this.camera = this.graph.cam2;
-          this.interface.setActiveCamera(this.camera);
-          this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
-          this.camInd = 1;
-      }
-  } else if (cam == 1) {
-      if (this.camInd == 1) {
-          this.tempCam = this.camera;
-          console.log(12);
-          //FUNÇAO PARA RODAR A CAMARA
-          /*for (var i = 0; i <= 180; i++) {
-              this.camCoord = vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10, 12 * Math.cos(i * (Math.PI / 180)));
-              this.tempCam.setPosition(this.camCoord);
-              console.log(this.tempCam.position);
-              this.interface.setActiveCamera(this.tempCam);
-          }
-          this.camera = this.graph.cam1;
-          this.interface.setActiveCamera(this.camera);
-          this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
-          this.camInd = 2;
-      } else {
-          this.tempCam = this.camera;
-          this.camera = this.graph.cam1;
-          this.interface.setActiveCamera(this.camera);
-          this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
-          this.camInd = 2;
-      }
-  } else if (cam == 2) {
-      if (this.camInd == 2) {
-          this.tempCam = this.camera;
-          console.log(23);
-          //FUNÇAO PARA RODAR A CAMARA
-          /*for (var i = 0; i <= 180; i++) {
-              this.camCoord = vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10, 12 * Math.cos(i * (Math.PI / 180)));
-              this.tempCam.setPosition(this.camCoord);
-              console.log(this.tempCam.position);
-              this.interface.setActiveCamera(this.tempCam);
-          }
-          this.camera = this.graph.cam2;
-          this.interface.setActiveCamera(this.camera);
-          this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
-          this.camInd = 1;
-      } else {
-          this.tempCam = this.camera;
-          this.camera = this.graph.cam2;
-          this.interface.setActiveCamera(this.camera);
-          this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
-          this.camInd = 1;
-      }
-  }*/
 }
 
 
