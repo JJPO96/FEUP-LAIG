@@ -55,7 +55,20 @@ function TrippplesBoard(scene) {
         this.restartBoard();
     };
 
-    this.pieces = this.scene.trippples.board;
+    //this.pieces = this.scene.trippples.board;
+
+    this.pieces = [
+        [2, 5, 6, 7, 8, 9, 10, 3],
+        [11, 12, 13, 14, 15, 16, 17, 18],
+        [19, 20, 21, 22, 23, 24, 25, 26],
+        [27, 28, 29, 0, 30, 44, 31, 32],
+        [33, 34, 35, 0, 0, 36, 37, 38],
+        [39, 40, 41, 42, 43, 0, 45, 46],
+        [47, 48, 49, 50, 51, 52, 53, 54],
+        [4, 55, 56, 57, 58, 59, 60, 1]
+    ];
+
+
     this.lastPlay = 2;
     this.piecesText = this.loadPiecesText(this.pieces);
     this.timerText = this.loadTimerText();
@@ -234,7 +247,7 @@ TrippplesBoard.prototype.makePlay = function() {
                         this.timer.updateScore(this.p1log.length);
                         this.scene.trippples.moveCompPlayer(2, 1, 2);
                         console.log(this.scene.trippples.player2);
-                        this.piece2.movePiece(this.scene.trippples.player2.line-1, this.scene.trippples.player2.col-1);
+                        this.piece2.movePiece(this.scene.trippples.player2.line - 1, this.scene.trippples.player2.col - 1);
                         /*  this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                           if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
                               this.player2won = true;
