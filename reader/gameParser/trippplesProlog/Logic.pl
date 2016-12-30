@@ -46,11 +46,11 @@ player(2, 8, 1, 1, 8).
 
 %%%%%%%%%% Starts a new game %%%%%%%%%%
 % There are 4 different modes of game:
-% - Mode 1: Human vs Human
-% - Mode 2: Human vs Computer lvl Begginer
-% - Mode 3: Human vs Computer lvl Advanced
+% - Mode 1: Player vs Player
+% - Mode 2: Player vs Computer lvl Begginer
+% - Mode 3: Player vs Computer lvl Advanced
 % - Mode 4: Computer vs Computer
-% In mode Human vs Computer, Human will be player 1 and Computer player 2
+% In mode Player vs Computer, Player will be player 1 and Computer player 2
 
 % Creates a game with a new board
 createGame(Mode):-
@@ -137,7 +137,7 @@ setNewCell(Mode, NewT, _, _, Tile, Element, Board):-
 %%%%%%%%%% Predicates to update the game cycle %%%%%%%%%%
 % Player 1 makes the first play in the game
 playFirstMove(Mode, T):-
-	Mode =\= 4,				% Player 1 is Human
+	Mode =\= 4,				% Player 1 is Player
 	playerInput(Mode, T, 1).
 
 playFirstMove(Mode, T):-
@@ -178,12 +178,12 @@ updateGame(T, P1, P2, Mode):-
 	updateGame(T, P2, P1, Mode).
 
 % Predicate to move a player marker
-% Human vs Human
+% Player vs Player
 movePlayer(T, P1, P2, Mode):-
 	Mode =:= 1,
 	playerInput(T, P1, P2, Mode), !.
 
-% Human vs Computer level begginer
+% Player vs Computer level begginer
 movePlayer(T, P1, P2, Mode):-
 	Mode =:= 2,
 	P1 =:= 1,
@@ -194,7 +194,7 @@ movePlayer(T, P1, P2, Mode):-
 	P1 =:= 2,
 	generateCompPlay(T, P1, P2, Mode), !.
 
-% Human vs Computer level Advanced
+% Player vs Computer level Advanced
 movePlayer(T, P1, P2, Mode):-
 	Mode =:= 3,
 	P1 =:= 1,

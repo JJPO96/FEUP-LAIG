@@ -23,9 +23,9 @@ function TrippplesBoard(scene) {
 
     this.ambient = 'Wood';
     this.difficulty = 'Easy';
-    this.mode = 'Human vs Human';
+    this.mode = 'Player vs Player';
     this.currentDifficulty = 'Easy';
-    this.currentMode = 'Human vs Human';
+    this.currentMode = 'Player vs Player';
     this.displayDifficulty = this.currentDifficulty;
     this.displayMode = this.currentMode;
 
@@ -237,13 +237,13 @@ TrippplesBoard.prototype.makePlay = function() {
                         this.lastPlay = 1;
                         this.move = false;
                         this.movePC = true;
-                    } else if (obj.type == "piece2" && this.lastPlay == 1 && this.move && this.currentMode == "Human vs Human") {
+                    } else if (obj.type == "piece2" && this.lastPlay == 1 && this.move && this.currentMode == "Player vs Player") {
                         this.tempCoord = new coord2D(this.piece2.coord.x, this.piece2.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece1.coord.x][this.piece1.coord.y]);
                         this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
                         this.lastPlay = 2;
                         this.move = false;
-                    } else if (this.currentMode == "Human vs PC" && this.currentDifficulty == "Easy" && this.lastPlay == 1 && this.move && this.movePC) {
+                    } else if (this.currentMode == "Player vs PC" && this.currentDifficulty == "Easy" && this.lastPlay == 1 && this.move && this.movePC) {
                         this.timer.updateScore(this.p1log.length);
                         this.scene.trippples.moveCompPlayer(2, 1, 2);
                         this.piece2.movePiece(this.scene.trippples.player2.line - 1, this.scene.trippples.player2.col - 1);
@@ -255,7 +255,7 @@ TrippplesBoard.prototype.makePlay = function() {
                         this.scene.updateView();
                         this.lastPlay = 2;
                         this.movePC = false;
-                    } else if (this.currentMode == "Human vs PC" && this.currentDifficulty == "Hard" && this.lastPlay == 1 && this.move && this.movePC) {
+                    } else if (this.currentMode == "Player vs PC" && this.currentDifficulty == "Hard" && this.lastPlay == 1 && this.move && this.movePC) {
                         this.timer.updateScore(this.p1log.length);
                         this.scene.trippples.moveCompPlayer(2, 1, 3);
                         this.piece2.movePiece(this.scene.trippples.player2.line - 1, this.scene.trippples.player2.col - 1);

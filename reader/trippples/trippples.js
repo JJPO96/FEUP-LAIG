@@ -1,10 +1,10 @@
 
 // There are 4 different modes of game:
-// - Mode 1: Human vs Human
-// - Mode 2: Human vs Computer lvl Begginer
-// - Mode 3: Human vs Computer lvl Advanced
+// - Mode 1: Player vs Player
+// - Mode 2: Player vs Computer lvl Begginer
+// - Mode 3: Player vs Computer lvl Advanced
 // - Mode 4: Computer vs Computer
-// In mode Human vs Computer, Human will be player 1 and Computer player 2
+// In mode Player vs Computer, Player will be player 1 and Computer player 2
 
 /**
  * Trippples
@@ -84,10 +84,10 @@ Trippples.prototype.compFirstMove= function(player){
 
 // Moves the player (computer)
 // There are 4 different modes of game:
-// - Mode 2: Human vs Computer lvl Begginer
-// - Mode 3: Human vs Computer lvl Advanced
+// - Mode 2: Player vs Computer lvl Begginer
+// - Mode 3: Player vs Computer lvl Advanced
 // - Mode 4: Computer vs Computer
-// In mode Human vs Computer, Human will be player 1 and Computer player 2
+// In mode Player vs Computer, Player will be player 1 and Computer player 2
 // Example: trippples.moveCompPlayer(2, 1, 2) // In Mode 2 and 3, player1 must be always 2 and
 // player2 must be 1
 // In mode 4 (comp vs comp) player1 and player 2 can be both 1 or 2

@@ -35,8 +35,8 @@ checkMenuOptions(_):-
 % Menu Game Options
 menuGameOptions:-
     displayLogo,
-    write('\n\n\n\t1-Human vs Human\n\n'),
-    write('\n\t2-Human vs Comp\n\n'),
+    write('\n\n\n\t1-Player vs Player\n\n'),
+    write('\n\t2-Player vs Comp\n\n'),
     write('\n\t3-Comp vs Comp\n\n'),
     write('\n\t4-Back\n\n'),
     write('\n\t5-Exit Game\n\n\n\n'),

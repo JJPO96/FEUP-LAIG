@@ -36,7 +36,7 @@ MyInterface.prototype.init = function(application) {
 
     this.gui.add(this.scene.board, 'difficulty', ['Easy', 'Hard']).name("New Game Difficulty");
 
-    this.gui.add(this.scene.board, 'mode', ['Human vs Human', 'Human vs PC', 'PC vs PC']).name("New Game Mode");
+    this.gui.add(this.scene.board, 'mode', ['Player vs Player', 'Player vs PC', 'PC vs PC']).name("New Game Mode");
 
     this.gui.add(this.scene.board, 'newGame').name("New Game");
 
