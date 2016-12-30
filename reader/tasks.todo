@@ -7,10 +7,10 @@ Peças (4.5 valores):
  ☐ Movimento e animação por imagens chave.
 Visualização (3 valores):
  ✔ Iluminação @done(2016-12-29 02:07) @project(Visualização (3 valores)
- ✔ Ambientes de jogo @done(2016-12-29 02:07) @project(Visualização (3 valores)
+ ☐ Ambientes de jogo
 Funcionalidades genéricas do jogo (2.5 valores):
- ☐ Nível de dificuldade
- ☐ Tipo de jogo
+ ✔ Nível de dificuldade @done(2016-12-30 03:38) @project(Funcionalidades genéricas do jogo (2.5 valores))
+ ✔ Tipo de jogo @done(2016-12-30 03:38) @project(Funcionalidades genéricas do jogo (2.5 valores))
  ☐ Undo
  ☐ Rotação da câmara entre pontos de vista pré-definidos
 Outras Funcionalidades (1.5 valores):
@@ -19,6 +19,8 @@ Outras Funcionalidades (1.5 valores):
  ✔ Medição do tempo de jogo @done(2016-12-29 02:07) @project(Outras Funcionalidades (1.5 valores)
 Software (4 valores):
  ✔ Estrutura e parametrização @done(2016-12-29 02:19) @project(Software (4 valores)
- ☐ Interligação com Programação em Lógica
+ ✔ Interligação com Programação em Lógica @done(2016-12-30 03:38) @project(Software (4 valores))
 
  ☐ Nao mover mesma casa outro jogador
+ ☐ adicionar pc vs pc
+ ☐
