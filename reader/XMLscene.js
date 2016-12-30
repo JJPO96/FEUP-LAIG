@@ -10,6 +10,7 @@ function XMLscene(itf) {
     this.viewIndex = 0;
     this.updateTime = 10;
     this.temp = 0;
+    this.camInd = 1;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -36,32 +37,7 @@ XMLscene.prototype.init = function(application) {
 
     this.trippples = new Trippples(this, 1);
 
-
-
     this.trippples.init();
-
-    /*this.trippples.updatePlayer(1, 2, 2);
-    this.trippples.updatePlayer(2, 2, 2);
-    this.trippples.playerCanMove(1, 2);
-    console.log(this.trippples.canMove);
-
-    //this.trippples.getPrologBoard();
-    //console.log(this.trippples.board);
-    //console.log(this.trippples.board);
-    // Retornar posição de um player - player1 e player2
-
-
-    /*this.trippples.getPlayerPosition("1");
-    console.log(this.trippples.player1["line"]);
-    console.log(this.trippples.player1["col"]);
-    this.trippples.movePlayer(1, 2, 2, 1);
-    this.trippples.getPlayerPosition("1");
-    console.log(this.trippples.player1["line"]);
-    console.log(this.trippples.player1["col"]);
-    /*this.trippples.resetPlayersPosition(); */
-
-
-
 
     this.board = new TrippplesBoard(this);
 
@@ -87,9 +63,8 @@ XMLscene.prototype.init = function(application) {
     this.animationsList = {};
     this.animationsIDs = [];
     this.fps = 60;
-    var updatePeriod = 1000/this.fps;
+    var updatePeriod = 1000 / this.fps;
     this.setUpdatePeriod(updatePeriod);
-
 };
 
 /**
@@ -175,7 +150,7 @@ XMLscene.prototype.initAnimations = function() {
  * Updates the current time
  */
 XMLscene.prototype.update = function(currTime) {
-  this.board.timer.update(currTime);
+    this.board.timer.update(currTime);
 };
 
 //Function of display of the scene
@@ -204,11 +179,10 @@ XMLscene.prototype.display = function() {
     this.board.display();
 
 
-    	if (this.graph.loadedOk)
-    	{
-    		this.lights[0].update();
-    	//	this.displayGraph(this.graph.root, null, null);
-    	};
+    if (this.graph.loadedOk) {
+        this.lights[0].update();
+        //	this.displayGraph(this.graph.root, null, null);
+    };
 }
 
 //Function to intialize everything
@@ -240,11 +214,68 @@ XMLscene.prototype.onGraphLoaded = function() {
 };
 
 //Function to update the different views from dsx by pressing 'v'
-XMLscene.prototype.updateView = function() {
-    this.camera = this.graph.views.perspectives[this.viewIndex].camera;
-    this.interface.setActiveCamera(this.graph.views.perspectives[this.viewIndex].camera);
+XMLscene.prototype.updateView = function(cam = 0) {
+    this.cam1coord = [];
+    this.cam1coord = [];
 
-    this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+    if (cam == 0) {
+        if (this.camInd == 1) {
+            this.camera = this.graph.cam1;
+            this.interface.setActiveCamera(this.camera);
+            this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+            this.camInd = 2;
+        } else if (this.camInd == 2) {
+            this.camera = this.graph.cam2;
+            this.interface.setActiveCamera(this.camera);
+            this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+            this.camInd = 1;
+        }
+    } else if (cam == 1) {
+        if (this.camInd == 1) {
+            this.tempCam = this.camera;
+            console.log(12);
+            //FUNÇAO PARA RODAR A CAMARA
+            /*for (var i = 0; i <= 180; i++) {
+                this.camCoord = vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10, 12 * Math.cos(i * (Math.PI / 180)));
+                this.tempCam.setPosition(this.camCoord);
+                console.log(this.tempCam.position);
+                this.interface.setActiveCamera(this.tempCam);
+            }*/
+            this.camera = this.graph.cam1;
+            this.interface.setActiveCamera(this.camera);
+            this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+            this.camInd = 2;
+        } else {
+            this.tempCam = this.camera;
+            this.camera = this.graph.cam1;
+            this.interface.setActiveCamera(this.camera);
+            this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+            this.camInd = 2;
+        }
+    } else if (cam == 2) {
+        if (this.camInd == 2) {
+            this.tempCam = this.camera;
+            console.log(23);
+            //FUNÇAO PARA RODAR A CAMARA
+            /*for (var i = 0; i <= 180; i++) {
+                this.camCoord = vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10, 12 * Math.cos(i * (Math.PI / 180)));
+                this.tempCam.setPosition(this.camCoord);
+                console.log(this.tempCam.position);
+                this.interface.setActiveCamera(this.tempCam);
+            }*/
+            this.camera = this.graph.cam2;
+            this.interface.setActiveCamera(this.camera);
+            this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+            this.camInd = 1;
+        } else {
+            this.tempCam = this.camera;
+            this.camera = this.graph.cam2;
+            this.interface.setActiveCamera(this.camera);
+            this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+            this.camInd = 1;
+        }
+    }
+
 
 };
 

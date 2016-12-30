@@ -42,8 +42,8 @@ function MySceneGraph(filename, scene) {
 
     this.animationsList = {};
     this.animationsIDs = [];
-    
-    
+
+
 
 
     // File reading
@@ -225,6 +225,9 @@ MySceneGraph.prototype.parseViews = function(rootElement) {
     for (var i = 0; i < arrViews.length; i++) {
         this.views.perspectives.push(this.parsePerspective(arrViews[i]));
     }
+
+    this.cam1 = this.views.perspectives[0].camera;
+    this.cam2 = this.views.perspectives[1].camera;
 }
 
 //Loading of the perspective from dsx

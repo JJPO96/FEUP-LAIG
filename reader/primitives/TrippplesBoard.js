@@ -252,7 +252,7 @@ TrippplesBoard.prototype.makePlay = function() {
                               this.player2won = true;
                               this.timer.stop = true;
                           }
-                        this.scene.updateView();
+                        this.scene.updateView(1);
                         this.lastPlay = 2;
                         this.movePC = false;
                     } else if (this.currentMode == "Player vs PC" && this.currentDifficulty == "Hard" && this.lastPlay == 1 && this.move && this.movePC) {
@@ -264,7 +264,7 @@ TrippplesBoard.prototype.makePlay = function() {
                               this.player2won = true;
                               this.timer.stop = true;
                           }
-                        this.scene.updateView();
+                        this.scene.updateView(1);
                         this.lastPlay = 2;
                         this.movePC = false;
                   } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64) && !(this.move)) {
@@ -279,6 +279,7 @@ TrippplesBoard.prototype.makePlay = function() {
                                     this.timer.stop = true;
                                 }
                                 this.timer.updateScore(this.p2log.length);
+                                this.scene.updateView(2);
                             } else if (this.lastPlay == 2) {
                                 this.scene.trippples.updatePlayer(2, getTileCoords(customId).x + 1, getTileCoords(customId).y + 1);
                                 this.piece2.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
@@ -288,10 +289,11 @@ TrippplesBoard.prototype.makePlay = function() {
                                     this.timer.stop = true;
                                 }
                                 this.timer.updateScore(this.p1log.length);
+                                this.scene.updateView(1);
                             }
                             this.move = true;
                             this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
-                            this.scene.updateView();
+
                         }
                     }
                     console.log("pick id " + customId);
