@@ -42,7 +42,7 @@ MyPiece.prototype.movePiece = function(x,y) {
 MyPiece.prototype.display = function() {
   this.scene.registerForPick(this.pickID,this);
   this.scene.pushMatrix();
-  this.scene.translate(-3.5+this.coord.y,0.55,-3.5+this.coord.x);
+  this.scene.translate(-3.5+this.coord.y,0.30,-3.5+this.coord.x);
   this.scene.rotate(Math.PI/2,1,0,0);
   this.texture.apply();
   this.bodyT.display();

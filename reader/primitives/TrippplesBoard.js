@@ -313,6 +313,7 @@ TrippplesBoard.prototype.display = function() {
     this.scene.rotate(Math.PI / 2, 1, 0, 0);
     this.bottom.display();
     this.scene.popMatrix();
+
     //sides
     this.scene.pushMatrix();
     if (this.ambient == 'Wood') {
@@ -345,11 +346,46 @@ TrippplesBoard.prototype.display = function() {
     this.scene.translate(0, 0.25, 4.5);
     this.side.display();
     this.scene.popMatrix();
+
+    //inner sides
+    this.scene.pushMatrix();
+    if (this.ambient == 'Wood') {
+        this.woodSideBoard.apply();
+    } else if (this.ambient == 'Marble') {
+        this.marbleSideBoard.apply();
+    }
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.25, -4);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(Math.PI / 2, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.25, -4);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(Math.PI, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.25, -4);
+    this.side.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+    this.scene.registerForPick(200, this);
+    this.scene.translate(0, 0.25, -4);
+    this.side.display();
+    this.scene.popMatrix();
+
     //top sides
     this.scene.pushMatrix();
     this.scene.registerForPick(200, this);
     this.scene.translate(0, 0.5, 4.25);
     this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+    this.scene.scale(8/9,1,1);
     this.side.display();
     this.scene.popMatrix();
 
@@ -366,6 +402,7 @@ TrippplesBoard.prototype.display = function() {
     this.scene.registerForPick(200, this);
     this.scene.translate(0, 0.5, 4.25);
     this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+    this.scene.scale(8/9,1,1);
     this.side.display();
     this.scene.popMatrix();
 
@@ -381,7 +418,7 @@ TrippplesBoard.prototype.display = function() {
 
     if (this.player1won) {
         this.scene.pushMatrix();
-        this.scene.translate(0, 0.5, 0);
+        this.scene.translate(0, 0.25, 0);
         this.scene.scale(8, 0, 8);
         this.scene.rotate(-Math.PI / 2, 1, 0, 0);
         this.piece1.texture.apply();
@@ -389,7 +426,7 @@ TrippplesBoard.prototype.display = function() {
         this.scene.popMatrix();
     } else if (this.player2won) {
         this.scene.pushMatrix();
-        this.scene.translate(0, 0.5, 0);
+        this.scene.translate(0, 0.25, 0);
         this.scene.scale(8, 0, 8);
         this.scene.rotate(-Math.PI / 2, 1, 0, 0);
         this.piece2.texture.apply();
@@ -397,7 +434,7 @@ TrippplesBoard.prototype.display = function() {
         this.scene.popMatrix();
     } else {
         this.scene.pushMatrix();
-        this.scene.translate(0, 0.5, 0);
+        this.scene.translate(0, 0.25, 0);
         for (var i = 0; i < 8; i++) {
             for (var j = 0; j < 8; j++) {
                 this.scene.pushMatrix();
