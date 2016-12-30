@@ -246,24 +246,32 @@ TrippplesBoard.prototype.makePlay = function() {
                     } else if (this.currentMode == "Human vs PC" && this.currentDifficulty == "Easy" && this.lastPlay == 1 && this.move && this.movePC) {
                         this.timer.updateScore(this.p1log.length);
                         this.scene.trippples.moveCompPlayer(2, 1, 2);
-                        console.log(this.scene.trippples.player2);
                         this.piece2.movePiece(this.scene.trippples.player2.line - 1, this.scene.trippples.player2.col - 1);
-                        /*  this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
+                        this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                           if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
                               this.player2won = true;
                               this.timer.stop = true;
-                          }*/
+                          }
                         this.scene.updateView();
                         this.lastPlay = 2;
                         this.movePC = false;
-                    } else if (this.currentMode == "Human vs PC" && this.currentDifficulty == "Hard" && this.lastPlay == 1 && this.move) {
+                    } else if (this.currentMode == "Human vs PC" && this.currentDifficulty == "Hard" && this.lastPlay == 1 && this.move && this.movePC) {
+                        this.timer.updateScore(this.p1log.length);
                         this.scene.trippples.moveCompPlayer(2, 1, 3);
-                        this.lastPlay = 1;
-                    } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64) && !(this.move)) {
+                        this.piece2.movePiece(this.scene.trippples.player2.line - 1, this.scene.trippples.player2.col - 1);
+                        this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
+                          if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {
+                              this.player2won = true;
+                              this.timer.stop = true;
+                          }
+                        this.scene.updateView();
+                        this.lastPlay = 2;
+                        this.movePC = false;
+                  } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64) && !(this.move)) {
                         var tempArr = getAvaiPos(this.tempCoord, this.tempCh, this.pieces);
                         if (isIn(getTileCoords(customId), tempArr)) {
                             if (this.lastPlay == 1) {
-                                this.scene.trippples.updatePlayer(1, getTileCoords(customId).y + 1, getTileCoords(customId).x + 1);
+                                this.scene.trippples.updatePlayer(1, getTileCoords(customId).x + 1, getTileCoords(customId).y + 1);
                                 this.piece1.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
                                 this.p1log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                                 if (this.piece1.coord.x == 7 && this.piece1.coord.y == 7) {
@@ -272,7 +280,7 @@ TrippplesBoard.prototype.makePlay = function() {
                                 }
                                 this.timer.updateScore(this.p2log.length);
                             } else if (this.lastPlay == 2) {
-                                this.scene.trippples.updatePlayer(2, getTileCoords(customId).y + 1, getTileCoords(customId).x + 1);
+                                this.scene.trippples.updatePlayer(2, getTileCoords(customId).x + 1, getTileCoords(customId).y + 1);
                                 this.piece2.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
                                 this.p2log.push(new coord2D(getTileCoords(customId).x, getTileCoords(customId).y));
                                 if (this.piece2.coord.x == 0 && this.piece2.coord.y == 7) {

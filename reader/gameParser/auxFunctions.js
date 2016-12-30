@@ -28,8 +28,8 @@ function getAvaiPos(currentPos, piece, tiles) {
         ret.push(new coord2D(currentPos.y + 1, currentPos.x - 1));
 
     ret = remCoordInv(ret, tiles);
-    if (ret.length == ) {
-
+    if (ret.length == 0) {
+      ret.push(new coord2D(currentPos.y, currentPos.x));
     }
     return ret;
 }
