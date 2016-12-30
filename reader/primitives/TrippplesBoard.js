@@ -237,12 +237,14 @@ TrippplesBoard.prototype.makePlay = function() {
                         this.lastPlay = 1;
                         this.move = false;
                         this.movePC = true;
+                        this.scene.cameraReady = false;
                     } else if (obj.type == "piece2" && this.lastPlay == 1 && this.move && this.currentMode == "Player vs Player") {
                         this.tempCoord = new coord2D(this.piece2.coord.x, this.piece2.coord.y);
                         this.tempCh = changeTo(2, this.pieces[this.piece1.coord.x][this.piece1.coord.y]);
                         this.highlightTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));
                         this.lastPlay = 2;
                         this.move = false;
+                        this.scene.cameraReady = false;
                     } else if (this.currentMode == "Player vs PC" && this.currentDifficulty == "Easy" && this.lastPlay == 1 && this.move && this.movePC) {
                         this.timer.updateScore(this.p1log.length);
                         this.scene.trippples.moveCompPlayer(2, 1, 2);
@@ -252,9 +254,10 @@ TrippplesBoard.prototype.makePlay = function() {
                               this.player2won = true;
                               this.timer.stop = true;
                           }
-                        this.scene.updateView(1);
+                        this.scene.cam = 1;
                         this.lastPlay = 2;
                         this.movePC = false;
+                        this.scene.cameraReady = false;
                     } else if (this.currentMode == "Player vs PC" && this.currentDifficulty == "Hard" && this.lastPlay == 1 && this.move && this.movePC) {
                         this.timer.updateScore(this.p1log.length);
                         this.scene.trippples.moveCompPlayer(2, 1, 3);
@@ -264,9 +267,10 @@ TrippplesBoard.prototype.makePlay = function() {
                               this.player2won = true;
                               this.timer.stop = true;
                           }
-                        this.scene.updateView(1);
+                        this.scene.cam = 1;
                         this.lastPlay = 2;
                         this.movePC = false;
+                        this.scene.cameraReady = false;
                   } else if (obj.type != "piece1" && obj.type != "piece2" && (customId < 64) && !(this.move)) {
                         var tempArr = getAvaiPos(this.tempCoord, this.tempCh, this.pieces);
                         if (isIn(getTileCoords(customId), tempArr)) {
@@ -279,7 +283,8 @@ TrippplesBoard.prototype.makePlay = function() {
                                     this.timer.stop = true;
                                 }
                                 this.timer.updateScore(this.p2log.length);
-                                this.scene.updateView(2);
+                                this.scene.cam = 2;
+                                this.scene.cameraReady = false;
                             } else if (this.lastPlay == 2) {
                                 this.scene.trippples.updatePlayer(2, getTileCoords(customId).x + 1, getTileCoords(customId).y + 1);
                                 this.piece2.movePiece(getTileCoords(customId).x, getTileCoords(customId).y);
@@ -289,7 +294,7 @@ TrippplesBoard.prototype.makePlay = function() {
                                     this.timer.stop = true;
                                 }
                                 this.timer.updateScore(this.p1log.length);
-                                this.scene.updateView(1);
+                                this.scene.cam = 1;
                             }
                             this.move = true;
                             this.restoreTiles(getAvaiPos(this.tempCoord, this.tempCh, this.pieces));

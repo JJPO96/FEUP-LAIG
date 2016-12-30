@@ -69,7 +69,7 @@ MyInterface.prototype.processKeyDown = function(event) {
             break;
     };
 };
-/*
+
 MyInterface.prototype.processMouseDown = function(event) {
 
-};*/
+};
