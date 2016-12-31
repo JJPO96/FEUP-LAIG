@@ -61,7 +61,7 @@ main=function()
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
 
-    var filename=getUrlVars()['file'] || "scenes/primitives.dsx";
+    var filename=getUrlVars()['file'] || "scenes/primitives.xml";
  // var filename=getUrlVars()['file'] || "scenes/testchess.dsx";
  // var filename=getUrlVars()['file'] || "scenes/animations.dsx";
 

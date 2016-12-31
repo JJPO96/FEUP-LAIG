@@ -1,0 +1,497 @@
+<!-- Os comentarios devem ter espacos no inicio e no fim, a -->
+<!-- separar dos hifens -->
+<!-- Nao devem ser usados caracteres especiais (p.ex. acentos) -->
+<!-- Todas as tags e atributos sao obrigatorios, exceto onde for -->
+<!-- referido o contrario -->
+<!-- Na descricao abaixo, os simbolos utilizados tem o seguinte significado: -->
+<!-- ii: integer value -->
+<!-- ff: float value -->
+<!-- ss: string value -->
+<!-- cc: character "x" or "y" or "z" -->
+<!-- tt: "0" or "1"  ith Boolean significance -->
+
+<dsx>
+
+    <!-- deve definir-se um objeto para raiz do grafo , assim -->
+    <!-- como o comprimento dos tres eixos (cilindros) -->
+    <scene root="root" axis_length="0"/>
+
+    <views default="p1">
+
+        <!-- declaracao obrigatoria de pelo menos uma vista; -->
+        <!-- se varias vistas declaradas, o default e' a -->
+        <!-- primeira vista; de cada vez que se pressione a tecla v/V, -->
+        <!-- a vista muda para a proxima da lista; da -->
+        <!-- ultima vista da lista volta 'a primeira -->
+        <perspective id="p1" near="0.1" far="500" angle="45">
+            <from x="0" y="10" z="-12"/>
+            <to x="0" y="0" z="0"/>
+        </perspective>
+
+        <perspective id="p2" near="0.1" far="500" angle="45">
+            <from x="0" y="10" z="12"/>
+            <to x="0" y="0" z="0"/>
+        </perspective>
+
+    </views>
+
+    <illumination doublesided="1" local="1">
+
+        <ambient r="0.9" g="0.9" b="0.9" a="1"/>
+        <background r="1" g="1" b="1" a="1"/>
+
+    </illumination>
+
+    <lights>
+
+        <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <omni id="olRed" enabled="0">
+            <location x="0" y="10" z="0" w="1"/>
+            <ambient r="1" g="0" b="0" a="1"/>
+            <diffuse r="1" g="0" b="0" a="1"/>
+            <specular r="1" g="0" b="0" a="1"/>
+        </omni>
+
+        <omni id="olGreen" enabled="0">
+            <location x="0" y="10" z="0" w="1"/>
+            <ambient r="0" g="1" b="0" a="1"/>
+            <diffuse r="0" g="1" b="0" a="1"/>
+            <specular r="0" g="1" b="0" a="1"/>
+        </omni>
+
+        <omni id="olBlue" enabled="0">
+            <location x="0" y="10" z="0" w="1"/>
+            <ambient r="0" g="0" b="1" a="1"/>
+            <diffuse r="0" g="0" b="1" a="1"/>
+            <specular r="0" g="0" b="1" a="1"/>
+        </omni>
+
+        <spot id="sunLight1" enabled="1" angle="10" exponent="1">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0" y="0" z="0"/>
+            <location x="20" y="10" z="3"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
+        </spot>
+
+        <spot id="light1" enabled="1" angle="10" exponent="1">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0" y="0" z="0"/>
+            <location x="-4.5" y="10" z="-4.5"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
+        </spot>
+
+        <spot id="light2" enabled="1" angle="10" exponent="1">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0" y="0" z="0"/>
+            <location x="4.5" y="10" z="-4.5"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
+        </spot>
+
+        <spot id="light3" enabled="1" angle="10" exponent="1">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0" y="0" z="0"/>
+            <location x="-4.5" y="10" z="4.5"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
+        </spot>
+
+        <spot id="light4" enabled="1" angle="10" exponent="1">
+            <!-- atencao, "target" e' diferente de "direction" -->
+            <target x="0" y="0" z="0"/>
+            <location x="4.5" y="10" z="4.5"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
+        </spot>
+
+    </lights>
+
+    <textures>
+
+        <!-- Deve existir um ou mais blocos "texture" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <!-- length_s e length_t sao fatores de escala de textura:-->
+        <!-- Exemplo length_s=3.0: uma ocorrencia da textura, em -->
+        <!-- comprimento, deve cobrir um comprimento igual -->
+        <!-- a 3 unidades;  -->
+        <!-- Exemplo length_t=0.4, uma ocorrencia da textura, em -->
+        <!-- largura, deve cobrir uma largura igual a 0.4 unidades.  -->
+        <!-- Transf. Geometr. do tipo escalamento sobre os -->
+        <!-- objetos respetivos podem a violar esta regra.         -->
+        <!-- Nao necessario aplicar fatores de escala em  -->
+        <!-- quadricas (esfera, cilindro...) -->
+        <texture id="floorTex" file="textures\\floor.jpg" length_s="1" length_t="1"/>
+        <texture id="goalPostTex" file="textures\\goalPost.jpg" length_s="1" length_t="1"/>
+        <texture id="lightPostTex" file="textures\\lightPost.jpg" length_s="1" length_t="1"/>
+        <texture id="standTex" file="textures\\stand.jpg" length_s="1" length_t="1"/>
+        <texture id="ballTex" file="textures\\ball.jpg" length_s="1" length_t="1"/>
+        <texture id="vehicleTex" file="textures\\vehicle.jpg" length_s="1" length_t="1"/>
+        <texture id="tarTex" file="textures\\tar.jpg" length_s="1" length_t="1"/>
+        <texture id="sideWall" file="textures\\sideWall.jpg" length_s="1" length_t="1"/>
+        <texture id="backWall" file="textures\\backWall.jpg" length_s="1" length_t="1"/>
+        <texture id="frontWall" file="textures\\frontWall.jpg" length_s="1" length_t="1"/>
+        <texture id="wallTex" file="textures\\wall.jpg" length_s="1" length_t="1"/>
+
+    </textures>
+
+    <materials>
+
+        <material id="m1">
+            <emission r="0.2" g="0.2" b="0.2" a="0.2"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.3"/>
+            <diffuse r="0" g="0" b="0" a="0"/>
+            <specular r="1.0" g="0" b="0" a="0"/>
+            <shininess value="0.8"/>
+        </material>
+
+        <material id="floorMat">
+            <emission r="0.0" g="0.0" b="0.0" a="0.5"/>
+            <ambient r="0.5" g="0.25" b="0.125" a="0.5"/>
+            <diffuse r="0.5" g="0.25" b="0.125" a="0.5"/>
+            <specular r="0.1" g="0.4" b="0.1" a="0.5"/>
+            <shininess value="0.3"/>
+        </material>
+
+        <material id="lightMat">
+            <emission r="1" g="1" b="1" a="1"/>
+            <ambient r="1" g="1" b="1" a="0.2"/>
+            <diffuse r="1" g="1" b="1" a="0.2"/>
+            <specular r="1" g="1" b="1" a="0.2"/>
+            <shininess value="1"/>
+        </material>
+
+        <material id="ballMat">
+            <emission r="0.05" g="0.05" b="0.05" a="0.5"/>
+            <ambient r="0.05" g="0.05" b="0.05" a="0.5"/>
+            <diffuse r="0.05" g="0.05" b="0.05" a="0.5"/>
+            <specular r="0.05" g="0.05" b="0.05" a="0.5"/>
+            <shininess value="0.3"/>
+        </material>
+
+        <material id="postMat">
+            <emission r="0.1" g="0.1" b="0.1" a="0.4"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="0.4"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.3"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.3"/>
+            <shininess value="0.6"/>
+        </material>
+
+        <material id="standMat">
+            <emission r="0.1" g="0.1" b="0.2" a="0.4"/>
+            <ambient r="0.1" g="0.1" b="0.2" a="0.4"/>
+            <diffuse r="0.3" g="0.3" b="0.5" a="0.3"/>
+            <specular r="0.3" g="0.3" b="0.5" a="0.3"/>
+            <shininess value="0.6"/>
+        </material>
+
+        <material id="tarMat">
+            <emission r="0.05" g="0.05" b="0.05" a="1"/>
+            <ambient r="0.05" g="0.05" b="0.05" a="1"/>
+            <diffuse r="0.05" g="0.05" b="0.05" a="1"/>
+            <specular r="0.05" g="0.05" b="0.05" a="1"/>
+            <shininess value="0.05"/>
+        </material>
+
+    </materials>
+
+    <transformations>
+
+        <!-- Deve existir um ou mais blocos "transformation" -->
+        <!-- Os identificadores "id" nao podem ser repetidos -->
+        <transformation id="ola">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <scale x="1" y="1" z="1"/>
+        </transformation>
+    </transformations>
+
+    <primitives>
+
+        <primitive id="fieldPrim">
+            <rectangle x1="0" y1="0" x2="40" y2="40"/>
+        </primitive>
+
+        <primitive id="cWallPrim">
+            <rectangle x1="0" y1="0" x2="40" y2="20"/>
+        </primitive>
+
+        <primitive id="bWallPrim">
+            <rectangle x1="0" y1="0" x2="40" y2="20"/>
+        </primitive>
+
+        <!--primitive id="vehiclePrim">
+            <vehicle/>
+        </primitive-->
+
+    </primitives>
+
+    <components>
+
+        <component id="root">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <scale x="1" y="1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="m1"/>
+
+            </materials>
+
+            <texture id="none"/>
+
+            <children>
+                <componentref id="floor"/>
+                <componentref id="walls"/>
+            </children>
+
+        </component>
+
+        <component id="floor">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="-20" y="-10" z="-20"/>
+                <rotate axis="y" angle="-90"/>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+
+            <materials>
+                <material id="floorMat"/>
+                <material id="m1"/>
+
+            </materials>
+
+            <texture id="floorTex"/>
+
+            <children>
+                <primitiveref id="fieldPrim"/>
+            </children>
+
+        </component>
+
+        <component id="walls">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <scale x="1" y="1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="tarMat"/>
+
+            </materials>
+
+            <texture id="wallTex"/>
+
+            <children>
+                <componentref id="cWallL"/>
+                <componentref id="cWallR"/>
+                <componentref id="bWallF"/>
+                <componentref id="bWallB"/>
+            </children>
+
+        </component>
+
+        <component id="cWallL">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <rotate axis="y" angle="-90"/>
+                <translate x="-20" y="-10" z="-20"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="sideWall"/>
+
+            <children>
+                <primitiveref id="cWallPrim"/>
+            </children>
+
+        </component>
+
+        <component id="cWallR">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <rotate axis="y" angle="90"/>
+                <translate x="-20" y="-10" z="-20"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+
+            </materials>
+
+            <texture id="sideWall"/>
+
+            <children>
+                <primitiveref id="cWallPrim"/>
+            </children>
+
+        </component>
+
+        <component id="bWallB">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <rotate axis="y" angle="0"/>
+                <translate x="-20" y="-10" z="-20"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="backWall"/>
+
+            <children>
+                <primitiveref id="bWallPrim"/>
+            </children>
+
+        </component>
+
+        <component id="bWallF">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <rotate axis="y" angle="180"/>
+                <translate x="-20" y="-10" z="-20"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="frontWall"/>
+
+            <children>
+                <primitiveref id="bWallPrim"/>
+            </children>
+
+        </component>
+
+        <component id="cornerWallBL">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="-12.16" y="0" z="-18.16"/>
+                <rotate axis="y" angle="-135"/>
+                <translate x="-3.062" y="0" z="0"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="cornerWallPrim"/>
+            </children>
+
+        </component>
+
+        <component id="cornerWallBR">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="12.16" y="0" z="-18.16"/>
+                <rotate axis="y" angle="135"/>
+                <translate x="-3.062" y="0" z="0"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="cornerWallPrim"/>
+            </children>
+
+        </component>
+
+        <component id="cornerWallFL">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="-12.16" y="0" z="18.16"/>
+                <rotate axis="y" angle="-45"/>
+                <translate x="-3.062" y="0" z="0"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="cornerWallPrim"/>
+            </children>
+
+        </component>
+
+        <component id="cornerWallFR">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <translate x="12.16" y="0" z="18.16"/>
+                <rotate axis="y" angle="45"/>
+                <translate x="-3.062" y="0" z="0"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="cornerWallPrim"/>
+            </children>
+
+        </component>
+
+    </components>
+
+    <animations>
+        <!-- podem existir zero ou mais nós "animation" -->
+        <!-- span é o tempo, em segundos, que a animação deve -->
+        <!-- demorar. Nesta versão do formato DSX, type pode ter -->
+        <!-- o valor "linear" ou "circular"; na animacao circular -->
+        <!-- os angulos sao expressos em graus  -->
+
+        <animation id="oi" span="7" type="linear">
+            <controlpoint xx="0" yy="0" zz="0"/>
+            <controlpoint xx="0" yy="0" zz="16"/>
+            <controlpoint xx="10" yy="5" zz="0"/>
+            <controlpoint xx="0" yy="10" zz="-16"/>
+            <controlpoint xx="-10" yy="5" zz="0"/>
+            <controlpoint xx="0" yy="0" zz="16"/>
+        </animation>
+
+        <animation id="oi2" span="5" type="linear">
+            <controlpoint xx="0" yy="0" zz="16"/>
+            <controlpoint xx="0" yy="0" zz="0"/>
+        </animation>
+
+        <animation id="oiCircular" span="5" type="circular" centerx="0" centery="0" centerz="0" radius="32" startang="0" rotang="360"/>
+    </animations>
+</animations>
+
+</dsx>

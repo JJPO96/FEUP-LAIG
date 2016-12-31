@@ -157,6 +157,8 @@ XMLscene.prototype.initAnimations = function() {
 XMLscene.prototype.update = function(currTime) {
     this.board.timer.update(currTime);
     this.updateCamera();
+    this.board.piece1.update();
+    this.board.piece2.update();
 };
 
 //Function of display of the scene
@@ -187,7 +189,7 @@ XMLscene.prototype.display = function() {
 
     if (this.graph.loadedOk) {
         this.lights[0].update();
-        //	this.displayGraph(this.graph.root, null, null);
+        this.displayGraph(this.graph.root, null, null);
     };
 }
 
