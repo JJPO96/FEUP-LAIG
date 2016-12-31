@@ -202,7 +202,7 @@ TrippplesBoard.prototype.highlightTiles = function(tiles) {
         var tempY = tiles[i].y;
 
         var tempApp = new CGFappearance(this.scene);
-        tempApp.setAmbient(0.2, 0.2, 0.2, 1);
+        tempApp.setAmbient(0.5, 0.5, 0.5, 1);
         tempApp.setDiffuse(0.5, 0.5, 0.5, 1);
         tempApp.setSpecular(0.5, 0.5, 0.5, 1);
         tempApp.setShininess(120);

@@ -11,11 +11,11 @@ Visualização (3 valores):
 Funcionalidades genéricas do jogo (2.5 valores):
  ✔ Nível de dificuldade @done(2016-12-30 03:38) @project(Funcionalidades genéricas do jogo (2.5 valores))
  ✔ Tipo de jogo @done(2016-12-30 03:38) @project(Funcionalidades genéricas do jogo (2.5 valores))
- ☐ Undo
+ ✔ Undo @done(2016-12-30 23:43) @project(Funcionalidades genéricas do jogo (2.5 valores))
  ✔ Rotação da câmara entre pontos de vista pré-definidos @done(2016-12-30 22:50) @project(Funcionalidades genéricas do jogo (2.5 valores))
 Outras Funcionalidades (1.5 valores):
  ✔ Marcador @done(2016-12-29 16:07) @project(Outras Funcionalidades (1.5 valores))
- ☐ Filme do jogo
+ ✔ Filme do jogo @done(2016-12-30 23:43) @project(Outras Funcionalidades (1.5 valores))
  ✔ Medição do tempo de jogo @done(2016-12-29 02:07) @project(Outras Funcionalidades (1.5 valores)
 Software (4 valores):
  ✔ Estrutura e parametrização @done(2016-12-29 02:19) @project(Software (4 valores)
@@ -23,4 +23,3 @@ Software (4 valores):
 
  ☐ Nao mover mesma casa outro jogador
  ☐ adicionar pc vs pc
- ☐

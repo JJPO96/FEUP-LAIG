@@ -14,7 +14,7 @@
 
     <!-- deve definir-se um objeto para raiz do grafo , assim -->
     <!-- como o comprimento dos tres eixos (cilindros) -->
-    <scene root="root" axis_length="5"/>
+    <scene root="root" axis_length="0"/>
 
     <views default="p1">
 
@@ -46,61 +46,61 @@
 
         <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
-        <omni id="ol1" enabled="1">
-            <location x="20" y="0" z="0" w="0.5"/>
+        <omni id="olRed" enabled="1">
+            <location x="0" y="10" z="0" w="0.5"/>
             <ambient r="1" g="0" b="0" a="0.5"/>
             <diffuse r="1" g="0" b="0" a="0.5"/>
             <specular r="1" g="0" b="0" a="0.5"/>
         </omni>
 
-        <omni id="ol2" enabled="0">
-            <location x="0" y="20" z="0" w="0.5"/>
+        <omni id="olGreen" enabled="0">
+            <location x="0" y="10" z="0" w="0.5"/>
             <ambient r="0" g="1" b="0" a="0.5"/>
             <diffuse r="0" g="1" b="0" a="0.5"/>
             <specular r="0" g="1" b="0" a="0.5"/>
         </omni>
 
-        <omni id="ol3" enabled="0">
-            <location x="0" y="0" z="20" w="0.5"/>
+        <omni id="olBlue" enabled="0">
+            <location x="0" y="10" z="0" w="0.5"/>
             <ambient r="0" g="0" b="1" a="0.5"/>
             <diffuse r="0" g="0" b="1" a="0.5"/>
             <specular r="0" g="0" b="1" a="0.5"/>
         </omni>
 
-        <spot id="lightBL" enabled="1" angle="10" exponent="1">
+        <spot id="light1" enabled="1" angle="10" exponent="1">
             <!-- atencao, "target" e' diferente de "direction" -->
             <target x="0" y="0" z="0"/>
-            <location x="-9" y="8.2" z="-15"/>
-            <ambient r="1" g="1" b="1" a="1"/>
-            <diffuse r="1" g="1" b="1" a="1"/>
-            <specular r="1" g="1" b="1" a="1"/>
+            <location x="-4.5" y="10" z="-4.5"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
         </spot>
 
-        <spot id="lightBR" enabled="1" angle="10" exponent="1">
+        <spot id="light2" enabled="1" angle="10" exponent="1">
             <!-- atencao, "target" e' diferente de "direction" -->
             <target x="0" y="0" z="0"/>
-            <location x="9" y="8.2" z="-15"/>
-            <ambient r="1" g="1" b="1" a="1"/>
-            <diffuse r="1" g="1" b="1" a="1"/>
-            <specular r="1" g="1" b="1" a="1"/>
+            <location x="4.5" y="10" z="-4.5"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
         </spot>
 
-        <spot id="lightFL" enabled="1" angle="10" exponent="1">
+        <spot id="light3" enabled="1" angle="10" exponent="1">
             <!-- atencao, "target" e' diferente de "direction" -->
             <target x="0" y="0" z="0"/>
-            <location x="-9" y="8.2" z="15"/>
-            <ambient r="1" g="1" b="1" a="1"/>
-            <diffuse r="1" g="1" b="1" a="1"/>
-            <specular r="1" g="1" b="1" a="1"/>
+            <location x="-4.5" y="10" z="4.5"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
         </spot>
 
-        <spot id="lightFR" enabled="1" angle="10" exponent="1">
+        <spot id="light4" enabled="1" angle="10" exponent="1">
             <!-- atencao, "target" e' diferente de "direction" -->
             <target x="0" y="0" z="0"/>
-            <location x="9" y="8.2" z="15"/>
-            <ambient r="1" g="1" b="1" a="1"/>
-            <diffuse r="1" g="1" b="1" a="1"/>
-            <specular r="1" g="1" b="1" a="1"/>
+            <location x="4.5" y="10" z="4.5"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="0.1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="0.1"/>
         </spot>
 
     </lights>
