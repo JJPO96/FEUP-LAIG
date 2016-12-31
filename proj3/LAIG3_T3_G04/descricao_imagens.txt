@@ -1,0 +1,6 @@
+Imagem 1 - Estado inicial do jogo (Wood Ambient)
+Imagem 2 - Estado inicial do jogo (Marble Ambient)
+Imagem 3 - Menu
+Imagem 4 - Wide Angle 1
+Imagem 5 - Jogo a decorrer
+Imagem 6 - Jogo após vitória do Jogador Azul
