@@ -18,8 +18,6 @@ function MyPiece(scene, coord, appearence, pickID) {
 
     this.texture = new CGFappearance(this.scene);
     this.texture.setAmbient(0, 0, 0, 1);
-    this.texture.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.texture.setSpecular(0.2, 0.2, 0.2, 1);
     this.texture.setShininess(50);
     if (appearence == 0) {
         this.texture.setDiffuse(0.2, 0.2, 0.5, 1);
@@ -41,7 +39,6 @@ MyPiece.prototype.movePiece = function(x, y) {
     this.coordTemp.y = y;
     this.coordInc.x = (this.coordTemp.x - this.coord.x) / 50;
     this.coordInc.y = (this.coordTemp.y - this.coord.y) / 50;
-    console.log(this.coordInc);
 }
 
 MyPiece.prototype.update = function(x, y) {

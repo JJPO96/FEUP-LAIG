@@ -48,7 +48,6 @@ main=function()
     var app = new CGFapplication(document.body);
     var myInterface = new MyInterface();
     var myScene = new XMLscene(myInterface);
-    getAvaiPos(new coord2D(0,0), 0b111111111)
     app.init();
 
     app.setScene(myScene);

@@ -129,12 +129,7 @@
         <!-- Nao necessario aplicar fatores de escala em  -->
         <!-- quadricas (esfera, cilindro...) -->
         <texture id="floorTex" file="textures\\floor.jpg" length_s="1" length_t="1"/>
-        <texture id="goalPostTex" file="textures\\goalPost.jpg" length_s="1" length_t="1"/>
-        <texture id="lightPostTex" file="textures\\lightPost.jpg" length_s="1" length_t="1"/>
-        <texture id="standTex" file="textures\\stand.jpg" length_s="1" length_t="1"/>
-        <texture id="ballTex" file="textures\\ball.jpg" length_s="1" length_t="1"/>
-        <texture id="vehicleTex" file="textures\\vehicle.jpg" length_s="1" length_t="1"/>
-        <texture id="tarTex" file="textures\\tar.jpg" length_s="1" length_t="1"/>
+        <texture id="legTex" file="textures\\goalPost.jpg" length_s="1" length_t="1"/>/>
         <texture id="sideWall" file="textures\\sideWall.jpg" length_s="1" length_t="1"/>
         <texture id="backWall" file="textures\\backWall.jpg" length_s="1" length_t="1"/>
         <texture id="frontWall" file="textures\\frontWall.jpg" length_s="1" length_t="1"/>
@@ -160,23 +155,7 @@
             <shininess value="0.3"/>
         </material>
 
-        <material id="lightMat">
-            <emission r="1" g="1" b="1" a="1"/>
-            <ambient r="1" g="1" b="1" a="0.2"/>
-            <diffuse r="1" g="1" b="1" a="0.2"/>
-            <specular r="1" g="1" b="1" a="0.2"/>
-            <shininess value="1"/>
-        </material>
-
-        <material id="ballMat">
-            <emission r="0.05" g="0.05" b="0.05" a="0.5"/>
-            <ambient r="0.05" g="0.05" b="0.05" a="0.5"/>
-            <diffuse r="0.05" g="0.05" b="0.05" a="0.5"/>
-            <specular r="0.05" g="0.05" b="0.05" a="0.5"/>
-            <shininess value="0.3"/>
-        </material>
-
-        <material id="postMat">
+        <material id="legMat">
             <emission r="0.1" g="0.1" b="0.1" a="0.4"/>
             <ambient r="0.1" g="0.1" b="0.1" a="0.4"/>
             <diffuse r="0.3" g="0.3" b="0.3" a="0.3"/>
@@ -184,20 +163,12 @@
             <shininess value="0.6"/>
         </material>
 
-        <material id="standMat">
-            <emission r="0.1" g="0.1" b="0.2" a="0.4"/>
-            <ambient r="0.1" g="0.1" b="0.2" a="0.4"/>
-            <diffuse r="0.3" g="0.3" b="0.5" a="0.3"/>
-            <specular r="0.3" g="0.3" b="0.5" a="0.3"/>
-            <shininess value="0.6"/>
-        </material>
-
-        <material id="tarMat">
-            <emission r="0.05" g="0.05" b="0.05" a="1"/>
-            <ambient r="0.05" g="0.05" b="0.05" a="1"/>
-            <diffuse r="0.05" g="0.05" b="0.05" a="1"/>
-            <specular r="0.05" g="0.05" b="0.05" a="1"/>
-            <shininess value="0.05"/>
+        <material id="wallMat">
+            <emission r="0.0" g="0.0" b="0.0" a="1"/>
+            <ambient r="0.3" g="0.3" b="0.3" a="1"/>
+            <diffuse r="0.3" g="0.3" b="0.3" a="1"/>
+            <specular r="0.3" g="0.3" b="0.3" a="1"/>
+            <shininess value="0.3"/>
         </material>
 
     </materials>
@@ -227,9 +198,13 @@
             <rectangle x1="0" y1="0" x2="40" y2="20"/>
         </primitive>
 
-        <!--primitive id="vehiclePrim">
-            <vehicle/>
+        <!--primitive id="tabPrim">
+            <tab/>
         </primitive-->
+
+        <primitive id="tabLegPrim">
+          <cylinder base="0.3" top="0.3" height="10" slices="50" stacks="20" />
+        </primitive>
 
     </primitives>
 
@@ -252,6 +227,110 @@
             <children>
                 <componentref id="floor"/>
                 <componentref id="walls"/>
+                <componentref id="tabLegs"/>
+            </children>
+
+        </component>
+
+        <component id="tabLegs">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+                <scale x="1" y="1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="legMat"/>
+
+            </materials>
+
+            <texture id="legTex"/>
+
+            <children>
+                <componentref id="tabLeg1"/>
+                <componentref id="tabLeg2"/>
+                <componentref id="tabLeg3"/>
+                <componentref id="tabLeg4"/>
+            </children>
+
+        </component>
+
+        <component id="tabLeg1">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+              <translate x="3.5" y="0" z="3.5"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="tabLegPrim"/>
+            </children>
+
+        </component>
+
+        <component id="tabLeg2">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+              <translate x="3.5" y="0" z="-3.5"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="tabLegPrim"/>
+            </children>
+
+        </component>
+
+        <component id="tabLeg3">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+              <translate x="-3.5" y="0" z="3.5"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="tabLegPrim"/>
+            </children>
+
+        </component>
+
+        <component id="tabLeg4">
+
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+              <translate x="-3.5" y="0" z="-3.5"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            <texture id="inherit"/>
+
+            <children>
+                <primitiveref id="tabLegPrim"/>
             </children>
 
         </component>
@@ -287,7 +366,7 @@
             </transformation>
 
             <materials>
-                <material id="tarMat"/>
+                <material id="wallMat"/>
 
             </materials>
 

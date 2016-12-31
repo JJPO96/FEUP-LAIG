@@ -178,9 +178,9 @@ MySceneGraph.prototype.checkOrder = function(rootElement) {
 
     for (var i = 0; i < this.allTagNames.length; i++) {
         if (rootElement.children[i].tagName != this.allTagNames[i]) {
-      //      console.log(rootElement.children[i].tagName);
-        //    console.log(this.allTagNames[i]);
-          //  console.warn(rootElement.children[i].tagName + " is not on the right place");
+            //      console.log(rootElement.children[i].tagName);
+            //    console.log(this.allTagNames[i]);
+            //  console.warn(rootElement.children[i].tagName + " is not on the right place");
             break;
         }
     }
@@ -620,6 +620,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement) {
             case "vehicle":
                 primitive = this.parserVehicle(primitiveChild);
                 break;
+            case "tab":
+                primitive = this.parserTab(primitiveChild);
+                break;
 
         }
         this.primitivesIDs[i] = id;
@@ -895,24 +898,25 @@ MySceneGraph.prototype.parserPatch = function(element) {
     }
     var abc = 0;
     for (var i = 0; i < (oU + 1); i++) {
-      var tempA = [];
-      for (var j = 0; j < (oV + 1); j++) {
-        var tempB = [this.reader.getFloat(element.children[abc],'x'),
-                     this.reader.getFloat(element.children[abc],'y'),
-                     this.reader.getFloat(element.children[abc],'z'),
-                     1];
-        abc++;
-        tempA.push(tempB);
-      }
-      controlPoints.push(tempA);
+        var tempA = [];
+        for (var j = 0; j < (oV + 1); j++) {
+            var tempB = [this.reader.getFloat(element.children[abc], 'x'),
+                this.reader.getFloat(element.children[abc], 'y'),
+                this.reader.getFloat(element.children[abc], 'z'),
+                1
+            ];
+            abc++;
+            tempA.push(tempB);
+        }
+        controlPoints.push(tempA);
     }
 
     return new MyPatch(this.scene,
-                       oU,
-                       oV,
-                       this.reader.getInteger(element, 'partsU'),
-                       this.reader.getInteger(element, 'partsV'),
-                       controlPoints);
+        oU,
+        oV,
+        this.reader.getInteger(element, 'partsU'),
+        this.reader.getInteger(element, 'partsV'),
+        controlPoints);
 
 }
 
@@ -930,6 +934,10 @@ MySceneGraph.prototype.parserPlane = function(element) {
 MySceneGraph.prototype.parserVehicle = function(element) {
     return new MyVehicle(this.scene);
 
+}
+
+MySceneGraph.prototype.parserTab = function(element) {
+    return new TrippplesBoard(this.scene);
 }
 
 /*

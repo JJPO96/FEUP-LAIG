@@ -4,10 +4,10 @@ Criação da cena de jogo (4.5 valores):
 ✔ Jogabilidade, interação, criatividade @done(2016-12-29 02:19)
 Peças (4.5 valores):
  ✔ Modelação @done(2016-12-29 02:36) @project(Peças (4.5 valores))
- ☐ Movimento e animação por imagens chave.
+ ✔ Movimento e animação por imagens chave. @done(2016-12-31 14:45) @project(Peças (4.5 valores))
 Visualização (3 valores):
  ✔ Iluminação @done(2016-12-29 02:07) @project(Visualização (3 valores)
- ☐ Ambientes de jogo
+ ✔ Ambientes de jogo @done(2016-12-31 15:36) @project(Visualização (3 valores))
 Funcionalidades genéricas do jogo (2.5 valores):
  ✔ Nível de dificuldade @done(2016-12-30 03:38) @project(Funcionalidades genéricas do jogo (2.5 valores))
  ✔ Tipo de jogo @done(2016-12-30 03:38) @project(Funcionalidades genéricas do jogo (2.5 valores))
@@ -20,6 +20,3 @@ Outras Funcionalidades (1.5 valores):
 Software (4 valores):
  ✔ Estrutura e parametrização @done(2016-12-29 02:19) @project(Software (4 valores)
  ✔ Interligação com Programação em Lógica @done(2016-12-30 03:38) @project(Software (4 valores))
-
- ☐ Nao mover mesma casa outro jogador
- ☐ adicionar pc vs pc
