@@ -29,11 +29,11 @@ function TrippplesBoard(scene) {
     this.displayMode = this.currentMode;
 
     this.undo = function() {
-        if(this.p1log.length > 0 && this.p2log.length > 0){
+        if(this.p1log.length > 1 && this.p2log.length > 1){
           this.p1log.pop();
           this.p2log.pop();
-          var coord1 = this.p1log.pop();
-          var coord2 = this.p2log.pop();
+          var coord1 = this.p1log[this.p1log.length - 1];
+          var coord2 = this.p2log[this.p2log.length - 1];
           this.piece1.movePiece(coord1.x, coord1.y);
           this.piece2.movePiece(coord2.x, coord2.y);
           this.scene.trippples.updatePlayer(1, coord1.x + 1, coord1.y + 1);
