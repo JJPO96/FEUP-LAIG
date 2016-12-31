@@ -12,7 +12,7 @@ Funcionalidades genéricas do jogo (2.5 valores):
  ✔ Nível de dificuldade @done(2016-12-30 03:38) @project(Funcionalidades genéricas do jogo (2.5 valores))
  ✔ Tipo de jogo @done(2016-12-30 03:38) @project(Funcionalidades genéricas do jogo (2.5 valores))
  ☐ Undo
- ☐ Rotação da câmara entre pontos de vista pré-definidos
+ ✔ Rotação da câmara entre pontos de vista pré-definidos @done(2016-12-30 22:50) @project(Funcionalidades genéricas do jogo (2.5 valores))
 Outras Funcionalidades (1.5 valores):
  ✔ Marcador @done(2016-12-29 16:07) @project(Outras Funcionalidades (1.5 valores))
  ☐ Filme do jogo

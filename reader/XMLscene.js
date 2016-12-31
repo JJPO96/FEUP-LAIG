@@ -65,9 +65,11 @@ XMLscene.prototype.init = function(application) {
     this.animationsList = {};
     this.animationsIDs = [];
     this.fps = 60;
-    this.cameraInc = 0;
     var updatePeriod = 1000 / this.fps;
     this.setUpdatePeriod(updatePeriod);
+
+    this.cameraInc = 0;
+    this.inv = true;
 };
 
 /**
@@ -221,9 +223,8 @@ XMLscene.prototype.onGraphLoaded = function() {
 XMLscene.prototype.updateView = function() {
     this.camera = this.graph.views.perspectives[this.viewIndex].camera;
     this.interface.setActiveCamera(this.graph.views.perspectives[this.viewIndex].camera);
-
     this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
-
+    this.inv = !this.inv;
 };
 
 //Function to update the different materials from dsx by pressing 'm'
@@ -238,17 +239,20 @@ XMLscene.prototype.updateCamera = function(time) {
   if (!this.cameraReady && this.board.move/* && this.board.lastPlay == 1*/) {
     this.cameraInc += 25;
     var i = 180 * (this.cameraInc / (this.camAnimDur * 1000));
-
-    if (this.board.lastPlay == 1) {
+    if (this.board.lastPlay == 1 && !this.inv) {
       this.interface.activeCamera.setPosition(vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10, - 12 * Math.cos(i * (Math.PI / 180))));
-    }else   if (this.board.lastPlay == 2) {
+    }else if (this.board.lastPlay == 2 && !this.inv) {
         this.interface.activeCamera.setPosition(vec3.fromValues(-10 * Math.sin(i * (Math.PI / 180)), 10,12 * Math.cos(i * (Math.PI / 180))));
-      }
+    }
 
 
     if (this.cameraInc >= (this.camAnimDur * 1000)) {
       this.cameraReady = true;
       this.cameraInc = 0;
+      if (this.inv) {
+        this.viewIndex = (++this.viewIndex) % this.graph.views.perspectives.length;
+      }
+      this.inv = false;
     }
   }
 }

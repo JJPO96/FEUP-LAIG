@@ -20,7 +20,6 @@ function TrippplesBoard(scene) {
     this.movePC = true;
     this.player1won = false;
     this.player2won = false;
-
     this.ambient = 'Wood';
     this.difficulty = 'Easy';
     this.mode = 'Player vs Player';
@@ -29,12 +28,18 @@ function TrippplesBoard(scene) {
     this.displayDifficulty = this.currentDifficulty;
     this.displayMode = this.currentMode;
 
-    this.restart = function() {
-
-    };
-
     this.undo = function() {
+        if(this.p1log.length > 0 && this.p2log.length > 0){
+          this.p1log.pop();
+          this.p2log.pop();
+          var coord1 = this.p1log.pop();
+          var coord2 = this.p2log.pop();
+          this.piece1.movePiece(coord1.x, coord1.y);
+          this.piece2.movePiece(coord2.x, coord2.y);
+          this.scene.trippples.updatePlayer(1, coord1.x + 1, coord1.y + 1);
+          this.scene.trippples.updatePlayer(2, coord2.x + 1, coord2.y + 1);
 
+        }
     };
 
     this.restart = function() {
@@ -120,10 +125,10 @@ function TrippplesBoard(scene) {
     this.marbleBottomBoard.loadTexture("textures/boardPieces/marbleBottom.png");
 
     this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
-    this.p1log = [];
+    this.p1log = [new coord2D(0,0)];
 
     this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
-    this.p2log = [];
+    this.p2log = [new coord2D(7,0)];
 };
 
 
@@ -137,16 +142,16 @@ TrippplesBoard.prototype.restartBoard = function() {
     this.lastPlay = 2;
     this.player1won = false;
     this.player2won = false;
-    this.p1log = [];
-    this.p2log = [];
+    this.p1log = [new coord2D(0,0)];
+    this.p2log = [new coord2D(7,0)];
 
     this.piecesText = this.loadPiecesText(this.pieces);
     this.timer.time = 0;
     this.timer.score = 0;
     this.piece1 = new MyPiece(this.scene, new coord2D(0, 0), 0, 101);
-    this.p1log = [];
+    this.p1log = [new coord2D(0,0)];
     this.piece2 = new MyPiece(this.scene, new coord2D(7, 0), 1, 102);
-    this.p2log = [];
+    this.p2log = [new coord2D(7,0)];
 }
 
 TrippplesBoard.prototype.loadPiecesText = function() {

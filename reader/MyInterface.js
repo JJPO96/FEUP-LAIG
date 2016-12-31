@@ -23,7 +23,6 @@ MyInterface.prototype.init = function(application) {
 
     this.omni = this.gui.addFolder("Omni Lights");
 
-
     this.gui.add(this.scene.board, 'ambient', ['Wood', 'Marble']).name("Select Ambient");
 
     this.gui.add(this.scene.board, 'undo').name("Undo");

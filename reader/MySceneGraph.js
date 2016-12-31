@@ -178,9 +178,9 @@ MySceneGraph.prototype.checkOrder = function(rootElement) {
 
     for (var i = 0; i < this.allTagNames.length; i++) {
         if (rootElement.children[i].tagName != this.allTagNames[i]) {
-            console.log(rootElement.children[i].tagName);
-            console.log(this.allTagNames[i]);
-            console.warn(rootElement.children[i].tagName + " is not on the right place");
+      //      console.log(rootElement.children[i].tagName);
+        //    console.log(this.allTagNames[i]);
+          //  console.warn(rootElement.children[i].tagName + " is not on the right place");
             break;
         }
     }
